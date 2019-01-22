@@ -8,7 +8,7 @@ import commons.Vessel;
 
 public class Submarine extends Vessel {
 	
-	private float depth;
-	private float maxDepth;
+	private double depth;
+	private double maxDepth;
 
 }
