@@ -51,7 +51,9 @@ public abstract class Vessel {
 	 * Changes speed and heading acording to settings
 	 */
 	private void steer() {
-		if (speed != mySpeed) {
+		if (Math.abs(speed) > Math.abs(mySpeed)) {
+			speed = mySpeed;
+		} else if (speed != mySpeed) {
 			//Forwards or reverse
 			int dir = (speed < mySpeed) ? 1 : -1;
 			//Amount to increase speed
@@ -89,5 +91,112 @@ public abstract class Vessel {
 		double latitude = position.getY() + speed * Math.cos(heading);
 		position.setLocation(longitude, latitude);
 	}
+
+	/**
+	 * @return the mySpeed
+	 */
+	public double getMySpeed() {
+		return mySpeed;
+	}
+
+	/**
+	 * @param mySpeed the mySpeed to set
+	 */
+	public void setMySpeed(double mySpeed) {
+		this.mySpeed = mySpeed;
+	}
+
+	/**
+	 * @return the maxSpeed
+	 */
+	public double getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	/**
+	 * @param maxSpeed the maxSpeed to set
+	 */
+	public void setMaxSpeed(double maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+
+	/**
+	 * @return the acceleration
+	 */
+	public double getAcceleration() {
+		return acceleration;
+	}
+
+	/**
+	 * @param acceleration the acceleration to set
+	 */
+	public void setAcceleration(double acceleration) {
+		this.acceleration = acceleration;
+	}
+
+	/**
+	 * @return the myHeading
+	 */
+	public double getMyHeading() {
+		return myHeading;
+	}
+
+	/**
+	 * @param myHeading the myHeading to set
+	 */
+	public void setMyHeading(double myHeading) {
+		this.myHeading = myHeading;
+	}
+
+	/**
+	 * @return the speed
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * @return the heading
+	 */
+	public double getHeading() {
+		return heading;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public Point2D getPosition() {
+		return position;
+	}
+	
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(Point2D position) {
+		this.position = position;
+	}
+
+	/**
+	 * @return the solution
+	 */
+	public double getSolution() {
+		return solution;
+	}
+
+	/**
+	 * @return the rotationSpeed
+	 */
+	public double getRotationSpeed() {
+		return rotationSpeed;
+	}
+
+	/**
+	 * @param rotationSpeed the rotationSpeed to set
+	 */
+	public void setRotationSpeed(double rotationSpeed) {
+		this.rotationSpeed = rotationSpeed;
+	}
+	
+	
 
 }

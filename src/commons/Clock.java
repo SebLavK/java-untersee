@@ -13,7 +13,7 @@ public final class Clock {
 	/** The time between frames in milliseconds */
 	public final static long FRAME_PERIOD = 16;
 	/** The time spent in frame in seconds */
-	public final static float TICK_TIME = FRAME_PERIOD / 1000;
+	public final static double TICK_TIME = 0.016;
 	
 	private static long gameStartTime;
 

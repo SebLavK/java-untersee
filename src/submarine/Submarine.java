@@ -10,5 +10,7 @@ public class Submarine extends Vessel {
 	
 	private double depth;
 	private double maxDepth;
+	
+	
 
 }
