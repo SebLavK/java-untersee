@@ -7,3 +7,8 @@ Java Unterzee is a submarine simulation game written in Java using the Swing too
 * Views for strategy map and periscope
 * "Realistic" torpedo stores and loading times
 * Plotting on map
+
+## Changelog
+
+### [v0.0.1]
+* A working prototype!
