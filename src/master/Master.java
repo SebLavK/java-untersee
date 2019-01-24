@@ -16,6 +16,7 @@ public class Master implements Runnable {
 	
 	private Submarine sub;
 	private GamePanel gamePanel;
+	private ExecutiveOfficer xo;
 	
 	public Master(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;
@@ -24,11 +25,14 @@ public class Master implements Runnable {
 	public void initializeMaster() {
 		sub = new Submarine();
 		sub.setAcceleration(0.1);
-		sub.setMyHeading(Math.toRadians(179));
-		sub.setMySpeed(2);
-		sub.setMaxSpeed(50);
+		sub.setMyHeading(Math.toRadians(0));
+		sub.setMySpeed(0);
+		sub.setMaxSpeed(2);
 		sub.setPosition(new Point2D.Double(100, -100));
 		sub.setRotationSpeed(0.5);
+		
+		xo = new ExecutiveOfficer(sub);
+		xo.initialize();
 		
 		((MapScreen) gamePanel.getCurrentScreen()).setSub(sub);
 		new Thread(this).start();
