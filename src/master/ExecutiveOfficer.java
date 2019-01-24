@@ -23,14 +23,17 @@ public class ExecutiveOfficer implements Runnable {
 	}
 	
 	public void initialize() {
-		parser = new Parser(this);
 		new Thread(this).start();
 	}
 	
 	@Override
 	public void run() {
 		while (true) {
-			execute(parser.parseCommand(readCommand()));
+			try {
+				execute(new Parser(this, readCommand()).getOrder());
+			} catch (NullPointerException e) {
+				unkownCommand();
+			}
 		}
 	}
 	
@@ -40,7 +43,7 @@ public class ExecutiveOfficer implements Runnable {
 	
 	public void execute(Order order) {
 		order.getVerb().accept(order);
-		log(order.getVerbose());
+		log(order.getVerbose() + ", aye sir.");
 	}
 	
 	public void log(String msg) {
@@ -55,7 +58,7 @@ public class ExecutiveOfficer implements Runnable {
 		sub.setMyHeading(Math.toRadians((Double) newHeading.getObject()));
 	}
 	
-	public void unkownCommand(Object o) {
+	public void unkownCommand() {
 		System.out.println("I don't understand that command, sir");
 	}
 
