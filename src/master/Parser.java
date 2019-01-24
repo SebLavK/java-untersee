@@ -17,16 +17,26 @@ import submarine.Submarine;
 /**
  * The Parser evaluates the commands received by the player and dispatches them
  * to the FirstOfficer so they can be executed.
+ * 
+ * Parsing works as follows: a map is generated with <key, value> as <command, action>
+ * An action is obtained via the key and executed. This action may generate an Order object
+ * or may parse more commands.
+ * 
+ *  Every time a command has to be parsed a new Parser object is instantiated. It will
+ *  generate maps as needed and execute their actions.
+ *  //TODO maybe change this in the future
  */
 public class Parser {
-
-	public static final String[] NAV_COMMANDS = { "speed", "heading", "ahead", "all", "back" };
-	//TODO define method reference as a constant as well, linked to these commands
 
 	private ExecutiveOfficer xo;
 	private String[] sentence;
 	private Order order;
 	
+	/**
+	 * 
+	 * @param xo the ExecutiveOfficer that will interpret the Order
+	 * @param command the sentence to parse
+	 */
 	public Parser(ExecutiveOfficer xo, String command) {
 		this.xo = xo;
 		this.sentence = command.split(" ");
@@ -44,6 +54,9 @@ public class Parser {
 		return order;
 	}
 
+	/**
+	 * Evaluates the first word in a sentence
+	 */
 	public void parseCommand() {
 		HashMap<String, Runnable> parseCommand = new HashMap<>();
 		parseCommand.put("speed", this::parseSpeed);
