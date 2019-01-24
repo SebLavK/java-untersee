@@ -1,7 +1,6 @@
 package master;
 
 import java.util.Scanner;
-import java.util.function.Consumer;
 
 import submarine.Submarine;
 
@@ -19,7 +18,6 @@ import submarine.Submarine;
 public class ExecutiveOfficer implements Runnable {
 
 	private Submarine sub;
-	private Parser parser;
 	
 	public ExecutiveOfficer(Submarine sub) {
 		this.sub = sub;
@@ -33,7 +31,11 @@ public class ExecutiveOfficer implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				execute(new Parser(this, readCommand()).getOrder());
+				Parser parser = new Parser(this, readCommand());
+				@SuppressWarnings("unchecked")
+				Order<Object> order = parser.getOrder();
+//				execute(new Parser(this, readCommand()).getOrder());
+				execute(order);
 			} catch (NullPointerException e) {
 				unkownCommand();
 			}
@@ -44,7 +46,8 @@ public class ExecutiveOfficer implements Runnable {
 		return new Scanner(System.in).nextLine();
 	}
 	
-	public void execute(Order order) {
+//	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void execute(Order<Object> order) {
 		order.getVerb().accept(order);
 		log(order.getVerbose() + ", aye sir.");
 	}
@@ -57,7 +60,7 @@ public class ExecutiveOfficer implements Runnable {
 	 * Changes the set speed of the sub
 	 * @param newSpeed an Order with a Double as object
 	 */
-	public void makeSpeed(Order newSpeed) {
+	public void makeSpeed(Order<Double> newSpeed) {
 		sub.setMySpeed((Double) newSpeed.getObject());
 	}
 	
@@ -65,7 +68,7 @@ public class ExecutiveOfficer implements Runnable {
 	 * Changes the set heading of the sub
 	 * @param newHeading an Order with a Double as object
 	 */
-	public void makeHeading(Order newHeading) {
+	public void makeHeading(Order<Double> newHeading) {
 		sub.setMyHeading(Math.toRadians((Double) newHeading.getObject()));
 	}
 	

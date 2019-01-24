@@ -19,13 +19,13 @@ import java.util.function.Consumer;
  *  Verbose simply stores the XO's acknowledgement of the Order as "he" replies back to
  *  the player (the captain)
  */
-public class Order {
+public class Order<T> {
 	
-	private Consumer<Order> verb;
-	private Object object;
+	private Consumer<Order<T>> verb;
+	private T object;
 	private String verbose;
 	
-	public Order(Consumer<Order> verb, Object object, String verbose) {
+	public Order(Consumer<Order<T>> verb, T object, String verbose) {
 		super();
 		this.verb = verb;
 		this.object = object;
@@ -35,14 +35,14 @@ public class Order {
 	/**
 	 * @return the consumer
 	 */
-	public Consumer<Order> getVerb() {
+	public Consumer<Order<T>> getVerb() {
 		return verb;
 	}
 
 	/**
 	 * @param verb the consumer to set
 	 */
-	public void setVerb(Consumer<Order> verb) {
+	public void setVerb(Consumer<Order<T>> verb) {
 		this.verb = verb;
 	}
 
@@ -56,7 +56,7 @@ public class Order {
 	/**
 	 * @param object the object to set
 	 */
-	public void setObject(Object object) {
+	public void setObject(T object) {
 		this.object = object;
 	}
 
