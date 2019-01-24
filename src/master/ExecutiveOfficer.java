@@ -39,7 +39,7 @@ public class ExecutiveOfficer implements Runnable {
 	}
 	
 	public void execute(Order order) {
-		order.getVerb().accept(order.getObject());
+		order.getVerb().accept(order);
 		log(order.getVerbose());
 	}
 	
@@ -47,12 +47,12 @@ public class ExecutiveOfficer implements Runnable {
 		System.out.println(msg);
 	}
 	
-	public void makeSpeed(Object newSpeed) {
-		sub.setMySpeed((Double) newSpeed);
+	public void makeSpeed(Order newSpeed) {
+		sub.setMySpeed((Double) newSpeed.getObject());
 	}
 	
-	public void makeHeading(Object newHeading) {
-		sub.setMyHeading(Math.toRadians((Double) newHeading));
+	public void makeHeading(Order newHeading) {
+		sub.setMyHeading(Math.toRadians((Double) newHeading.getObject()));
 	}
 	
 	public void unkownCommand(Object o) {

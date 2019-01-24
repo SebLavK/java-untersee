@@ -1,7 +1,12 @@
 package master;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.DoubleSupplier;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import submarine.Submarine;
 
@@ -19,10 +24,46 @@ public class Parser {
 	//TODO define method reference as a constant as well, linked to these commands
 
 	private ExecutiveOfficer xo;
+	
+	private HashMap<String, Function<String[], Double>> explicitMap;
+	private HashMap<String, Function<String[], String>> implicitMap;
+	private HashMap<String, Supplier<Double>> navOrderMap;
 
 	public Parser(ExecutiveOfficer xo) {
 		this.xo = xo;
+		createOrderMap();
 	}
+	
+	public void createOrderMap() {
+		explicitMap = new HashMap<>();
+		implicitMap = new HashMap<>();
+		navOrderMap = new HashMap<>();
+		
+		explicitMap.put("speed", Parser::parseSecond);
+		
+		implicitMap.put("ahead", Parser::getSecond);
+		
+		navOrderMap.put("flank", Parser::aheadFlank);
+		
+	}
+	
+	public static String getSecond(String[] sentence) {
+		return sentence[1];
+	}
+	
+	public static double parseSecond(String[] second) {
+		return Double.parseDouble(second[1]);
+	}
+	
+	public static double aheadFull() {
+		return Submarine.SPEED_FULL;
+	}
+	
+	public static double aheadFlank() {
+		return Submarine.SPEED_FLANK;
+	}
+	
+	
 
 	/**
 	 * Evaluates the command given by the player into an order executable by the XO
@@ -32,16 +73,26 @@ public class Parser {
 	public Order parseCommand(String fullCommand) {
 		String[] sentence = fullCommand.toLowerCase().split(" ");
 		
-		if (Arrays.toString(NAV_COMMANDS).contains(sentence[0])) {
-			return parseNavigationCommand(sentence);
-		} else {
-			return new Order(xo::unkownCommand, null, null);
+		if (implicitMap.containsKey(sentence[0])) {
+			if(navOrderMap.containsKey(sentence[1])) {
+				System.out.println("POW");
+				return new Order(xo::makeSpeed, navOrderMap.get(sentence[1]).get(), "");
+			}
 		}
+		return null;
+		
+		
+		
+//		if (Arrays.toString(NAV_COMMANDS).contains(sentence[0])) {
+//			return parseNavigationCommand(sentence);
+//		} else {
+//			return new Order(xo::unkownCommand, null, null);
+//		}
 	}
 
 	public Order parseNavigationCommand(String[] sentence) {
 		String r = ""; // r for response
-		Consumer<Object> c = null; 
+		Consumer<Order> c = null; 
 		Double v = null; // v for value
 		switch (sentence[0]) {
 		case "speed":
@@ -72,7 +123,7 @@ public class Parser {
 	
 	public Order parseAheadOrBackCommand(String[] sentence) {
 		String r = ""; // r for verbose response
-		Consumer<Object> c = xo::makeSpeed; 
+		Consumer<Order> c = xo::makeSpeed; 
 		Double v = null; // v for value
 		
 		if (sentence[0].equals("ahead")) {
