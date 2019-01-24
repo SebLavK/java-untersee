@@ -15,7 +15,8 @@ import submarine.Submarine;
  */
 public class Parser {
 
-	public static final String[] NAV_COMMANDS = { "speed", "heading", "ahead", "engine", "back" };
+	public static final String[] NAV_COMMANDS = { "speed", "heading", "ahead", "all", "back" };
+	//TODO define method reference as a constant as well, linked to these commands
 
 	private ExecutiveOfficer xo;
 
@@ -23,59 +24,56 @@ public class Parser {
 		this.xo = xo;
 	}
 
+	/**
+	 * Evaluates the command given by the player into an order executable by the XO
+	 * @param fullCommand
+	 * @return an Order
+	 */
 	public Order parseCommand(String fullCommand) {
 		String[] sentence = fullCommand.toLowerCase().split(" ");
 		
 		if (Arrays.toString(NAV_COMMANDS).contains(sentence[0])) {
 			return parseNavigationCommand(sentence);
 		} else {
-			xo.unkownCommand();
+			return new Order(xo::unkownCommand, null, null);
 		}
 	}
 
 	public Order parseNavigationCommand(String[] sentence) {
-		boolean success = true;
 		String r = ""; // r for response
-		Consumer<Double> c = null; 
-		double v = 0; // v for value
+		Consumer<Object> c = null; 
+		Double v = null; // v for value
 		switch (sentence[0]) {
 		case "speed":
 			c = xo::makeSpeed;
 			v = Double.parseDouble(sentence[1]);
-			r = "Make my speed "+sentence[1]+" knots"; 
-			break;
+			r = "Make my speed "+sentence[1]+" knots";
+			return new Order(c,  v,  r);
 		case "heading":
 			c = xo::makeHeading;
 			v = Double.parseDouble(sentence[1]);
 			r = "Make my heading "+sentence[1]+"º"; 
 			break;
 		case "ahead": case "back":
-			parseAheadOrBackCommand(sentence);
-			break;
-		case "engine":
+			return parseAheadOrBackCommand(sentence);
+		case "all":
 			if (sentence[1].equals("stop")) {
 				c = xo::makeSpeed;
-				v = 0;
-				r = "Engine stop";
+				v = 0.0;
+				r = "All engines stop";
 			}
 			break;
 		default:
-			success = false;
+			c = xo::unkownCommand;
 			break;
 		}
-		
-		if (success) {
-			xo.execute(c, v, r);
-		} else {
-			xo.unkownCommand();
-		}
+		return new Order(c,  v,  r);
 	}
 	
 	public Order parseAheadOrBackCommand(String[] sentence) {
-		boolean success = true;
 		String r = ""; // r for verbose response
-		Consumer<Double> c = xo::makeSpeed; 
-		Double v = 0; // v for value
+		Consumer<Object> c = xo::makeSpeed; 
+		Double v = null; // v for value
 		
 		if (sentence[0].equals("ahead")) {
 			switch (sentence[1]) {
@@ -100,15 +98,16 @@ public class Parser {
 				r = "Ahead one third";
 				break;
 			default:
-				success = false;
+				c = xo::unkownCommand;
 				break;
 				
 			}
-		} else if (sentence[1].equals("back")) {
+		} else if (sentence[0].equals("back")) {
 			switch (sentence[1]) {
 			case "emergency":
 				v = Submarine.SPEED_BACK_EMERG;
 				r = "Back emergency";
+				System.out.println("POW");
 				break;
 			case "full":
 				v = Submarine.SPEED_BACK_FULL;
@@ -123,18 +122,14 @@ public class Parser {
 				r = "Back one third";
 				break;
 			default:
-				success = false;
+				c = xo::unkownCommand;
 				break;
 			}
 		} else {
-			success = false;
+			c = xo::unkownCommand;
 		}
 		
-		if (success) {
-			return new Order(c, v, r);
-		} else {
-			xo.unkownCommand();
-		}
+		return new Order(c, v, r);
 	}
 	
 }

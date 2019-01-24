@@ -27,38 +27,37 @@ public class ExecutiveOfficer implements Runnable {
 		new Thread(this).start();
 	}
 	
+	@Override
+	public void run() {
+		while (true) {
+			execute(parser.parseCommand(readCommand()));
+		}
+	}
+	
 	public String readCommand() {
 		return new Scanner(System.in).nextLine();
 	}
 	
-	public void execute(Consumer<Double> c, double value, String verbose) {
-		System.out.println("POW");
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		c.accept(value);
-		System.out.println(verbose);
+	public void execute(Order order) {
+		order.getVerb().accept(order.getObject());
+		log(order.getVerbose());
 	}
 	
-	public void makeSpeed(double newSpeed) {
-		sub.setMySpeed(newSpeed);
+	public void log(String msg) {
+		System.out.println(msg);
 	}
 	
-	public void makeHeading(double newHeading) {
-		sub.setMyHeading(Math.toRadians(newHeading));
+	public void makeSpeed(Object newSpeed) {
+		sub.setMySpeed((Double) newSpeed);
 	}
 	
-	public void unkownCommand() {
+	public void makeHeading(Object newHeading) {
+		sub.setMyHeading(Math.toRadians((Double) newHeading));
+	}
+	
+	public void unkownCommand(Object o) {
 		System.out.println("I don't understand that command, sir");
 	}
 
-	@Override
-	public void run() {
-		while (true) {
-			parser.parseCommand(readCommand());
-		}
-	}
+	
 }

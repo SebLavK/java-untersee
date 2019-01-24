@@ -8,13 +8,13 @@ import java.util.function.Consumer;
 
 public class Order {
 	
-	private Consumer<Object> consumer;
+	private Consumer<Object> verb;
 	private Object object;
 	private String verbose;
 	
-	public Order(Consumer<Object> consumer, Object object, String verbose) {
+	public Order(Consumer<Object> verb, Object object, String verbose) {
 		super();
-		this.consumer = consumer;
+		this.verb = verb;
 		this.object = object;
 		this.verbose = verbose;
 	}
@@ -22,15 +22,15 @@ public class Order {
 	/**
 	 * @return the consumer
 	 */
-	public Consumer<Object> getConsumer() {
-		return consumer;
+	public Consumer<Object> getVerb() {
+		return verb;
 	}
 
 	/**
-	 * @param consumer the consumer to set
+	 * @param verb the consumer to set
 	 */
-	public void setConsumer(Consumer<Object> consumer) {
-		this.consumer = consumer;
+	public void setVerb(Consumer<Object> verb) {
+		this.verb = verb;
 	}
 
 	/**
