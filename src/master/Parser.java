@@ -1,12 +1,6 @@
 package master;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.DoubleSupplier;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import submarine.Submarine;
 
@@ -30,7 +24,7 @@ public class Parser {
 
 	private ExecutiveOfficer xo;
 	private String[] sentence;
-	private Order order;
+	private Order<?> order;
 	
 	/**
 	 * 
@@ -50,6 +44,7 @@ public class Parser {
 	/**
 	 * @return the order
 	 */
+	@SuppressWarnings("rawtypes")
 	public Order getOrder() {
 		return order;
 	}
@@ -69,7 +64,7 @@ public class Parser {
 	}
 	
 	public void parseSpeed() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Double.parseDouble(sentence[1]),
 				"Make turns for "+sentence[1]+" knots"
@@ -78,7 +73,7 @@ public class Parser {
 	
 	public void parseHeading() {
 		//TODO: change it to "come [right/left] to course XXX
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeHeading,
 				Double.parseDouble(sentence[1]),
 				"Come to course "+sentence[1]+"º"
@@ -97,7 +92,7 @@ public class Parser {
 	}
 	
 	public void aheadFlank() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_FLANK,
 				"Engine ahead flank"
@@ -105,7 +100,7 @@ public class Parser {
 	}
 	
 	public void aheadFull() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_FULL,
 				"Engine ahead full"
@@ -113,7 +108,7 @@ public class Parser {
 	}
 	
 	public void aheadStandard() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD,
 				"Engine ahead standard"
@@ -121,7 +116,7 @@ public class Parser {
 	}
 	
 	public void ahead23() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD * 2 / 3,
 				"Engine ahead two thirds"
@@ -129,7 +124,7 @@ public class Parser {
 	}
 	
 	public void ahead13() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD / 3,
 				"Engine ahead one third"
@@ -143,7 +138,7 @@ public class Parser {
 	}
 	
 	public void allStop() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				0.0,
 				"All engines stop"
@@ -161,7 +156,7 @@ public class Parser {
 	}
 	
 	public void back13() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL / 3,
 				"Engine back one third"
@@ -169,7 +164,7 @@ public class Parser {
 	}
 	
 	public void back23() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL * 2 / 3,
 				"Engine back two thirds"
@@ -177,7 +172,7 @@ public class Parser {
 	}
 	
 	public void backFull() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL,
 				"Engine back full"
@@ -185,7 +180,7 @@ public class Parser {
 	}
 	
 	public void backEmerg() {
-		order = new Order(
+		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_EMERG,
 				"Engine back emergency"
