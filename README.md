@@ -12,6 +12,9 @@ Java Unterzee is a submarine simulation game written in Java using the Swing too
 
 ## Changelog
 
+### v0.0.3
+* Parametrized orders for safety in interactions between parser and interpreter
+
 ### v0.0.2
 * Added a Parser for commands interpreted by the Executive Officer
 
