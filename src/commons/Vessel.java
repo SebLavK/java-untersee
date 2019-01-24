@@ -51,8 +51,8 @@ public abstract class Vessel {
 	 * Changes speed and heading acording to settings
 	 */
 	private void steer() {
-		if (Math.abs(speed) > Math.abs(mySpeed)) {
-			speed = mySpeed;
+		if (Math.abs(speed) > Math.abs(maxSpeed)) {
+			speed = maxSpeed;
 		} else if (speed != mySpeed) {
 			//Forwards or reverse
 			int dir = (speed < mySpeed) ? 1 : -1;
