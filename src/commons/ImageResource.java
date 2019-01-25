@@ -22,7 +22,7 @@ public class ImageResource {
 	
 	public static void instantiateImages() {
 		try {
-			submarine = ImageIO.read(Main.class.getResource("../sprites/ShipSubMarineHull.png"));
+			submarine = ImageIO.read(Main.class.getResource("../sprites/vessels/ShipSubMarineHull.png"));
 			loadBackground();
 		} catch (IOException e) {
 			e.printStackTrace();

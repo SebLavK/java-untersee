@@ -9,41 +9,41 @@ import java.util.LinkedHashSet;
 
 public abstract class Vessel {
 	
-	private int behaviourMode;
+	protected int behaviourMode;
 	
 	/* Vessel magnitudes */
-	private double beam;
-	private double length;
+	protected double beam;
+	protected double length;
 	
 	/* Vessel capabilities */
 	/** Desired speed */
-	private double mySpeed;
+	protected double mySpeed;
 	/** Current speed */
-	private double speed;
-	private double maxSpeedReverse;
+	protected double speed;
+	protected double maxSpeedReverse;
 	/** Maximum possible speed */
-	private double maxSpeed;
+	protected double maxSpeed;
 	/** Cruise speed, maximum turning capability */
-	private double standardSpeed;
-	private double acceleration;
+	protected double standardSpeed;
+	protected double acceleration;
 	/* Heading should be 0 if going north, negative Y */
 	/** Desired heading */
-	private double myHeading;
+	protected double myHeading;
 	/** Current heading */
-	private double heading;
-	private double rotationSpeed;
+	protected double heading;
+	protected double rotationSpeed;
 	
 	/* Position */
 	/** Current position, X is East, Y is North */
-	private Point2D position;
+	protected Point2D position;
 	/** A collection of points that define this vessel's course */
-	private LinkedHashSet<Point2D> course;
+	protected LinkedHashSet<Point2D> course;
 	
 	/* Solution and detection between 0 and 1 */
 	/** The player's solution on this ship */
-	private double solution;
+	protected double solution;
 	/** This ships's solution on the player */
-	private double detection;
+	protected double detection;
 	
 	public void tick() {
 		steer();
@@ -54,7 +54,6 @@ public abstract class Vessel {
 	 * Changes speed and heading acording to settings
 	 */
 	private void steer() {
-		System.out.println(speed + "    " + Clock.timeSinceStart() / 1000000000);
 		if (speed > maxSpeed || speed < maxSpeedReverse) {
 			speed = (speed > 0) ? maxSpeed : maxSpeedReverse;
 		} else if (speed != mySpeed) {
@@ -71,15 +70,16 @@ public abstract class Vessel {
 				speed += deltaSpeed;
 			}
 		}
+		//Speed here is in knots
 		
 		if (heading != myHeading) {
 			double angleDiff = (2 * Math.PI + myHeading - heading) % (2 * Math.PI);
 			//Determine left or right
 			int rotDir = (angleDiff < Math.PI) ? 1 : -1;
-			//Determine turning coefficient based on speed
-			double rotCof = Math.abs(speed) / standardSpeed;
-			if (rotCof > 1) {
-				rotCof = 1;
+			//Determine turning coefficient based on speed, will turn slower if below 1/3 speed
+			double rotCof = 1;
+			if (Math.abs(speed) < standardSpeed / 3) {
+				rotCof = Math.abs(speed) / (standardSpeed / 3);
 			}
 			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir * rotCof;
 			//If turning overshoots the desired heading
@@ -95,9 +95,49 @@ public abstract class Vessel {
 	 * Changes position according to speed and heading
 	 */
 	private void sail() {
-		double longitude = position.getX() + speed * Math.sin(heading) * Clock.TICK_TIME;
-		double latitude = position.getY() + speed * Math.cos(heading) * Clock.TICK_TIME;
+		//Speed here is converted to feet/s
+		double longitude = position.getX()
+				+ speed * Magnitudes.FEET_SECOND_PER_KN * Math.sin(heading) * Clock.TICK_TIME;
+		double latitude = position.getY()
+				+ speed * Magnitudes.FEET_SECOND_PER_KN * Math.cos(heading) * Clock.TICK_TIME;
 		position.setLocation(longitude, latitude);
+	}
+	
+	/**
+	 * @param other the other vessel
+	 * @return the distance between this and the other vessel
+	 */
+	public double distanceTo(Vessel other) {
+		return this.position.distance(other.getPosition());
+	}
+	
+	/**
+	 * @param other the other vessel
+	 * @return the bearing to the other vessel from this vessel, against the Y axis
+	 */
+	public double bearingTo(Vessel other) {
+		Point2D relPos = relativePositionOf(other);
+		// Since the angle is measured against the Y axis I can't use the Math.atan2
+		// function
+		// Angle is measured using the arc cosine of the Y component
+		// and substracted from 360º if the X component is negative
+		double bearing = Math.acos(relPos.getY());
+		if (relPos.getX() < 0) {
+			bearing = 2 * Math.PI - bearing;
+		}
+		return bearing;
+	}
+	
+	/**
+	 * @param other the other vessel
+	 * @return the position of the other vessel with this vessel as origin
+	 */
+	public Point2D relativePositionOf(Vessel other) {
+		Point2D relativePosition = new Point2D.Double(
+				other.getPosition().getX() - this.position.getX(),
+				other.getPosition().getY() - this.position.getY()
+				);
+		return relativePosition;
 	}
 
 	/**

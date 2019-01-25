@@ -51,29 +51,35 @@ public class MapScreen implements Screen {
 	public void drawBackground(Graphics2D g2d) {
 		int index = Master.tickCount / 3 % bg.length;
 		//Fill the edges
-		int repeatX = (gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 2) * Master.mapZoom;
-		int repeatY = (gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 2) * Master.mapZoom;
+		int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * Master.mapZoom);
+		int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * Master.mapZoom);
 		
 		Submarine sub = master.getSub();
 		
 		//Offset for movement of background relative to sub
-		int offsetX = (int) (sub.getPosition().getX() * Magnitudes.FEET_PER_PIXEL / Master.mapZoom
-				% ImageResource.BG_TILE_WIDTH)  * -1;
-		int offsetY = (int) (sub.getPosition().getY() * Magnitudes.FEET_PER_PIXEL / Master.mapZoom
-				% ImageResource.BG_TILE_HEIGHT);
+		double offsetX = (sub.getPosition().getX() * Magnitudes.FEET_PER_PIXEL
+				% ImageResource.BG_TILE_WIDTH * -1 ) / Master.mapZoom;
+		double offsetY = (sub.getPosition().getY() * Magnitudes.FEET_PER_PIXEL
+				% ImageResource.BG_TILE_HEIGHT) / Master.mapZoom;
 		
-		for (int i = -1; i < repeatX; i++) {
-			for (int j = -1; j < repeatY; j++) {
+		for (int i = -repeatX; i < repeatX; i++) {
+			for (int j = -repeatY; j < repeatY; j++) {
+				AffineTransform at = new AffineTransform();
+				at.translate(
+						(double) (ImageResource.BG_TILE_WIDTH * i) / Master.mapZoom + offsetX + gamePanel.getWidth() / 2,
+						(double) (ImageResource.BG_TILE_HEIGHT * j) / Master.mapZoom + offsetY + gamePanel.getHeight() / 2
+						);
+				at.scale(1 / Master.mapZoom, 1 / Master.mapZoom);
+				
 				g2d.drawImage(bg[index],
-						ImageResource.BG_TILE_WIDTH * i / Master.mapZoom + offsetX,
-						ImageResource.BG_TILE_HEIGHT * j / Master.mapZoom + offsetY,
-						(int) (bg[0].getWidth() / Master.mapZoom),
-						(int) (bg[0].getHeight() / Master.mapZoom),
+						at,
 						null);
 			}
 		}
+		
+		//TODO this is for debugging
 		g2d.setColor(Color.RED);
-		g2d.fillRect(300 + offsetX, 300 + offsetY, 10, 10);
+		g2d.fillRect(300 + (int)offsetX, 300 + (int)offsetY, 10, 10);
 	}
 
 	public void drawSub(Graphics2D g2d) {

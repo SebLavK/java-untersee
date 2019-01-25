@@ -76,7 +76,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeHeading,
 				Double.parseDouble(sentence[1]),
-				"Come to course "+sentence[1]+"º"
+				"Come to course "+String.format("%03d", Integer.parseInt(sentence[1]))+"º"
 				);
 	}
 	

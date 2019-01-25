@@ -12,6 +12,7 @@ public final class Clock {
 	
 	/** The time between frames in milliseconds */
 	public final static long FRAME_PERIOD = 16;
+	public final static long FRAME_NANO = 16666666;
 	/** The time spent in frame in seconds */
 	public final static double TICK_TIME = 0.016;
 	
