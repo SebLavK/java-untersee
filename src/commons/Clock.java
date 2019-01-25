@@ -44,4 +44,15 @@ public final class Clock {
 		return System.nanoTime() - gameStartTime;
 	}
 	
+	/**
+	 * @return the current system time
+	 */
+	public static long getCurrentTime() {
+		return System.nanoTime();
+	}
+	
+	public static long timeSince(long then) {
+		return System.nanoTime() - then;
+	}
+	
 }

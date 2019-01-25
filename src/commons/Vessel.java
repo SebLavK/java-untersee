@@ -78,9 +78,9 @@ public abstract class Vessel {
 			//Determine turning coefficient based on speed
 			double rotCof = Math.abs(speed) / standardSpeed;
 			if (rotCof > 1) {
-				rotCof -= 1;
+				rotCof = 1;
 			}
-			rotCof = Math.sin(rotCof);
+			System.out.println(rotCof + "    " + speed);
 			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir * rotCof;
 			//If turning overshoots the desired heading
 			if (Math.abs(deltaRot) > Math.abs(angleDiff)) {
@@ -95,9 +95,10 @@ public abstract class Vessel {
 	 * Changes position according to speed and heading
 	 */
 	private void sail() {
-		//Current position + deltaPosition
-		double longitude = position.getX() + speed * Math.sin(heading);
-		double latitude = position.getY() + speed * Math.cos(heading);
+		//Current position + deltaPosition * px/s / kt
+		//Adjusts knots to pixels per second
+		double longitude = position.getX() + speed * Math.sin(heading) * Magnitudes.PIXEL_SECOND_PER_KN;
+		double latitude = position.getY() + speed * Math.cos(heading) * Magnitudes.PIXEL_SECOND_PER_KN;
 		position.setLocation(longitude, latitude);
 	}
 

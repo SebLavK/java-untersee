@@ -16,6 +16,8 @@ import submarine.Submarine;
 public class Master implements Runnable {
 	
 	public static int tickCount;
+	/** Zoom amount. The bigger the further away */
+	public static int mapZoom = 1;
 	
 	private Submarine sub;
 	private GamePanel gamePanel;
@@ -28,14 +30,14 @@ public class Master implements Runnable {
 	public void initializeMaster() {
 		ImageResource.instantiateImages();
 		sub = new Submarine();
-		sub.setAcceleration(0.1);
+		sub.setAcceleration(1);
 		sub.setMyHeading(Math.toRadians(0));
 		sub.setMySpeed(0);
 		sub.setMaxSpeed(Submarine.SPEED_FLANK);
 		sub.setStandardSpeed(Submarine.SPEED_STANDARD);
 		sub.setMaxSpeedReverse(Submarine.SPEED_BACK_EMERG);
 		sub.setPosition(new Point2D.Double(100, -100));
-		sub.setRotationSpeed(0.5);
+		sub.setRotationSpeed(Math.toRadians(180));
 		
 		xo = new ExecutiveOfficer(sub);
 		xo.initialize();
@@ -46,11 +48,6 @@ public class Master implements Runnable {
 	}
 	
 	private void tick() {
-		try {
-			Thread.sleep(Clock.FRAME_PERIOD);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		sub.tick();
 		gamePanel.repaint();
 		//Para funcionamiento fluido en Linux
@@ -60,8 +57,22 @@ public class Master implements Runnable {
 
 	@Override
 	public void run() {
-		while(true) {
+		while (true) {
+			long tickStartTime = Clock.getCurrentTime();
 			tick();
+			long elapsedTime = Clock.timeSince(tickStartTime);
+			long waitTimeMillis = Clock.FRAME_PERIOD - 1 - elapsedTime / 1000000;
+			int waitTimeNanos = 1000000 - (int) (elapsedTime % 1000000);
+			if (waitTimeMillis < 0) {
+				waitTimeMillis = 0;
+				waitTimeNanos = 0;
+			}
+			try {
+				Thread.sleep(waitTimeMillis, waitTimeNanos);
+//				Thread.sleep(Clock.FRAME_PERIOD);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
