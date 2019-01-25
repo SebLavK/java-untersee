@@ -11,12 +11,12 @@ Java Unterzee is a submarine simulation game written in Java using the Swing too
 * Panning and ~~zooming~~ map
 
 ## Used assets
-Asset: [Sea Warfare set, ships and more](https://opengameart.org/content/sea-warfare-set-ships-and-more)
-Author: **Lowder2** at opengameart.org
-License: Free use license
+Asset: [Sea Warfare set, ships and more](https://opengameart.org/content/sea-warfare-set-ships-and-more)  
+Author: **Lowder2** at opengameart.org  
+License: Free use license  
 
-Asset: [The Battle for Wesnoth water animation](https://opengameart.org/content/the-battle-for-wesnoth-water-animation)
-Author: **Zabin** and **zookeper** at opengameart.org
+Asset: [The Battle for Wesnoth water animation](https://opengameart.org/content/the-battle-for-wesnoth-water-animation)  
+Author: **Zabin** and **zookeper** at opengameart.org  
 License:  Free use license
 
 ## Changelog
