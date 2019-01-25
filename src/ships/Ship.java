@@ -9,6 +9,10 @@ import commons.Vessel;
 
 public class Ship extends Vessel {
 	
+	public Ship() {
+		super();
+	}
+	
 	public void computeSolution() {
 		
 	}

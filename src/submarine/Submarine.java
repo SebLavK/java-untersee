@@ -33,7 +33,9 @@ public class Submarine extends Vessel {
 		helm.tick();
 	}
 	
-	
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
 	
 	
 

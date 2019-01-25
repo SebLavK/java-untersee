@@ -9,41 +9,41 @@ import java.util.LinkedHashSet;
 
 public abstract class Vessel {
 	
-	private int behaviourMode;
+	protected int behaviourMode;
 	
 	/* Vessel magnitudes */
-	private double beam;
-	private double length;
+	protected double beam;
+	protected double length;
 	
 	/* Vessel capabilities */
 	/** Desired speed */
-	private double mySpeed;
+	protected double mySpeed;
 	/** Current speed */
-	private double speed;
-	private double maxSpeedReverse;
+	protected double speed;
+	protected double maxSpeedReverse;
 	/** Maximum possible speed */
-	private double maxSpeed;
+	protected double maxSpeed;
 	/** Cruise speed, maximum turning capability */
-	private double standardSpeed;
-	private double acceleration;
+	protected double standardSpeed;
+	protected double acceleration;
 	/* Heading should be 0 if going north, negative Y */
 	/** Desired heading */
-	private double myHeading;
+	protected double myHeading;
 	/** Current heading */
-	private double heading;
-	private double rotationSpeed;
+	protected double heading;
+	protected double rotationSpeed;
 	
 	/* Position */
 	/** Current position, X is East, Y is North */
-	private Point2D position;
+	protected Point2D position;
 	/** A collection of points that define this vessel's course */
-	private LinkedHashSet<Point2D> course;
+	protected LinkedHashSet<Point2D> course;
 	
 	/* Solution and detection between 0 and 1 */
 	/** The player's solution on this ship */
-	private double solution;
+	protected double solution;
 	/** This ships's solution on the player */
-	private double detection;
+	protected double detection;
 	
 	public void tick() {
 		steer();

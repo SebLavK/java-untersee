@@ -17,7 +17,7 @@ public class Master implements Runnable {
 	
 	public static int tickCount;
 	/** Zoom amount. The bigger the further away */
-	public static int mapZoom = 1;
+	public static double mapZoom = 1;
 	
 	private Submarine sub;
 	private GamePanel gamePanel;
@@ -32,7 +32,8 @@ public class Master implements Runnable {
 		sub = new Submarine();
 		sub.setAcceleration(0.5);
 		sub.setMyHeading(Math.toRadians(0));
-		sub.setMySpeed(0);
+		sub.setMySpeed(20);
+		sub.setSpeed(20);
 		sub.setMaxSpeed(Submarine.SPEED_FLANK);
 		sub.setStandardSpeed(Submarine.SPEED_STANDARD);
 		sub.setMaxSpeedReverse(Submarine.SPEED_BACK_EMERG);
