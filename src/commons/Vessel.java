@@ -91,6 +91,43 @@ public abstract class Vessel {
 		double latitude = position.getY() + speed * Math.cos(heading);
 		position.setLocation(longitude, latitude);
 	}
+	
+	/**
+	 * @param other the other vessel
+	 * @return the distance between this and the other vessel
+	 */
+	public double distanceTo(Vessel other) {
+		return this.position.distance(other.getPosition());
+	}
+	
+	/**
+	 * @param other the other vessel
+	 * @return the bearing to the other vessel from this vessel, against the Y axis
+	 */
+	public double bearingTo(Vessel other) {
+		Point2D relPos = relativePositionOf(other);
+		// Since the angle is measured against the Y axis I can't use the Math.atan2
+		// function
+		// Angle is measured using the arc cosine of the Y component
+		// and substracted from 360º if the X component is negative
+		double bearing = Math.acos(relPos.getY());
+		if (relPos.getX() < 0) {
+			bearing = 2 * Math.PI - bearing;
+		}
+		return bearing;
+	}
+	
+	/**
+	 * @param other the other vessel
+	 * @return the position of the other vessel with this vessel as origin
+	 */
+	public Point2D relativePositionOf(Vessel other) {
+		Point2D relativePosition = new Point2D.Double(
+				other.getPosition().getX() - this.position.getX(),
+				other.getPosition().getY() - this.position.getY()
+				);
+		return relativePosition;
+	}
 
 	/**
 	 * @return the mySpeed
