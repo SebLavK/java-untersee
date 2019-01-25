@@ -32,7 +32,7 @@ public class Master implements Runnable {
 		sub = new Submarine();
 		sub.setAcceleration(0.5);
 		sub.setMyHeading(Math.toRadians(0));
-		sub.setMySpeed(35);
+		sub.setMySpeed(0);
 		sub.setMaxSpeed(Submarine.SPEED_FLANK);
 		sub.setStandardSpeed(Submarine.SPEED_STANDARD);
 		sub.setMaxSpeedReverse(Submarine.SPEED_BACK_EMERG);

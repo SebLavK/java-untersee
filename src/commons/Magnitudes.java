@@ -21,5 +21,11 @@ public class Magnitudes {
 	 */
 	public static final double PIXEL_SECOND_PER_KN = 0.678949065144;
 	
-
+	/**
+	 * @param rad the angle to convert
+	 * @return an angle expressed in degrees with leading zeros e.g. 001º
+	 */
+	public static String radiansToHumanDegrees(double rad) {
+		return String.format("%03d", (int) Math.round(Math.toDegrees(rad)));
+	}
 }
