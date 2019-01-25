@@ -61,7 +61,7 @@ public class Master implements Runnable {
 			long tickStartTime = Clock.getCurrentTime();
 			tick();
 			long elapsedTime = Clock.timeSince(tickStartTime);
-			long waitTimeMillis = Clock.FRAME_PERIOD - 1 - elapsedTime / 1000000;
+			long waitTimeMillis = (Clock.FRAME_NANO - elapsedTime) / 1000000 - 1;
 			int waitTimeNanos = 1000000 - (int) (elapsedTime % 1000000);
 			if (waitTimeMillis < 0) {
 				waitTimeMillis = 0;
