@@ -20,8 +20,11 @@ public abstract class Vessel {
 	private double mySpeed;
 	/** Current speed */
 	private double speed;
+	private double maxSpeedReverse;
 	/** Maximum possible speed */
 	private double maxSpeed;
+	/** Cruise speed, maximum turning capability */
+	private double standardSpeed;
 	private double acceleration;
 	/* Heading should be 0 if going north, negative Y */
 	/** Desired heading */
@@ -51,8 +54,9 @@ public abstract class Vessel {
 	 * Changes speed and heading acording to settings
 	 */
 	private void steer() {
-		if (Math.abs(speed) > Math.abs(maxSpeed)) {
-			speed = maxSpeed;
+		System.out.println(speed + "    " + Clock.timeSinceStart() / 1000000000);
+		if (speed > maxSpeed || speed < maxSpeedReverse) {
+			speed = (speed > 0) ? maxSpeed : maxSpeedReverse;
 		} else if (speed != mySpeed) {
 			//Forwards or reverse
 			int dir = (speed < mySpeed) ? 1 : -1;
@@ -72,7 +76,12 @@ public abstract class Vessel {
 			double angleDiff = (2 * Math.PI + myHeading - heading) % (2 * Math.PI);
 			//Determine left or right
 			int rotDir = (angleDiff < Math.PI) ? 1 : -1;
-			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir;
+			//Determine turning coefficient based on speed
+			double rotCof = Math.abs(speed) / standardSpeed;
+			if (rotCof > 1) {
+				rotCof = 1;
+			}
+			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir * rotCof;
 			//If turning overshoots the desired heading
 			if (Math.abs(deltaRot) > Math.abs(angleDiff)) {
 				heading = myHeading;
@@ -86,9 +95,8 @@ public abstract class Vessel {
 	 * Changes position according to speed and heading
 	 */
 	private void sail() {
-		//Current position + deltaPosition
-		double longitude = position.getX() + speed * Math.sin(heading);
-		double latitude = position.getY() + speed * Math.cos(heading);
+		double longitude = position.getX() + speed * Math.sin(heading) * Clock.TICK_TIME;
+		double latitude = position.getY() + speed * Math.cos(heading) * Clock.TICK_TIME;
 		position.setLocation(longitude, latitude);
 	}
 	
@@ -232,6 +240,34 @@ public abstract class Vessel {
 	 */
 	public void setRotationSpeed(double rotationSpeed) {
 		this.rotationSpeed = rotationSpeed;
+	}
+
+	/**
+	 * @return the standardSpeed
+	 */
+	public double getStandardSpeed() {
+		return standardSpeed;
+	}
+
+	/**
+	 * @param standardSpeed the standardSpeed to set
+	 */
+	public void setStandardSpeed(double standardSpeed) {
+		this.standardSpeed = standardSpeed;
+	}
+
+	/**
+	 * @return the maxSpeedReverse
+	 */
+	public double getMaxSpeedReverse() {
+		return maxSpeedReverse;
+	}
+
+	/**
+	 * @param maxSpeedReverse the maxSpeedReverse to set
+	 */
+	public void setMaxSpeedReverse(double maxSpeedReverse) {
+		this.maxSpeedReverse = maxSpeedReverse;
 	}
 	
 	

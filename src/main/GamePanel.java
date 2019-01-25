@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.JPanel;
 
 import commons.Screen;
+import master.Master;
 import screens.MapScreen;
 
 /**
@@ -17,8 +18,6 @@ public class GamePanel extends JPanel {
 	private Screen currentScreen;
 	
 	public void initializePanel() {
-		currentScreen = new MapScreen(this);
-		currentScreen.initializeScreen();
 	}
 	
 	@Override
@@ -39,6 +38,7 @@ public class GamePanel extends JPanel {
 	public void setCurrentScreen(Screen currentScreen) {
 		this.currentScreen = currentScreen;
 	}
+
 	
 	
 

@@ -5,12 +5,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
+import commons.Clock;
+import commons.ImageResource;
+import commons.Magnitudes;
 import commons.Screen;
 import main.GamePanel;
+import master.Master;
 import submarine.Submarine;
 
 /**
@@ -19,35 +20,71 @@ import submarine.Submarine;
 
 public class MapScreen implements Screen {
 	
-	private BufferedImage subImage;
-	private Submarine sub;
+	private Master master;
 	private GamePanel gamePanel;
+	
+	private BufferedImage[] bg;
 	
 	/**
 	 * 
 	 */
-	public MapScreen(GamePanel gamePanel) {
+	public MapScreen(Master master, GamePanel gamePanel) {
+		this.master = master;
 		this.gamePanel = gamePanel;
+		initializeScreen();
 	}
 
 	@Override
 	public void initializeScreen() {
-		try {
-			subImage = ImageIO.read(getClass().getResource("../sprites/ship_destroyed.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		bg = ImageResource.getBackground();
 	}
 	
 	@Override
 	public void drawScreen(Graphics g) {
-		drawSprite(g);
+		Graphics2D g2d = (Graphics2D) g;
+		drawBackground(g2d);
+		drawSub(g2d);
+		g2d.dispose();
+		g.dispose();
+	}
+	
+	public void drawBackground(Graphics2D g2d) {
+		int index = Master.tickCount / 3 % bg.length;
+		//Fill the edges
+		int repeatX = (gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 2) * Master.mapZoom;
+		int repeatY = (gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 2) * Master.mapZoom;
+		
+		Submarine sub = master.getSub();
+		
+		//Offset for movement of background relative to sub
+		int offsetX = (int) (sub.getPosition().getX() * Magnitudes.FEET_PER_PIXEL / Master.mapZoom
+				% ImageResource.BG_TILE_WIDTH)  * -1;
+		int offsetY = (int) (sub.getPosition().getY() * Magnitudes.FEET_PER_PIXEL / Master.mapZoom
+				% ImageResource.BG_TILE_HEIGHT);
+		
+		for (int i = -1; i < repeatX; i++) {
+			for (int j = -1; j < repeatY; j++) {
+				g2d.drawImage(bg[index],
+						ImageResource.BG_TILE_WIDTH * i / Master.mapZoom + offsetX,
+						ImageResource.BG_TILE_HEIGHT * j / Master.mapZoom + offsetY,
+						(int) (bg[0].getWidth() / Master.mapZoom),
+						(int) (bg[0].getHeight() / Master.mapZoom),
+						null);
+			}
+		}
+		g2d.setColor(Color.RED);
+		g2d.fillRect(300 + offsetX, 300 + offsetY, 10, 10);
 	}
 
-	public void drawSprite(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		AffineTransform at = AffineTransform.getTranslateInstance(sub.getPosition().getX(), -sub.getPosition().getY());
+	public void drawSub(Graphics2D g2d) {
+		Submarine sub = master.getSub();
+		BufferedImage subImage = ImageResource.getSubmarine();
+		AffineTransform at = new AffineTransform();
+		at.translate(
+				gamePanel.getWidth() / 2 - subImage.getWidth() / 2 / Master.mapZoom,
+				gamePanel.getHeight() / 2 - subImage.getHeight() / 2 / Master.mapZoom);
 		at.rotate(sub.getHeading(), subImage.getWidth() / 2, subImage.getHeight() / 2);
+		at.scale(1d / Master.mapZoom, 1d / Master.mapZoom);
 		g2d.drawImage(subImage, at, null);
 	}
 	
@@ -56,21 +93,5 @@ public class MapScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
-	/**
-	 * @return the sub
-	 */
-	public Submarine getSub() {
-		return sub;
-	}
-
-	/**
-	 * @param sub the sub to set
-	 */
-	public void setSub(Submarine sub) {
-		this.sub = sub;
-	}
-	
-	
 
 }

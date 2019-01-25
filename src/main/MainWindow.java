@@ -26,8 +26,8 @@ public class MainWindow {
 	public void initializeComponents() {
 		window.setLayout(new GridLayout(1, 1));
 		gamePanel = new GamePanel();
-		gamePanel.initializePanel();
 		master = new Master(gamePanel);
+		gamePanel.initializePanel();
 		window.add(gamePanel);
 	}
 	
