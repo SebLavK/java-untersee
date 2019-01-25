@@ -15,6 +15,8 @@ import submarine.Submarine;
 
 public class Master implements Runnable {
 	
+	public static int tickCount;
+	
 	private Submarine sub;
 	private GamePanel gamePanel;
 	private ExecutiveOfficer xo;
@@ -53,6 +55,7 @@ public class Master implements Runnable {
 		gamePanel.repaint();
 		//Para funcionamiento fluido en Linux
 		Toolkit.getDefaultToolkit().sync();
+		tickCount++;
 	}
 
 	@Override
