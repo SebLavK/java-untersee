@@ -1,11 +1,14 @@
 package screens;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import commons.Clock;
 import commons.ImageResource;
+import commons.Magnitudes;
 import commons.Screen;
 import main.GamePanel;
 import master.Master;
@@ -54,11 +57,10 @@ public class MapScreen implements Screen {
 		Submarine sub = master.getSub();
 		
 		//Offset for movement of background relative to sub
-		int offsetX = (int) (sub.getPosition().getX() / Master.mapZoom
+		int offsetX = (int) (sub.getPosition().getX() * Magnitudes.FEET_PER_PIXEL / Master.mapZoom
 				% ImageResource.BG_TILE_WIDTH)  * -1;
-		int offsetY = (int) (sub.getPosition().getY() / Master.mapZoom
+		int offsetY = (int) (sub.getPosition().getY() * Magnitudes.FEET_PER_PIXEL / Master.mapZoom
 				% ImageResource.BG_TILE_HEIGHT);
-		
 		
 		for (int i = -1; i < repeatX; i++) {
 			for (int j = -1; j < repeatY; j++) {
@@ -70,6 +72,8 @@ public class MapScreen implements Screen {
 						null);
 			}
 		}
+		g2d.setColor(Color.RED);
+		g2d.fillRect(300 + offsetX, 300 + offsetY, 10, 10);
 	}
 
 	public void drawSub(Graphics2D g2d) {

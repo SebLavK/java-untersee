@@ -54,6 +54,7 @@ public abstract class Vessel {
 	 * Changes speed and heading acording to settings
 	 */
 	private void steer() {
+		System.out.println(speed + "    " + Clock.timeSinceStart() / 1000000000);
 		if (speed > maxSpeed || speed < maxSpeedReverse) {
 			speed = (speed > 0) ? maxSpeed : maxSpeedReverse;
 		} else if (speed != mySpeed) {
@@ -80,7 +81,6 @@ public abstract class Vessel {
 			if (rotCof > 1) {
 				rotCof = 1;
 			}
-			System.out.println(rotCof + "    " + speed);
 			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir * rotCof;
 			//If turning overshoots the desired heading
 			if (Math.abs(deltaRot) > Math.abs(angleDiff)) {
@@ -95,10 +95,8 @@ public abstract class Vessel {
 	 * Changes position according to speed and heading
 	 */
 	private void sail() {
-		//Current position + deltaPosition * px/s / kt
-		//Adjusts knots to pixels per second
-		double longitude = position.getX() + speed * Math.sin(heading) * Magnitudes.PIXEL_SECOND_PER_KN;
-		double latitude = position.getY() + speed * Math.cos(heading) * Magnitudes.PIXEL_SECOND_PER_KN;
+		double longitude = position.getX() + speed * Math.sin(heading) * Clock.TICK_TIME;
+		double latitude = position.getY() + speed * Math.cos(heading) * Clock.TICK_TIME;
 		position.setLocation(longitude, latitude);
 	}
 

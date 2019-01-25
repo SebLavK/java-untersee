@@ -30,20 +30,20 @@ public class Master implements Runnable {
 	public void initializeMaster() {
 		ImageResource.instantiateImages();
 		sub = new Submarine();
-		sub.setAcceleration(1);
+		sub.setAcceleration(0.5);
 		sub.setMyHeading(Math.toRadians(0));
-		sub.setMySpeed(0);
+		sub.setMySpeed(35);
 		sub.setMaxSpeed(Submarine.SPEED_FLANK);
 		sub.setStandardSpeed(Submarine.SPEED_STANDARD);
 		sub.setMaxSpeedReverse(Submarine.SPEED_BACK_EMERG);
-		sub.setPosition(new Point2D.Double(100, -100));
-		sub.setRotationSpeed(Math.toRadians(180));
+		sub.setPosition(new Point2D.Double(0, 0));
+		sub.setRotationSpeed(Math.toRadians(3));
 		
 		xo = new ExecutiveOfficer(sub);
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
-		
+		Clock.setGameStartTime();
 		new Thread(this).start();
 	}
 	
