@@ -1,16 +1,14 @@
 package screens;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
+import commons.ImageResource;
 import commons.Screen;
 import main.GamePanel;
+import master.Master;
 import submarine.Submarine;
 
 /**
@@ -19,33 +17,30 @@ import submarine.Submarine;
 
 public class MapScreen implements Screen {
 	
-	private BufferedImage subImage;
-	private Submarine sub;
+	private Master master;
 	private GamePanel gamePanel;
 	
 	/**
 	 * 
 	 */
-	public MapScreen(GamePanel gamePanel) {
+	public MapScreen(Master master, GamePanel gamePanel) {
+		this.master = master;
 		this.gamePanel = gamePanel;
 	}
 
 	@Override
 	public void initializeScreen() {
-		try {
-			subImage = ImageIO.read(getClass().getResource("../sprites/ship_destroyed.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
 	public void drawScreen(Graphics g) {
-		drawSprite(g);
+		Graphics2D g2d = (Graphics2D) g;
+		drawSub(g2d);
 	}
 
-	public void drawSprite(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
+	public void drawSub(Graphics2D g2d) {
+		Submarine sub = master.getSub();
+		BufferedImage subImage = ImageResource.getSubmarine();
 		AffineTransform at = AffineTransform.getTranslateInstance(sub.getPosition().getX(), -sub.getPosition().getY());
 		at.rotate(sub.getHeading(), subImage.getWidth() / 2, subImage.getHeight() / 2);
 		g2d.drawImage(subImage, at, null);
@@ -56,21 +51,5 @@ public class MapScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
-	/**
-	 * @return the sub
-	 */
-	public Submarine getSub() {
-		return sub;
-	}
-
-	/**
-	 * @param sub the sub to set
-	 */
-	public void setSub(Submarine sub) {
-		this.sub = sub;
-	}
-	
-	
 
 }

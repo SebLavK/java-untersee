@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 
 import commons.Clock;
+import commons.ImageResource;
 import main.GamePanel;
 import screens.MapScreen;
 import submarine.Submarine;
@@ -23,18 +24,22 @@ public class Master implements Runnable {
 	}
 	
 	public void initializeMaster() {
+		ImageResource.instantiateImages();
 		sub = new Submarine();
 		sub.setAcceleration(0.1);
 		sub.setMyHeading(Math.toRadians(0));
 		sub.setMySpeed(0);
-		sub.setMaxSpeed(2);
+		sub.setMaxSpeed(Submarine.SPEED_FLANK);
+		sub.setStandardSpeed(Submarine.SPEED_STANDARD);
+		sub.setMaxSpeedReverse(Submarine.SPEED_BACK_EMERG);
 		sub.setPosition(new Point2D.Double(100, -100));
 		sub.setRotationSpeed(0.5);
 		
 		xo = new ExecutiveOfficer(sub);
 		xo.initialize();
 		
-		((MapScreen) gamePanel.getCurrentScreen()).setSub(sub);
+		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
+		
 		new Thread(this).start();
 	}
 	
@@ -55,6 +60,13 @@ public class Master implements Runnable {
 		while(true) {
 			tick();
 		}
+	}
+
+	/**
+	 * @return the sub
+	 */
+	public Submarine getSub() {
+		return sub;
 	}
 
 }
