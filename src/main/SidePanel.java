@@ -43,9 +43,11 @@ public class SidePanel extends JPanel {
 	public void initializeComponents() {
 		try{
             logFont = Font.createFont(Font.TRUETYPE_FONT,
-            		Main.class.getResourceAsStream("../fonts/joystix monospace.ttf"));
+            		Main.class.getResourceAsStream("/fonts/joystix monospace.ttf"));
         }
-        catch(Exception e){}
+        catch(Exception e){
+        	e.printStackTrace();
+        }
 		logFont = logFont.deriveFont(Font.PLAIN, 10);
 		
 		GridBagConstraints settings;

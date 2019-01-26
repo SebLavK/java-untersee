@@ -45,7 +45,7 @@ public class ImageResource {
 		background = new BufferedImage[21];
 		String url;
 		for (int i = 0; i < background.length; i++) {
-			url = "../sprites/bg/ocean" + String.format("%02d", i+1) + ".png";
+			url = "/sprites/bg/ocean" + String.format("%02d", i+1) + ".png";
 			background[i] = ImageIO.read(Main.class.getResource(url));
 		}
 	}
@@ -54,12 +54,12 @@ public class ImageResource {
 	 * @throws IOException
 	 */
 	private static void loadVessels() throws IOException {
-		submarine = ImageIO.read(Main.class.getResource("../sprites/vessels/ShipSubMarineHull.png"));
-		battleship = ImageIO.read(Main.class.getResource("../sprites/vessels/ShipBattleshipHull.png"));
-		cruiser = ImageIO.read(Main.class.getResource("../sprites/vessels/ShipCruiserHull.png"));
-		destroyer = ImageIO.read(Main.class.getResource("../sprites/vessels/ShipDestroyerHull.png"));
-		patrolShip = ImageIO.read(Main.class.getResource("../sprites/vessels/ShipPatrolHull.png"));
-		rescueShip = ImageIO.read(Main.class.getResource("../sprites/vessels/ShipRescue.png"));
+		submarine = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipSubMarineHull.png"));
+		battleship = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipBattleshipHull.png"));
+		cruiser = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipCruiserHull.png"));
+		destroyer = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipDestroyerHull.png"));
+		patrolShip = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipPatrolHull.png"));
+		rescueShip = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipRescue.png"));
 	}
 	
 	public static BufferedImage getImageForVessel(Vessel vessel) {
