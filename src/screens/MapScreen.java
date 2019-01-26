@@ -54,7 +54,7 @@ public class MapScreen implements Screen {
 		int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * Master.mapZoom);
 		int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * Master.mapZoom);
 		
-		Submarine sub = master.getSub();
+		Submarine sub = master.getScenario().getSub();
 		
 		//Offset for movement of background relative to sub
 		double offsetX = (sub.getPosition().getX() * Magnitudes.FEET_PER_PIXEL
@@ -83,7 +83,7 @@ public class MapScreen implements Screen {
 	}
 
 	public void drawSub(Graphics2D g2d) {
-		Submarine sub = master.getSub();
+		Submarine sub = master.getScenario().getSub();
 		BufferedImage subImage = ImageResource.getSubmarine();
 		AffineTransform at = new AffineTransform();
 		at.translate(

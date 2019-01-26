@@ -162,24 +162,10 @@ public abstract class Vessel {
 	}
 
 	/**
-	 * @param maxSpeed the maxSpeed to set
-	 */
-	public void setMaxSpeed(double maxSpeed) {
-		this.maxSpeed = maxSpeed;
-	}
-
-	/**
 	 * @return the acceleration
 	 */
 	public double getAcceleration() {
 		return acceleration;
-	}
-
-	/**
-	 * @param acceleration the acceleration to set
-	 */
-	public void setAcceleration(double acceleration) {
-		this.acceleration = acceleration;
 	}
 
 	/**
@@ -239,24 +225,10 @@ public abstract class Vessel {
 	}
 
 	/**
-	 * @param rotationSpeed the rotationSpeed to set
-	 */
-	public void setRotationSpeed(double rotationSpeed) {
-		this.rotationSpeed = rotationSpeed;
-	}
-
-	/**
 	 * @return the standardSpeed
 	 */
 	public double getStandardSpeed() {
 		return standardSpeed;
-	}
-
-	/**
-	 * @param standardSpeed the standardSpeed to set
-	 */
-	public void setStandardSpeed(double standardSpeed) {
-		this.standardSpeed = standardSpeed;
 	}
 
 	/**
@@ -266,12 +238,6 @@ public abstract class Vessel {
 		return maxSpeedReverse;
 	}
 
-	/**
-	 * @param maxSpeedReverse the maxSpeedReverse to set
-	 */
-	public void setMaxSpeedReverse(double maxSpeedReverse) {
-		this.maxSpeedReverse = maxSpeedReverse;
-	}
 	
 	
 
