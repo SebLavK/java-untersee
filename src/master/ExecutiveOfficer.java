@@ -24,7 +24,7 @@ public class ExecutiveOfficer implements Runnable {
 	}
 	
 	public void initialize() {
-		new Thread(this).start();
+//		new Thread(this).start();
 	}
 	
 	@Override
@@ -39,6 +39,18 @@ public class ExecutiveOfficer implements Runnable {
 			} catch (NullPointerException e) {
 				unkownCommand();
 			}
+		}
+	}
+	
+	public void sendCommand(String command) {
+		try {
+			Parser parser = new Parser(this, command);
+			@SuppressWarnings("unchecked")
+			Order<Object> order = parser.getOrder();
+//			execute(new Parser(this, readCommand()).getOrder());
+			execute(order);
+		} catch (NullPointerException e) {
+			unkownCommand();
 		}
 	}
 	

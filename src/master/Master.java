@@ -82,5 +82,14 @@ public class Master implements Runnable {
 		return tickCount;
 	}
 
+	/**
+	 * @return the xo
+	 */
+	public ExecutiveOfficer getXo() {
+		return xo;
+	}
+	
+	
+
 	
 }

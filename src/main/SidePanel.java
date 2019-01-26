@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
 import commons.Screen;
+import master.Master;
 
 /**
 *@author Sebas Lavigne
@@ -26,6 +27,8 @@ public class SidePanel extends JPanel {
 	
 	private JTextField commandLine;
 	private JTextArea log;
+	
+	private Master master;
 	
 	public void initializePanel() {
 		this.setLayout(new GridBagLayout());
@@ -74,7 +77,13 @@ public class SidePanel extends JPanel {
 	}
 	
 	public void initializeListeners() {
-		
+		commandLine.addActionListener(e -> sendCommand());
+	}
+	
+	public void sendCommand() {
+		String command = commandLine.getText();
+		commandLine.setText("");
+		master.getXo().sendCommand(command);
 	}
 	
 	/* (non-Javadoc)
@@ -102,5 +111,14 @@ public class SidePanel extends JPanel {
 	public void setCurrentScreen(Screen currentScreen) {
 		dataPanel.setCurrentScreen(currentScreen);
 	}
+
+	/**
+	 * @param master the master to set
+	 */
+	public void setMaster(Master master) {
+		this.master = master;
+	}
+	
+	
 
 }

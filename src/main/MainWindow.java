@@ -3,9 +3,7 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 import master.Master;
 
@@ -41,6 +39,7 @@ public class MainWindow {
 		
 		master = new Master(gamePanel, sidePanel);
 		gamePanel.initializePanel();
+		sidePanel.setMaster(master);
 		sidePanel.initializePanel();
 		sidePanel.initializeComponents();
 		
