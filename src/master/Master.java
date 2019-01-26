@@ -14,6 +14,8 @@ import screens.MapScreen;
 
 public class Master implements Runnable {
 	
+	public static Master master;
+	
 	private int tickCount;
 	private Scenario scenario;
 	private GamePanel gamePanel;
@@ -23,13 +25,14 @@ public class Master implements Runnable {
 	public Master(GamePanel gamePanel, SidePanel sidePanel) {
 		this.gamePanel = gamePanel;
 		this.sidePanel = sidePanel;
+		master = this;
 	}
 	
 	public void initializeMaster() {
 		ImageResource.instantiateImages();
 		scenario = new Scenario();
 		
-		xo = new ExecutiveOfficer(scenario.getSub());
+		xo = new ExecutiveOfficer(this, scenario.getSub());
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
@@ -80,6 +83,13 @@ public class Master implements Runnable {
 	 */
 	public int getTickCount() {
 		return tickCount;
+	}
+	
+	/**
+	 * @return the sidePanel
+	 */
+	public SidePanel getSidePanel() {
+		return sidePanel;
 	}
 
 	/**

@@ -86,6 +86,10 @@ public class SidePanel extends JPanel {
 		master.getXo().sendCommand(command);
 	}
 	
+	public void addToLog(String text) {
+		log.setText(log.getText() + "\n" + text);
+	}
+	
 	/* (non-Javadoc)
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */

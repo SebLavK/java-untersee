@@ -17,9 +17,11 @@ import submarine.Submarine;
  */
 public class ExecutiveOfficer implements Runnable {
 
+	private Master master;
 	private Submarine sub;
 	
-	public ExecutiveOfficer(Submarine sub) {
+	public ExecutiveOfficer(Master master, Submarine sub) {
+		this.master = master;
 		this.sub = sub;
 	}
 	
@@ -65,7 +67,8 @@ public class ExecutiveOfficer implements Runnable {
 	}
 	
 	public static void log(String msg) {
-		System.out.println(msg);
+//		System.out.println(msg);
+		Master.master.getSidePanel().addToLog(msg);
 	}
 	
 	/**
