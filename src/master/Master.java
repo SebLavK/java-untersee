@@ -15,10 +15,7 @@ import submarine.Submarine;
 
 public class Master implements Runnable {
 	
-	public static int tickCount;
-	/** Zoom amount. The bigger the further away */
-	public static double mapZoom = 1;
-	
+	private int tickCount;
 	private Scenario scenario;
 	private GamePanel gamePanel;
 	private ExecutiveOfficer xo;
@@ -73,6 +70,13 @@ public class Master implements Runnable {
 	 */
 	public Scenario getScenario() {
 		return scenario;
+	}
+
+	/**
+	 * @return the tickCount
+	 */
+	public int getTickCount() {
+		return tickCount;
 	}
 
 	

@@ -17,10 +17,10 @@ public class Scenario {
 	private HashSet<Ship> ships;
 
 	public Scenario() {
-		camera = new Camera();
-		camera.setPosition(new Point2D.Double(0,0));
 		ships = new HashSet<>();
 		sub = new Submarine();
+		camera = new Camera(sub);
+		camera.setPosition(new Point2D.Double(0,0));
 		sub.setMyHeading(Math.toRadians(0));
 		sub.setMySpeed(0);
 		sub.setSpeed(0);
@@ -32,6 +32,8 @@ public class Scenario {
 		for (Ship ship : ships) {
 			ship.tick();
 		}
+		
+		camera.tick();
 	}
 	
 	
