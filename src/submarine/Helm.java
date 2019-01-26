@@ -24,7 +24,7 @@ public class Helm {
 		if (!speedReached) {
 			if (sub.getSpeed() == sub.getMySpeed()) {
 				speedReached = true;
-				ExecutiveOfficer.log("Helm: We have reached "
+				ExecutiveOfficer.log("Helm:\tWe have reached "
 						+ String.format("%d", (int) sub.getMySpeed()) + " knots");
 			}
 		} else {
@@ -34,7 +34,7 @@ public class Helm {
 		if (!headingReached) {
 			if (sub.getHeading() == sub.getMyHeading()){
 				headingReached = true;
-				ExecutiveOfficer.log("Helm: We are now heading "
+				ExecutiveOfficer.log("Helm:\tWe are now heading "
 				+ Magnitudes.radiansToHumanDegrees(sub.getMyHeading()) + "º");
 			}
 		} else {

@@ -1,4 +1,4 @@
-# java-unterzee
+# Java Unterzee
 Java Unterzee is a submarine simulation game written in Java using the Swing toolkit with a custom game engine.
 
 ## Planned and possible features
@@ -20,6 +20,18 @@ Author: **Zabin** and **zookeper** at opengameart.org
 License:  Free use license
 
 ## Changelog
+
+### v0.0.7
+* Added side panel with data and command sections
+* Commands are now given through the game's command license
+* Crew messages now appear in game loading
+* Map is now zoomable by scroll wheel
+
+### v0.0.6
+* Perfected ship turning dynamics
+* Added camera class, all vessels are displayed in the map relative to it. Can free roam or follow the player submarine
+* Added scenario class for game object creation and handling
+* Added classes for each kind of ship
 
 ### v0.0.5
 * Map zoom now uses floating point variable

@@ -9,12 +9,6 @@ import java.util.LinkedHashSet;
 
 public abstract class Vessel {
 	
-	protected int behaviourMode;
-	
-	/* Vessel magnitudes */
-	protected double beam;
-	protected double length;
-	
 	/* Vessel capabilities */
 	/** Desired speed */
 	protected double mySpeed;
@@ -38,12 +32,6 @@ public abstract class Vessel {
 	protected Point2D position;
 	/** A collection of points that define this vessel's course */
 	protected LinkedHashSet<Point2D> course;
-	
-	/* Solution and detection between 0 and 1 */
-	/** The player's solution on this ship */
-	protected double solution;
-	/** This ships's solution on the player */
-	protected double detection;
 	
 	public void tick() {
 		steer();
@@ -76,10 +64,17 @@ public abstract class Vessel {
 			double angleDiff = (2 * Math.PI + myHeading - heading) % (2 * Math.PI);
 			//Determine left or right
 			int rotDir = (angleDiff < Math.PI) ? 1 : -1;
-			//Determine turning coefficient based on speed, will turn slower if below 1/3 speed
-			double rotCof = 1;
-			if (Math.abs(speed) < standardSpeed / 3) {
-				rotCof = Math.abs(speed) / (standardSpeed / 3);
+			//Determine turning coefficient based on speed and desired speed, will turn slower if below 1/3 speed
+			double rotCof = 1; //base rotation
+			//bonus due to speed (more force by rudder)
+			double rotRudder = (Math.abs(speed) < standardSpeed / 3) ?
+					-1 + Math.abs(speed) / (standardSpeed / 3) :
+					(Math.abs(speed) - standardSpeed / 3) / (standardSpeed / 3);
+			double rotPropeller =Math.abs(mySpeed - speed) / maxSpeed;
+			rotCof += rotRudder + rotPropeller;
+//			System.out.println(speed + "\t" + rotCof + "\t" + rotRudder + "\t" + rotPropeller);
+			if (Double.isNaN(rotCof)) {
+				rotCof = 0;
 			}
 			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir * rotCof;
 			//If turning overshoots the desired heading
@@ -162,24 +157,10 @@ public abstract class Vessel {
 	}
 
 	/**
-	 * @param maxSpeed the maxSpeed to set
-	 */
-	public void setMaxSpeed(double maxSpeed) {
-		this.maxSpeed = maxSpeed;
-	}
-
-	/**
 	 * @return the acceleration
 	 */
 	public double getAcceleration() {
 		return acceleration;
-	}
-
-	/**
-	 * @param acceleration the acceleration to set
-	 */
-	public void setAcceleration(double acceleration) {
-		this.acceleration = acceleration;
 	}
 
 	/**
@@ -225,24 +206,10 @@ public abstract class Vessel {
 	}
 
 	/**
-	 * @return the solution
-	 */
-	public double getSolution() {
-		return solution;
-	}
-
-	/**
 	 * @return the rotationSpeed
 	 */
 	public double getRotationSpeed() {
 		return rotationSpeed;
-	}
-
-	/**
-	 * @param rotationSpeed the rotationSpeed to set
-	 */
-	public void setRotationSpeed(double rotationSpeed) {
-		this.rotationSpeed = rotationSpeed;
 	}
 
 	/**
@@ -253,25 +220,12 @@ public abstract class Vessel {
 	}
 
 	/**
-	 * @param standardSpeed the standardSpeed to set
-	 */
-	public void setStandardSpeed(double standardSpeed) {
-		this.standardSpeed = standardSpeed;
-	}
-
-	/**
 	 * @return the maxSpeedReverse
 	 */
 	public double getMaxSpeedReverse() {
 		return maxSpeedReverse;
 	}
 
-	/**
-	 * @param maxSpeedReverse the maxSpeedReverse to set
-	 */
-	public void setMaxSpeedReverse(double maxSpeedReverse) {
-		this.maxSpeedReverse = maxSpeedReverse;
-	}
 	
 	
 

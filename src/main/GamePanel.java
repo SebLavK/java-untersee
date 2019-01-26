@@ -1,13 +1,10 @@
 package main;
 
 import java.awt.Graphics;
-import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
 import commons.Screen;
-import master.Master;
-import screens.MapScreen;
 
 /**
 *@author Sebas Lavigne
@@ -15,6 +12,7 @@ import screens.MapScreen;
 
 public class GamePanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
 	private Screen currentScreen;
 	
 	public void initializePanel() {

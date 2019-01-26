@@ -17,14 +17,16 @@ import submarine.Submarine;
  */
 public class ExecutiveOfficer implements Runnable {
 
+	private Master master;
 	private Submarine sub;
 	
-	public ExecutiveOfficer(Submarine sub) {
+	public ExecutiveOfficer(Master master, Submarine sub) {
+		this.master = master;
 		this.sub = sub;
 	}
 	
 	public void initialize() {
-		new Thread(this).start();
+//		new Thread(this).start();
 	}
 	
 	@Override
@@ -42,6 +44,18 @@ public class ExecutiveOfficer implements Runnable {
 		}
 	}
 	
+	public void sendCommand(String command) {
+		try {
+			Parser parser = new Parser(this, command);
+			@SuppressWarnings("unchecked")
+			Order<Object> order = parser.getOrder();
+//			execute(new Parser(this, readCommand()).getOrder());
+			execute(order);
+		} catch (NullPointerException e) {
+			unkownCommand();
+		}
+	}
+	
 	public String readCommand() {
 		return new Scanner(System.in).nextLine();
 	}
@@ -49,11 +63,12 @@ public class ExecutiveOfficer implements Runnable {
 //	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void execute(Order<Object> order) {
 		order.getVerb().accept(order);
-		log(order.getVerbose() + ", aye sir.");
+		log("XO:\t"+order.getVerbose() + ", aye sir.");
 	}
 	
 	public static void log(String msg) {
-		System.out.println(msg);
+//		System.out.println(msg);
+		Master.master.getSidePanel().addToLog(msg);
 	}
 	
 	/**
@@ -77,7 +92,8 @@ public class ExecutiveOfficer implements Runnable {
 	 * mistype of the player
 	 */
 	public void unkownCommand() {
-		System.out.println("I don't understand that command, sir");
+//		System.out.println("I don't understand that command, sir");
+		master.getSidePanel().addToLog("XO:\tI don't understand that command, sir");
 	}
 
 	

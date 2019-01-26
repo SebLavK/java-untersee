@@ -1,13 +1,13 @@
 package master;
 
 import java.awt.Toolkit;
-import java.awt.geom.Point2D;
 
 import commons.Clock;
 import commons.ImageResource;
 import main.GamePanel;
+import main.SidePanel;
+import screens.DataScreen;
 import screens.MapScreen;
-import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne
@@ -15,42 +15,40 @@ import submarine.Submarine;
 
 public class Master implements Runnable {
 	
-	public static int tickCount;
-	/** Zoom amount. The bigger the further away */
-	public static double mapZoom = 1;
+	public static Master master;
 	
-	private Submarine sub;
+	private int tickCount;
+	private Scenario scenario;
 	private GamePanel gamePanel;
+	private SidePanel sidePanel;
 	private ExecutiveOfficer xo;
 	
-	public Master(GamePanel gamePanel) {
+	public Master(GamePanel gamePanel, SidePanel sidePanel) {
 		this.gamePanel = gamePanel;
+		this.sidePanel = sidePanel;
+		master = this;
 	}
 	
 	public void initializeMaster() {
 		ImageResource.instantiateImages();
-		sub = new Submarine();
-		sub.setAcceleration(0.5);
-		sub.setMyHeading(Math.toRadians(0));
-		sub.setMySpeed(20);
-		sub.setSpeed(20);
-		sub.setMaxSpeed(Submarine.SPEED_FLANK);
-		sub.setStandardSpeed(Submarine.SPEED_STANDARD);
-		sub.setMaxSpeedReverse(Submarine.SPEED_BACK_EMERG);
-		sub.setPosition(new Point2D.Double(0, 0));
-		sub.setRotationSpeed(Math.toRadians(3));
+		scenario = new Scenario();
 		
-		xo = new ExecutiveOfficer(sub);
+		xo = new ExecutiveOfficer(this, scenario.getSub());
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
+		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+	}
+	
+	public void startGame() {
 		Clock.setGameStartTime();
 		new Thread(this).start();
 	}
 	
 	private void tick() {
-		sub.tick();
+		scenario.tick();
 		gamePanel.repaint();
+		sidePanel.repaint();
 		//Para funcionamiento fluido en Linux
 		Toolkit.getDefaultToolkit().sync();
 		tickCount++;
@@ -78,10 +76,34 @@ public class Master implements Runnable {
 	}
 
 	/**
-	 * @return the sub
+	 * @return the scenario
 	 */
-	public Submarine getSub() {
-		return sub;
+	public Scenario getScenario() {
+		return scenario;
 	}
 
+	/**
+	 * @return the tickCount
+	 */
+	public int getTickCount() {
+		return tickCount;
+	}
+	
+	/**
+	 * @return the sidePanel
+	 */
+	public SidePanel getSidePanel() {
+		return sidePanel;
+	}
+
+	/**
+	 * @return the xo
+	 */
+	public ExecutiveOfficer getXo() {
+		return xo;
+	}
+	
+	
+
+	
 }
