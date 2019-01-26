@@ -18,7 +18,7 @@ public class Camera extends Vessel {
 		super();
 		this.sub = sub;
 		followSub = true;
-		zoom = 1;
+		zoom = 2;
 	}
 	
 	

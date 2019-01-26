@@ -7,7 +7,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import commons.Clock;
 import commons.ImageResource;
 import commons.Magnitudes;
 import commons.Screen;
@@ -15,12 +14,6 @@ import commons.Vessel;
 import main.GamePanel;
 import master.Camera;
 import master.Master;
-import ships.Battleship;
-import ships.Cruiser;
-import ships.Destroyer;
-import ships.PatrolShip;
-import ships.RescueShip;
-import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne
@@ -52,6 +45,7 @@ public class MapScreen implements Screen {
 		Graphics2D g2d = (Graphics2D) g;
 		drawBackground(g2d);
 		drawSub(g2d);
+		drawShips(g2d);
 		g2d.dispose();
 		g.dispose();
 	}
@@ -99,10 +93,10 @@ public class MapScreen implements Screen {
 		
 		Point2D relPos = camera.relativePositionOf(vessel);
 		at.translate(
-				(gamePanel.getWidth() / 2 + relPos.getX() - vesselImage.getWidth() / 2) / zoom,
-				(gamePanel.getHeight() / 2 - relPos.getY() - vesselImage.getHeight() / 2) / zoom
+				(relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2,
+				( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2
 				);
-		at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2, vesselImage.getHeight() / 2);
+		at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
 		at.scale(1 / zoom, 1 / zoom);
 		
 		g2d.drawImage(vesselImage, at, null);
@@ -119,6 +113,12 @@ public class MapScreen implements Screen {
 //		at.rotate(sub.getHeading(), subImage.getWidth() / 2, subImage.getHeight() / 2);
 //		at.scale(1d / Master.mapZoom, 1d / Master.mapZoom);
 //		g2d.drawImage(subImage, at, null);
+	}
+	
+	public void drawShips(Graphics2D g2d) {
+		for (Vessel vessel : master.getScenario().getShips()) {
+			drawVessel(g2d, vessel);
+		}
 	}
 	
 	@Override

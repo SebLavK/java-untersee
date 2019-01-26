@@ -3,6 +3,7 @@ package master;
 import java.awt.geom.Point2D;
 import java.util.HashSet;
 
+import ships.Battleship;
 import ships.Ship;
 import submarine.Submarine;
 
@@ -17,14 +18,31 @@ public class Scenario {
 	private HashSet<Ship> ships;
 
 	public Scenario() {
-		ships = new HashSet<>();
+		initializeSub();
+		initializeCamera();
+		populateShips();
+	}
+	
+	public void initializeSub() {
 		sub = new Submarine();
-		camera = new Camera(sub);
-		camera.setPosition(new Point2D.Double(0,0));
 		sub.setMyHeading(Math.toRadians(0));
 		sub.setMySpeed(0);
 		sub.setSpeed(0);
 		sub.setPosition(new Point2D.Double(0, 0));
+	}
+	
+	public void initializeCamera() {
+		camera = new Camera(sub);
+		camera.setPosition(new Point2D.Double(0,0));
+	}
+	
+	public void populateShips() {
+		ships = new HashSet<>();
+		
+		Battleship b = new Battleship();
+		b.setPosition(new Point2D.Double(100, 100));
+		
+		ships.add(b);
 	}
 	
 	public void tick() {

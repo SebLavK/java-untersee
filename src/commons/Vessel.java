@@ -64,11 +64,18 @@ public abstract class Vessel {
 			double angleDiff = (2 * Math.PI + myHeading - heading) % (2 * Math.PI);
 			//Determine left or right
 			int rotDir = (angleDiff < Math.PI) ? 1 : -1;
-			//Determine turning coefficient based on speed, will turn slower if below 1/3 speed
-			double rotCof = 1;
-			if (Math.abs(speed) < standardSpeed / 3) {
-				rotCof = Math.abs(speed) / (standardSpeed / 3);
+			//Determine turning coefficient based on speed and desired speed, will turn slower if below 1/3 speed
+			double rotCof = (3 * Math.abs(speed) / maxSpeed) + Math.max(1, mySpeed / speed) / maxSpeed;
+			if (Double.isNaN(rotCof)) {
+				rotCof = 0;
 			}
+//			if (Math.abs(speed) < standardSpeed / 3) {
+//				rotCof = Math.abs(speed) / (standardSpeed / 3);
+//			} else {
+//				
+//				rotCof = 1 + speed - standardSpeed / 3;
+//			}
+			System.out.println(rotCof + "\t" + speed);
 			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir * rotCof;
 			//If turning overshoots the desired heading
 			if (Math.abs(deltaRot) > Math.abs(angleDiff)) {
