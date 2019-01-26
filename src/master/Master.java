@@ -15,11 +15,8 @@ import submarine.Submarine;
 
 public class Master implements Runnable {
 	
-	public static int tickCount;
-	/** Zoom amount. The bigger the further away */
-	public static double mapZoom = 1;
-	
-	private Submarine sub;
+	private int tickCount;
+	private Scenario scenario;
 	private GamePanel gamePanel;
 	private ExecutiveOfficer xo;
 	
@@ -29,18 +26,9 @@ public class Master implements Runnable {
 	
 	public void initializeMaster() {
 		ImageResource.instantiateImages();
-		sub = new Submarine();
-		sub.setAcceleration(0.5);
-		sub.setMyHeading(Math.toRadians(0));
-		sub.setMySpeed(20);
-		sub.setSpeed(20);
-		sub.setMaxSpeed(Submarine.SPEED_FLANK);
-		sub.setStandardSpeed(Submarine.SPEED_STANDARD);
-		sub.setMaxSpeedReverse(Submarine.SPEED_BACK_EMERG);
-		sub.setPosition(new Point2D.Double(0, 0));
-		sub.setRotationSpeed(Math.toRadians(3));
+		scenario = new Scenario();
 		
-		xo = new ExecutiveOfficer(sub);
+		xo = new ExecutiveOfficer(scenario.getSub());
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
@@ -49,7 +37,7 @@ public class Master implements Runnable {
 	}
 	
 	private void tick() {
-		sub.tick();
+		scenario.tick();
 		gamePanel.repaint();
 		//Para funcionamiento fluido en Linux
 		Toolkit.getDefaultToolkit().sync();
@@ -78,10 +66,18 @@ public class Master implements Runnable {
 	}
 
 	/**
-	 * @return the sub
+	 * @return the scenario
 	 */
-	public Submarine getSub() {
-		return sub;
+	public Scenario getScenario() {
+		return scenario;
 	}
 
+	/**
+	 * @return the tickCount
+	 */
+	public int getTickCount() {
+		return tickCount;
+	}
+
+	
 }

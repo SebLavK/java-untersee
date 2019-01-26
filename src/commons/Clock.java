@@ -14,7 +14,7 @@ public final class Clock {
 	public final static long FRAME_PERIOD = 16;
 	public final static long FRAME_NANO = 16666666;
 	/** The time spent in frame in seconds */
-	public final static double TICK_TIME = 0.016;
+	public final static double TICK_TIME = 0.016666666;
 	
 	private static long gameStartTime;
 
