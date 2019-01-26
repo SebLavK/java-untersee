@@ -6,6 +6,7 @@ import commons.Clock;
 import commons.ImageResource;
 import main.GamePanel;
 import main.SidePanel;
+import screens.DataScreen;
 import screens.MapScreen;
 
 /**
@@ -36,7 +37,10 @@ public class Master implements Runnable {
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
-		sidePanel.setCurrentScreen(new MapScreen(this, gamePanel));
+		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+	}
+	
+	public void startGame() {
 		Clock.setGameStartTime();
 		new Thread(this).start();
 	}

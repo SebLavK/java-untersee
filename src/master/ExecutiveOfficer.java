@@ -63,7 +63,7 @@ public class ExecutiveOfficer implements Runnable {
 //	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void execute(Order<Object> order) {
 		order.getVerb().accept(order);
-		log(order.getVerbose() + ", aye sir.");
+		log("XO:\t"+order.getVerbose() + ", aye sir.");
 	}
 	
 	public static void log(String msg) {
@@ -92,7 +92,8 @@ public class ExecutiveOfficer implements Runnable {
 	 * mistype of the player
 	 */
 	public void unkownCommand() {
-		System.out.println("I don't understand that command, sir");
+//		System.out.println("I don't understand that command, sir");
+		master.getSidePanel().addToLog("XO:\tI don't understand that command, sir");
 	}
 
 	

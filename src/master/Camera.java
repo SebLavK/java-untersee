@@ -1,5 +1,8 @@
 package master;
 
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 import commons.Vessel;
 import submarine.Submarine;
 
@@ -7,7 +10,7 @@ import submarine.Submarine;
 *@author Sebas Lavigne
 */
 
-public class Camera extends Vessel {
+public class Camera extends Vessel implements MouseWheelListener{
 
 	private boolean followSub;
 	private double zoom;
@@ -21,8 +24,19 @@ public class Camera extends Vessel {
 		zoom = 2;
 	}
 	
+	public void zoomIn() {
+		System.out.println("in");
+		zoom -= 0.1;
+		if (zoom < 0.5) {
+			zoom = 0.5;
+		}
+	}
 	
-
+	public void zoomOut() {
+		System.out.println("out");
+		zoom += 0.1;
+	}
+	
 	/* (non-Javadoc)
 	 * @see commons.Vessel#tick()
 	 */
@@ -62,6 +76,16 @@ public class Camera extends Vessel {
 	 */
 	public void setZoom(double zoom) {
 		this.zoom = zoom;
+	}
+
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getWheelRotation() > 0) {
+			zoomOut();
+		} else if (e.getWheelRotation() < 0) {
+			zoomIn();
+		}
 	}
 	
 	

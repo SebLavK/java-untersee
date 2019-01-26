@@ -43,19 +43,22 @@ public class MainWindow {
 		sidePanel.initializePanel();
 		sidePanel.initializeComponents();
 		
+		master.initializeMaster();
+		
 		window.getContentPane().add(gamePanel, BorderLayout.CENTER);
 		window.getContentPane().add(sidePanel, BorderLayout.LINE_END);
 	}
 	
 	public void initializeListeners() {
 		sidePanel.initializeListeners();
+		window.addMouseWheelListener(master.getScenario().getCamera());
 	}
 	
 	public void initialize() {
 		initializeComponents();
 		initializeListeners();
 		window.setVisible(true);
-		master.initializeMaster();
+		master.startGame();
 	}
 
 }
