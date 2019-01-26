@@ -21,6 +21,12 @@ License:  Free use license
 
 ## Changelog
 
+### v0.0.7
+* Added side panel with data and command sections
+* Commands are now given through the game's command license
+* Crew messages now appear in game loading
+* Map is now zoomable by scroll wheel
+
 ### v0.0.6
 * Perfected ship turning dynamics
 * Added camera class, all vessels are displayed in the map relative to it. Can free roam or follow the player submarine
