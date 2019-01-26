@@ -9,12 +9,6 @@ import java.util.LinkedHashSet;
 
 public abstract class Vessel {
 	
-	protected int behaviourMode;
-	
-	/* Vessel magnitudes */
-	protected double beam;
-	protected double length;
-	
 	/* Vessel capabilities */
 	/** Desired speed */
 	protected double mySpeed;
@@ -38,12 +32,6 @@ public abstract class Vessel {
 	protected Point2D position;
 	/** A collection of points that define this vessel's course */
 	protected LinkedHashSet<Point2D> course;
-	
-	/* Solution and detection between 0 and 1 */
-	/** The player's solution on this ship */
-	protected double solution;
-	/** This ships's solution on the player */
-	protected double detection;
 	
 	public void tick() {
 		steer();
@@ -208,13 +196,6 @@ public abstract class Vessel {
 	 */
 	public void setPosition(Point2D position) {
 		this.position = position;
-	}
-
-	/**
-	 * @return the solution
-	 */
-	public double getSolution() {
-		return solution;
 	}
 
 	/**

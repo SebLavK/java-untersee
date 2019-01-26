@@ -10,8 +10,15 @@ import commons.Clock;
 import commons.ImageResource;
 import commons.Magnitudes;
 import commons.Screen;
+import commons.Vessel;
 import main.GamePanel;
+import master.Camera;
 import master.Master;
+import ships.Battleship;
+import ships.Cruiser;
+import ships.Destroyer;
+import ships.PatrolShip;
+import ships.RescueShip;
 import submarine.Submarine;
 
 /**
@@ -54,12 +61,12 @@ public class MapScreen implements Screen {
 		int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * Master.mapZoom);
 		int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * Master.mapZoom);
 		
-		Submarine sub = master.getScenario().getSub();
+		Camera camera = master.getScenario().getCamera();
 		
 		//Offset for movement of background relative to sub
-		double offsetX = (sub.getPosition().getX() * Magnitudes.FEET_PER_PIXEL
+		double offsetX = (camera.getPosition().getX() * Magnitudes.FEET_PER_PIXEL
 				% ImageResource.BG_TILE_WIDTH * -1 ) / Master.mapZoom;
-		double offsetY = (sub.getPosition().getY() * Magnitudes.FEET_PER_PIXEL
+		double offsetY = (camera.getPosition().getY() * Magnitudes.FEET_PER_PIXEL
 				% ImageResource.BG_TILE_HEIGHT) / Master.mapZoom;
 		
 		for (int i = -repeatX; i < repeatX; i++) {
@@ -80,6 +87,12 @@ public class MapScreen implements Screen {
 		//TODO this is for debugging
 		g2d.setColor(Color.RED);
 		g2d.fillRect(300 + (int)offsetX, 300 + (int)offsetY, 10, 10);
+	}
+	
+	public void drawVessel(Graphics2D g2d, Vessel vessel) {
+		Camera camera = master.getScenario().getCamera();
+		BufferedImage vesselImage = ImageResource.getImageForVessel(vessel);
+		
 	}
 
 	public void drawSub(Graphics2D g2d) {

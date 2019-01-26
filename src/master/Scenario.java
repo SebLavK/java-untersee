@@ -12,15 +12,18 @@ import submarine.Submarine;
 
 public class Scenario {
 	
+	private Camera camera;
 	private Submarine sub;
 	private HashSet<Ship> ships;
 
 	public Scenario() {
+		camera = new Camera();
+		camera.setPosition(new Point2D.Double(0,0));
 		ships = new HashSet<>();
 		sub = new Submarine();
 		sub.setMyHeading(Math.toRadians(0));
-		sub.setMySpeed(20);
-		sub.setSpeed(20);
+		sub.setMySpeed(0);
+		sub.setSpeed(0);
 		sub.setPosition(new Point2D.Double(0, 0));
 	}
 	
@@ -29,6 +32,15 @@ public class Scenario {
 		for (Ship ship : ships) {
 			ship.tick();
 		}
+	}
+	
+	
+
+	/**
+	 * @return the camera
+	 */
+	public Camera getCamera() {
+		return camera;
 	}
 
 	/**
