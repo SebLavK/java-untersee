@@ -65,17 +65,17 @@ public abstract class Vessel {
 			//Determine left or right
 			int rotDir = (angleDiff < Math.PI) ? 1 : -1;
 			//Determine turning coefficient based on speed and desired speed, will turn slower if below 1/3 speed
-			double rotCof = (3 * Math.abs(speed) / maxSpeed) + Math.max(1, mySpeed / speed) / maxSpeed;
+			double rotCof = 1; //base rotation
+			//bonus due to speed (more force by rudder)
+			double rotRudder = (Math.abs(speed) < standardSpeed / 3) ?
+					-1 + Math.abs(speed) / (standardSpeed / 3) :
+					(Math.abs(speed) - standardSpeed / 3) / (standardSpeed / 3);
+			double rotPropeller =Math.abs(mySpeed - speed) / maxSpeed;
+			rotCof += rotRudder + rotPropeller;
+//			System.out.println(speed + "\t" + rotCof + "\t" + rotRudder + "\t" + rotPropeller);
 			if (Double.isNaN(rotCof)) {
 				rotCof = 0;
 			}
-//			if (Math.abs(speed) < standardSpeed / 3) {
-//				rotCof = Math.abs(speed) / (standardSpeed / 3);
-//			} else {
-//				
-//				rotCof = 1 + speed - standardSpeed / 3;
-//			}
-			System.out.println(rotCof + "\t" + speed);
 			double deltaRot = rotationSpeed * Clock.TICK_TIME * rotDir * rotCof;
 			//If turning overshoots the desired heading
 			if (Math.abs(deltaRot) > Math.abs(angleDiff)) {
