@@ -1,8 +1,11 @@
 package main;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 import master.Master;
 
@@ -13,26 +16,40 @@ import master.Master;
 
 public class MainWindow {
 	
+	public static final int WINDOW_WIDTH = 1300;
+	public static final int WINDOW_HEIGHT = 800;
+	public static final int COMMAND_HEIGHT = 300;
+	
 	private JFrame window;
 	private Master master;
 	private GamePanel gamePanel;
+	private SidePanel sidePanel;
 	
 	public MainWindow() {
 		window = new JFrame("Java Unterzee");
-		window.setBounds(100, 100, 800, 800);
+		window.setBounds(100, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void initializeComponents() {
-		window.setLayout(new GridLayout(1, 1));
+		window.setLayout(new BorderLayout());
 		gamePanel = new GamePanel();
-		master = new Master(gamePanel);
+		gamePanel.setPreferredSize(new Dimension(WINDOW_HEIGHT, WINDOW_HEIGHT));
+		
+		sidePanel = new SidePanel();
+		sidePanel.setPreferredSize(new Dimension(WINDOW_WIDTH - WINDOW_HEIGHT, WINDOW_HEIGHT));
+		
+		master = new Master(gamePanel, sidePanel);
 		gamePanel.initializePanel();
-		window.add(gamePanel);
+		sidePanel.initializePanel();
+		sidePanel.initializeComponents();
+		
+		window.getContentPane().add(gamePanel, BorderLayout.CENTER);
+		window.getContentPane().add(sidePanel, BorderLayout.LINE_END);
 	}
 	
 	public void initializeListeners() {
-		
+		sidePanel.initializeListeners();
 	}
 	
 	public void initialize() {

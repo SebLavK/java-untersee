@@ -1,13 +1,12 @@
 package master;
 
 import java.awt.Toolkit;
-import java.awt.geom.Point2D;
 
 import commons.Clock;
 import commons.ImageResource;
 import main.GamePanel;
+import main.SidePanel;
 import screens.MapScreen;
-import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne
@@ -18,10 +17,12 @@ public class Master implements Runnable {
 	private int tickCount;
 	private Scenario scenario;
 	private GamePanel gamePanel;
+	private SidePanel sidePanel;
 	private ExecutiveOfficer xo;
 	
-	public Master(GamePanel gamePanel) {
+	public Master(GamePanel gamePanel, SidePanel sidePanel) {
 		this.gamePanel = gamePanel;
+		this.sidePanel = sidePanel;
 	}
 	
 	public void initializeMaster() {
@@ -32,6 +33,7 @@ public class Master implements Runnable {
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
+		sidePanel.setCurrentScreen(new MapScreen(this, gamePanel));
 		Clock.setGameStartTime();
 		new Thread(this).start();
 	}
@@ -39,6 +41,7 @@ public class Master implements Runnable {
 	private void tick() {
 		scenario.tick();
 		gamePanel.repaint();
+		sidePanel.repaint();
 		//Para funcionamiento fluido en Linux
 		Toolkit.getDefaultToolkit().sync();
 		tickCount++;
