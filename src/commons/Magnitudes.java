@@ -37,4 +37,8 @@ public class Magnitudes {
 	public static String knotsToHuman(double knots) {
 		return String.format("%02d", (int) Math.round(knots));
 	}
+	
+	public static String feetToHuman(double feet) {
+		return Integer.toString((int)Math.round(feet));
+	}
 }

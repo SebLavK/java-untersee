@@ -59,6 +59,7 @@ public class Parser {
 		parseCommand.put("ahead", this::parseAhead);
 		parseCommand.put("all", this::parseAll);
 		parseCommand.put("back", this::parseBack);
+		parseCommand.put("depth", this::parseDepth);
 		
 		parseCommand.get(sentence[0]).run();
 	}
@@ -198,6 +199,13 @@ public class Parser {
 				);
 	}
 
+	public void parseDepth() {
+		double newDepth = Double.parseDouble(sentence[1]);
+		order = new Order<Double>(xo::makeDepth,
+				newDepth,
+				"Diving: Make my depth " + newDepth + " feet. Dive aye."
+				);
+	}
 //	/**
 //	 * Evaluates the command given by the player into an order executable by the XO
 //	 * @param fullCommand

@@ -99,6 +99,18 @@ public class ExecutiveOfficer implements Runnable {
 	}
 	
 	/**
+	 * Changes the set depth of the sub
+	 * @param depthOrder an Order with a Double as object
+	 */
+	public void makeDepth(Order<Double> depthOrder) {
+		double newDepth = (Double) depthOrder.getObject();
+		if (newDepth < 0) {
+			newDepth = 0;
+		}
+		sub.setMyDepth(newDepth);
+	}
+	
+	/**
 	 * To be used when the parser doesn't generate an order, either by failure or
 	 * mistype of the player
 	 */

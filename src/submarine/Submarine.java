@@ -20,11 +20,12 @@ public class Submarine extends Vessel {
 	
 	public static final double TEST_DEPTH = 950;
 	public static final double CRUSH_DEPTH = 1450;
+	public static final double PERISCOPE_DEPTH = 63;
+	public static final double DEPTH_BUBBLE = 2;
 	
 	private Helm helm;
 	
-	private double depth;
-	private double maxDepth;
+	private double periscopeDepth;
 	
 	public Submarine() {
 		super();
@@ -39,30 +40,17 @@ public class Submarine extends Vessel {
 		rotationSpeed = TURNING_RATE;
 		
 		maxDepth = TEST_DEPTH;
+		periscopeDepth = PERISCOPE_DEPTH;
+		depthBubble = DEPTH_BUBBLE;
+		depth = periscopeDepth;
 	}
 
-	/* (non-Javadoc)
-	 * @see commons.Vessel#tick()
-	 */
 	@Override
 	public void tick() {
 		super.tick();
 		helm.tick();
 	}
 
-	/**
-	 * @return the depth
-	 */
-	public double getDepth() {
-		return depth;
-	}
-
-	/**
-	 * @return the maxDepth
-	 */
-	public double getMaxDepth() {
-		return maxDepth;
-	}
 	
 	public void setSpeed(double speed) {
 		this.speed = speed;

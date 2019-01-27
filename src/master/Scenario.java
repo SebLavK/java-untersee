@@ -28,6 +28,7 @@ public class Scenario {
 		sub.setMyHeading(Math.toRadians(0));
 		sub.setMySpeed(0);
 		sub.setSpeed(0);
+		sub.setMyDepth(Submarine.PERISCOPE_DEPTH);
 		sub.setPosition(new Point2D.Double(0, 0));
 	}
 	
