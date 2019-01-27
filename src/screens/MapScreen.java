@@ -15,6 +15,7 @@ import commons.Vessel;
 import main.GamePanel;
 import master.Camera;
 import master.Master;
+import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne
@@ -113,7 +114,37 @@ public class MapScreen implements Screen {
 	}
 
 	public void drawSub(Graphics2D g2d) {
-		drawVessel(g2d, master.getScenario().getSub());
+		Submarine sub = master.getScenario().getSub();
+		double subDepth = sub.getDepth();
+		int subIndex;
+		//Different shaded sprites for different depths
+		if (subDepth < Submarine.SURFACE_DEPTH) {
+			subIndex = 0;
+		} else if (subDepth < Submarine.SAIL_DEPTH){
+			subIndex = 1;
+		} else if (subDepth < Submarine.PERISCOPE_DEPTH){
+			subIndex = 2;
+		} else if (subDepth < Submarine.TEST_DEPTH * 2 / 10){
+			subIndex = 3;
+		} else if (subDepth < Submarine.TEST_DEPTH * 3 / 10){
+			subIndex = 4;
+		} else {
+			subIndex = 5;
+		}
+		Camera camera = master.getScenario().getCamera();
+		BufferedImage vesselImage = ImageResource.getSubmarine()[subIndex];
+		AffineTransform at = new AffineTransform();
+		double zoom = master.getScenario().getCamera().getZoom();
+		
+		Point2D relPos = camera.relativePositionOf(sub);
+		at.translate(
+				(relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2,
+				( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2
+				);
+		at.rotate(sub.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
+		at.scale(1 / zoom, 1 / zoom);
+		
+		g2d.drawImage(vesselImage, at, null);
 //		Submarine sub = master.getScenario().getSub();
 //		BufferedImage subImage = ImageResource.getSubmarine();
 //		AffineTransform at = new AffineTransform();

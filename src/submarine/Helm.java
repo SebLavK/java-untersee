@@ -19,6 +19,7 @@ public class Helm {
 		this.sub = sub;
 		speedReached = true;
 		headingReached = true;
+		depthReached = true;
 	}
 
 	public void tick() {

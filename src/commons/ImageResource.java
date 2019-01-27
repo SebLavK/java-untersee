@@ -25,7 +25,7 @@ public class ImageResource {
 	
 	private static Font mainFont;
 	
-	private static BufferedImage submarine;
+	private static BufferedImage[] submarine;
 	private static BufferedImage battleship;
 	private static BufferedImage cruiser;
 	private static BufferedImage destroyer;
@@ -68,7 +68,7 @@ public class ImageResource {
 	 * @throws IOException
 	 */
 	private static void loadVessels() throws IOException {
-		submarine = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipSubMarineHull.png"));
+		loadSubmarine();
 		battleship = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipBattleshipHull.png"));
 		cruiser = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipCruiserHull.png"));
 		destroyer = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipDestroyerHull.png"));
@@ -76,10 +76,16 @@ public class ImageResource {
 		rescueShip = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipRescue.png"));
 	}
 	
+	public static void loadSubmarine() throws IOException {
+		submarine = new BufferedImage[6];
+		for (int i = 0; i < submarine.length; i++) {
+			submarine[i] = ImageIO.read(Main.class.getResource("/sprites/vessels/sub"+i+".png"));
+		}
+		
+	}
+	
 	public static BufferedImage getImageForVessel(Vessel vessel) {
-		if (vessel instanceof Submarine) {
-			return submarine;
-		} else if (vessel instanceof Battleship) {
+		if (vessel instanceof Battleship) {
 			return battleship;
 		} else if (vessel instanceof Cruiser) {
 			return cruiser;
@@ -97,7 +103,7 @@ public class ImageResource {
 	/**
 	 * @return the submarine
 	 */
-	public static BufferedImage getSubmarine() {
+	public static BufferedImage[] getSubmarine() {
 		return submarine;
 	}
 	

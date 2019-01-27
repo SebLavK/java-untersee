@@ -22,6 +22,8 @@ public class Submarine extends Vessel {
 	public static final double CRUSH_DEPTH = 1450;
 	public static final double PERISCOPE_DEPTH = 63;
 	public static final double DEPTH_BUBBLE = 2;
+	public static final double SAIL_DEPTH = 46;
+	public static final double SURFACE_DEPTH = 27;
 	
 	private Helm helm;
 	
