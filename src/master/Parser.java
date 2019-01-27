@@ -67,7 +67,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Double.parseDouble(sentence[1]),
-				"Make turns for "+sentence[1]+" knots"
+				"Helm:   Make turns for "+sentence[1]+" knots. Maneuvering aye."
 				);
 	}
 	
@@ -76,7 +76,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeHeading,
 				Double.parseDouble(sentence[1]),
-				"Come to course "+String.format("%03d", Integer.parseInt(sentence[1]))+"º"
+				"Helm:   Come to course "+String.format("%03d", Integer.parseInt(sentence[1]))+"º. Maneuvering aye."
 				);
 	}
 	
@@ -95,7 +95,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_FLANK,
-				"Engine ahead flank"
+				"Helm:   Engine ahead flank. Helm aye."
 				);
 	}
 	
@@ -103,7 +103,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_FULL,
-				"Engine ahead full"
+				"Helm:   Engine ahead full. Helm aye."
 				);
 	}
 	
@@ -111,7 +111,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD,
-				"Engine ahead standard"
+				"Helm:   Engine ahead standard, Helm aye."
 				);
 	}
 	
@@ -119,7 +119,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD * 2 / 3,
-				"Engine ahead two thirds"
+				"Helm:   Engine ahead two thirds. Helm, aye."
 				);
 	}
 	
@@ -127,7 +127,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD / 3,
-				"Engine ahead one third"
+				"Helm:   Engine ahead one third. Helm, aye."
 				);
 	}
 	
@@ -141,7 +141,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				0.0,
-				"All engines stop"
+				"Helm:   All engines stop. Helm, aye."
 				);
 	}
 	
@@ -159,7 +159,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL / 3,
-				"Engine back one third"
+				"Helm:   Engine back one third. Helm, aye."
 				);
 	}
 	
@@ -167,7 +167,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL * 2 / 3,
-				"Engine back two thirds"
+				"Helm:   Engine back two thirds. Helm, aye."
 				);
 	}
 	
@@ -175,7 +175,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL,
-				"Engine back full"
+				"Helm:   Engine back full. Helm, aye."
 				);
 	}
 	
@@ -183,7 +183,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_EMERG,
-				"Engine back emergency"
+				"Helm:   Engine back emergency. Helm, aye."
 				);
 	}
 

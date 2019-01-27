@@ -63,7 +63,7 @@ public class ExecutiveOfficer implements Runnable {
 //	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void execute(Order<Object> order) {
 		order.getVerb().accept(order);
-		log("XO:\t"+order.getVerbose() + ", aye sir.");
+		log(order.getVerbose());
 	}
 	
 	public static void log(String msg) {
@@ -93,7 +93,7 @@ public class ExecutiveOfficer implements Runnable {
 	 */
 	public void unkownCommand() {
 //		System.out.println("I don't understand that command, sir");
-		master.getSidePanel().addToLog("XO:\tI don't understand that command, sir");
+		master.getSidePanel().addToLog("XO:     I don't understand that command, sir");
 	}
 
 	
