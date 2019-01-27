@@ -26,6 +26,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 	public static final double MAX_ZOOM = 16;
 	public static final double MIN_ZOOM = 0.5;
 	public static final double ZOOM_RATE = 5;
+	public static final double STRATEGY_ZOOM = 16;
 	
 
 	private boolean followSub;
@@ -79,7 +80,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 		if (zoom != desiredZoom) {
 			int dir = (zoom < desiredZoom) ? 1 : -1;
 			double deltaZoom = ZOOM_RATE * Clock.TICK_TIME * dir
-					* Math.max((Math.abs(zoom - desiredZoom)), 0.01);
+					* Math.max((Math.abs(zoom - desiredZoom)), 0.05);
 			if (Math.abs(deltaZoom) > Math.abs(zoom - desiredZoom)) {
 				zoom = desiredZoom;
 			} else {
@@ -162,9 +163,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			switchFollowSub();
-		}
+		
 	}
 	
 
@@ -178,8 +177,13 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3) {
+		switch (e.getButton()) {
+		case MouseEvent.BUTTON1:
+			switchFollowSub();
+			break;
+		case MouseEvent.BUTTON3:
 			setTrackMouse(true);
+			break;
 		}
 	}
 

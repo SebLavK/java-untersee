@@ -25,10 +25,12 @@ import submarine.Submarine;
 public class MapScreen implements Screen {
 	
 	public static final double ZOOM_DESIGNATION_CUTOFF = 2;
-	public static final int TARGET_FONT_SIZE = 16;
-	public static final Color TARGET_COLOR = new Color(255, 255, 255);
+	public static final int TARGET_FONT_SIZE = 10;
+	public static final Color TARGET_NEUTRAL_COLOR = new Color(63, 186, 81);
+	public static final Color TARGET_FRIENDLY_COLOR = new Color(63, 104, 186);
+	public static final Color TARGET_ENEMY_COLOR = new Color(186, 63, 63);
 	public static final double TARGET_OFFSET_X = 0;
-	public static final double TARGET_OFFSET_Y = 0;
+	public static final double TARGET_OFFSET_Y = 30;
 	
 	private Master master;
 	private GamePanel gamePanel;
@@ -107,26 +109,70 @@ public class MapScreen implements Screen {
 	}
 	
 	public void drawVessel(Graphics2D g2d, Vessel vessel) {
-		Camera camera = master.getScenario().getCamera();
 		BufferedImage vesselImage = ImageResource.getImageForVessel(vessel);
-		AffineTransform at = new AffineTransform();
-		double zoom = master.getScenario().getCamera().getZoom();
-		
+		Camera camera = master.getScenario().getCamera();
 		Point2D relPos = camera.relativePositionOf(vessel);
+		double zoom = master.getScenario().getCamera().getZoom();
+		double screenX = transformCoordX(vesselImage, relPos, zoom);
+		double screenY = transformCoordY(vesselImage, relPos, zoom);
+		
+		drawTrueVessel(g2d, vessel, vesselImage, zoom, screenX, screenY);
+		drawVesselDesignation(g2d, vessel, screenX, screenY, zoom, TARGET_ENEMY_COLOR);
+	}
+
+	/**
+	 * @param vesselImage
+	 * @param relPos
+	 * @param zoom
+	 * @return
+	 */
+	private double transformCoordX(BufferedImage vesselImage, Point2D relPos, double zoom) {
 		double screenX = (relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2;
+		return screenX;
+	}
+
+	/**
+	 * @param vesselImage
+	 * @param relPos
+	 * @param zoom
+	 * @return
+	 */
+	private double transformCoordY(BufferedImage vesselImage, Point2D relPos, double zoom) {
 		double screenY = ( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2;
+		return screenY;
+	}
+
+
+	/**
+	 * @param g2d
+	 * @param vessel
+	 * @param vesselImage
+	 * @param zoom
+	 * @param screenY
+	 * @param screenX
+	 */
+	private void drawTrueVessel(Graphics2D g2d, Vessel vessel, BufferedImage vesselImage, double zoom, double screenX,
+			double screenY) {
+		AffineTransform at = new AffineTransform();
 		at.translate(screenX, screenY);
 		at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
 		at.scale(1 / zoom, 1 / zoom);
 		
 		g2d.drawImage(vesselImage, at, null);
-		
+	}
+	
+	/**
+	 * @param g2d
+	 * @param vessel
+	 * @param zoom
+	 */
+	private void drawVesselDesignation(Graphics2D g2d, Vessel vessel, double screenX, double screenY, double zoom, Color color) {
 		//If the zoom is far away enough
-		System.out.println(zoom);
-		if (zoom >= ZOOM_DESIGNATION_CUTOFF && !"".equals(vessel.getDesignation())) {
-			System.out.println("POW");
-			g2d.setColor(TARGET_COLOR);
+		if (zoom >= ZOOM_DESIGNATION_CUTOFF) {
+			color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+			g2d.setColor(color);
 			g2d.setFont(targetFont);
+			g2d.drawRect((int) screenX, (int) screenY, 20, 20);
 			g2d.drawString(vessel.getDesignation(),
 					(float)(screenX + TARGET_OFFSET_X),
 					(float)(screenY + TARGET_OFFSET_Y)
@@ -137,6 +183,22 @@ public class MapScreen implements Screen {
 	public void drawSub(Graphics2D g2d) {
 		Submarine sub = master.getScenario().getSub();
 		double subDepth = sub.getDepth();
+		int subIndex = subIndexFromDepth(subDepth);
+		Camera camera = master.getScenario().getCamera();
+		BufferedImage vesselImage = ImageResource.getSubmarine()[subIndex];
+		double zoom = master.getScenario().getCamera().getZoom();
+		Point2D relPos = camera.relativePositionOf(sub);
+		double screenX = transformCoordX(vesselImage, relPos, zoom);
+		double screenY = transformCoordY(vesselImage, relPos, zoom);
+		drawTrueVessel(g2d, sub, vesselImage, zoom, screenX, screenY);
+		drawVesselDesignation(g2d, sub, screenX, screenY, zoom, TARGET_FRIENDLY_COLOR);
+	}
+
+	/**
+	 * @param subDepth
+	 * @return
+	 */
+	private int subIndexFromDepth(double subDepth) {
 		int subIndex;
 		//Different shaded sprites for different depths
 		if (subDepth <= Submarine.SURFACE_DEPTH) {
@@ -152,29 +214,7 @@ public class MapScreen implements Screen {
 		} else {
 			subIndex = 5;
 		}
-		Camera camera = master.getScenario().getCamera();
-		BufferedImage vesselImage = ImageResource.getSubmarine()[subIndex];
-		AffineTransform at = new AffineTransform();
-		double zoom = master.getScenario().getCamera().getZoom();
-		
-		Point2D relPos = camera.relativePositionOf(sub);
-		at.translate(
-				(relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2,
-				( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2
-				);
-		at.rotate(sub.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
-		at.scale(1 / zoom, 1 / zoom);
-		
-		g2d.drawImage(vesselImage, at, null);
-//		Submarine sub = master.getScenario().getSub();
-//		BufferedImage subImage = ImageResource.getSubmarine();
-//		AffineTransform at = new AffineTransform();
-//		at.translate(
-//				gamePanel.getWidth() / 2 - subImage.getWidth() / 2 / Master.mapZoom,
-//				gamePanel.getHeight() / 2 - subImage.getHeight() / 2 / Master.mapZoom);
-//		at.rotate(sub.getHeading(), subImage.getWidth() / 2, subImage.getHeight() / 2);
-//		at.scale(1d / Master.mapZoom, 1d / Master.mapZoom);
-//		g2d.drawImage(subImage, at, null);
+		return subIndex;
 	}
 	
 	public void drawShips(Graphics2D g2d) {

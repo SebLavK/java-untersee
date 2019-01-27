@@ -42,6 +42,7 @@ public class Scenario {
 		
 		Battleship b = new Battleship();
 		b.setPosition(new Point2D.Double(100, 100));
+		b.setDesignation("S1");
 		
 		ships.add(b);
 	}
