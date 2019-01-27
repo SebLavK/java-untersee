@@ -1,5 +1,5 @@
 # Java Unterzee
-Java Unterzee is a submarine simulation game written in Java using the Swing toolkit with a custom game engine.
+Java Unterzee is a submarine simulation game written in Java using the Swing toolkit with a custom game engine. Download the latest release [here](https://github.com/SebLavK/java-unterzee/releases) and check the [Wiki](https://github.com/SebLavK/java-unterzee/wiki) for instructions on how to play.
 
 ## Planned and possible features
 * ~~Orders to your submarine given by a command line~~
@@ -20,6 +20,9 @@ Author: **Zabin** and **zookeper** at opengameart.org
 License:  Free use license
 
 ## Changelog
+
+### v0.0.8
+* Various bugfixes and a few changes to crew messages
 
 ### v0.0.7
 * Added side panel with data and command sections
