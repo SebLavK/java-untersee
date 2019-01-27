@@ -60,6 +60,9 @@ public class Parser {
 		parseCommand.put("all", this::parseAll);
 		parseCommand.put("back", this::parseBack);
 		parseCommand.put("depth", this::parseDepth);
+		parseCommand.put("surface", this::parseSurface);
+		parseCommand.put("periscope", this::parsePeriscope);
+		parseCommand.put("emergency", this::parseEmergency);
 		
 		parseCommand.get(sentence[0]).run();
 	}
@@ -99,6 +102,58 @@ public class Parser {
 		parseCommand.put("standard", this::aheadStandard);
 		parseCommand.put("2/3", this::ahead23);
 		parseCommand.put("1/3", this::ahead13);
+		
+		parseCommand.get(sentence[1]).run();
+	}
+	
+	public void parseAll() {
+		if (sentence[1].equals("stop")) {
+			allStop();
+		}
+	}
+	
+	public void parseBack() {
+		HashMap<String, Runnable> parseCommand = new HashMap<>();
+		parseCommand.put("1/3", this::back13);
+		parseCommand.put("2/3", this::back23);
+		parseCommand.put("full", this::backFull);
+		parseCommand.put("emergency", this::backEmerg);
+		
+		parseCommand.get(sentence[1]).run();
+	}
+	
+	public void parseDepth() {
+		double newDepth = Double.parseDouble(sentence[1]);
+		order = new Order<Double>(xo::makeDepth,
+				newDepth,
+				"Diving: Make my depth " + (int) newDepth + " feet. Dive aye."
+				);
+	}
+	
+	public void parseSurface() {
+		if (sentence[1].equals("boat")) {
+			order = new Order<Double>(xo::makeDepth,
+					Submarine.SURFACE_DEPTH,
+					"Diving: Surface the boat. Dive aye."
+					);
+		}
+	}
+	
+	public void parsePeriscope() {
+		HashMap<String, Runnable> parseCommand = new HashMap<>();
+		parseCommand.put("depth", this::periscopeDepth);
+		//TODO
+//		parseCommand.put("up", this::periscopeDepth);
+//		parseCommand.put("down", this::periscopeDepth);
+		
+		parseCommand.get(sentence[1]).run();
+	}
+	
+	public void parseEmergency() {
+		HashMap<String, Runnable> parseCommand = new HashMap<>();
+		parseCommand.put("dive", this::crashDive);
+		parseCommand.put("blow", this::blowBallast);
+		//TODO
 		
 		parseCommand.get(sentence[1]).run();
 	}
@@ -143,28 +198,12 @@ public class Parser {
 				);
 	}
 	
-	public void parseAll() {
-		if (sentence[1].equals("stop")) {
-			allStop();
-		}
-	}
-	
 	public void allStop() {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				0.0,
 				"Helm:   All engines stop. Helm, aye."
 				);
-	}
-	
-	public void parseBack() {
-		HashMap<String, Runnable> parseCommand = new HashMap<>();
-		parseCommand.put("1/3", this::back13);
-		parseCommand.put("2/3", this::back23);
-		parseCommand.put("full", this::backFull);
-		parseCommand.put("emergency", this::backEmerg);
-		
-		parseCommand.get(sentence[1]).run();
 	}
 	
 	public void back13() {
@@ -198,15 +237,27 @@ public class Parser {
 				"Helm:   Engine back emergency. Helm, aye."
 				);
 	}
-
-	public void parseDepth() {
-		double newDepth = Double.parseDouble(sentence[1]);
-		order = new Order<Double>(xo::makeDepth,
-				newDepth,
-				"Diving: Make my depth " + (int) newDepth + " feet. Dive aye."
-				);
+	
+	public void periscopeDepth() {
+		if (sentence[1].equals("boat")) {
+			order = new Order<Double>(xo::makeDepth,
+					Submarine.PERISCOPE_DEPTH,
+					"Diving: Go to periscope depth. Dive aye."
+					);
+		}
 	}
-//	/**
+
+	public void crashDive() {
+		Double[] settings = {Submarine.SPEED_FLANK, null, Submarine.TEST_DEPTH};
+		order = new Order<Double[]>(xo::makeNav, settings, "Diving: Crash dive! Engine full ahead!");
+	}
+	
+	public void blowBallast() {
+		Double[] settings = {Submarine.SPEED_FLANK, null, Submarine.SURFACE_DEPTH};
+		order = new Order<Double[]>(xo::makeNav, settings, "Diving: Blow ballast! Engine full ahead!");
+	}
+	
+	//	/**
 //	 * Evaluates the command given by the player into an order executable by the XO
 //	 * @param fullCommand
 //	 * @return an Order

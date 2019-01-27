@@ -42,6 +42,7 @@ public class Submarine extends Vessel {
 		rotationSpeed = TURNING_RATE;
 		
 		maxDepth = TEST_DEPTH;
+		minDepth = SURFACE_DEPTH;
 		periscopeDepth = PERISCOPE_DEPTH;
 		depthBubble = DEPTH_BUBBLE;
 		depth = periscopeDepth;

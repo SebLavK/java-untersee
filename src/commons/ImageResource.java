@@ -12,7 +12,6 @@ import ships.Cruiser;
 import ships.Destroyer;
 import ships.PatrolShip;
 import ships.RescueShip;
-import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne

@@ -111,6 +111,24 @@ public class ExecutiveOfficer implements Runnable {
 	}
 	
 	/**
+	 * Changes the set speed, heading and depth of the sub
+	 * @param navOrder an Order with an array od Doubles for speed, heading and depth
+	 */
+	public void makeNav(Order<Double[]> navOrder) {
+		Double[] settings = (Double[]) navOrder.getObject();
+		if (settings[0] != null) {
+			makeSpeed(new Order<Double>(null, settings[0], ""));
+		}
+		if (settings[1] != null) {
+			makeHeading(new Order<Double>(null, settings[1], ""));
+		}
+		if (settings[2] != null) {
+			makeDepth(new Order<Double>(null, settings[2], ""));
+		}
+	}
+	
+	
+	/**
 	 * To be used when the parser doesn't generate an order, either by failure or
 	 * mistype of the player
 	 */

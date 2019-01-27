@@ -118,15 +118,15 @@ public class MapScreen implements Screen {
 		double subDepth = sub.getDepth();
 		int subIndex;
 		//Different shaded sprites for different depths
-		if (subDepth < Submarine.SURFACE_DEPTH) {
+		if (subDepth <= Submarine.SURFACE_DEPTH) {
 			subIndex = 0;
-		} else if (subDepth < Submarine.SAIL_DEPTH){
+		} else if (subDepth <= Submarine.SAIL_DEPTH){
 			subIndex = 1;
-		} else if (subDepth < Submarine.PERISCOPE_DEPTH){
+		} else if (subDepth <= Submarine.PERISCOPE_DEPTH){
 			subIndex = 2;
-		} else if (subDepth < Submarine.TEST_DEPTH * 2 / 10){
+		} else if (subDepth <= Submarine.TEST_DEPTH * 2 / 10){
 			subIndex = 3;
-		} else if (subDepth < Submarine.TEST_DEPTH * 3 / 10){
+		} else if (subDepth <= Submarine.TEST_DEPTH * 3 / 10){
 			subIndex = 4;
 		} else {
 			subIndex = 5;
