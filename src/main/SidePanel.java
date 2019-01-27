@@ -24,6 +24,9 @@ import master.Master;
 public class SidePanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private static final int LOG_FONT_SIZE = 10; 
+	
 	private GamePanel dataPanel;
 	private JPanel commandPanel;
 	
@@ -48,7 +51,7 @@ public class SidePanel extends JPanel {
         catch(Exception e){
         	e.printStackTrace();
         }
-		logFont = logFont.deriveFont(Font.PLAIN, 10);
+		logFont = logFont.deriveFont(Font.PLAIN, LOG_FONT_SIZE);
 		
 		GridBagConstraints settings;
 		

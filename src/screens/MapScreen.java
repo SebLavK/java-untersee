@@ -3,6 +3,7 @@ package screens;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ import commons.Vessel;
 import main.GamePanel;
 import master.Camera;
 import master.Master;
+import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne
@@ -25,6 +27,8 @@ public class MapScreen implements Screen {
 	private GamePanel gamePanel;
 	
 	private BufferedImage[] bg;
+	
+	RenderingHints renderHints;
 	
 	/**
 	 * 
@@ -38,11 +42,17 @@ public class MapScreen implements Screen {
 	@Override
 	public void initializeScreen() {
 		bg = ImageResource.getBackground();
+		
+		renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		renderHints.put(RenderingHints.KEY_RENDERING,
+				RenderingHints.VALUE_RENDER_QUALITY);
 	}
 	
 	@Override
 	public void drawScreen(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHints(renderHints);
 		drawBackground(g2d);
 		drawSub(g2d);
 		drawShips(g2d);
@@ -52,7 +62,8 @@ public class MapScreen implements Screen {
 	
 	public void drawBackground(Graphics2D g2d) {
 		double zoom = master.getScenario().getCamera().getZoom();
-		int index = master.getTickCount() / 3 % bg.length;
+		//change of background animation frame every 5 frames
+		int index = master.getTickCount() / 5 % bg.length;
 		//Fill the edges
 		int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
 		int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
@@ -103,7 +114,37 @@ public class MapScreen implements Screen {
 	}
 
 	public void drawSub(Graphics2D g2d) {
-		drawVessel(g2d, master.getScenario().getSub());
+		Submarine sub = master.getScenario().getSub();
+		double subDepth = sub.getDepth();
+		int subIndex;
+		//Different shaded sprites for different depths
+		if (subDepth <= Submarine.SURFACE_DEPTH) {
+			subIndex = 0;
+		} else if (subDepth <= Submarine.SAIL_DEPTH){
+			subIndex = 1;
+		} else if (subDepth <= Submarine.PERISCOPE_DEPTH){
+			subIndex = 2;
+		} else if (subDepth <= Submarine.TEST_DEPTH * 2 / 10){
+			subIndex = 3;
+		} else if (subDepth <= Submarine.TEST_DEPTH * 3 / 10){
+			subIndex = 4;
+		} else {
+			subIndex = 5;
+		}
+		Camera camera = master.getScenario().getCamera();
+		BufferedImage vesselImage = ImageResource.getSubmarine()[subIndex];
+		AffineTransform at = new AffineTransform();
+		double zoom = master.getScenario().getCamera().getZoom();
+		
+		Point2D relPos = camera.relativePositionOf(sub);
+		at.translate(
+				(relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2,
+				( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2
+				);
+		at.rotate(sub.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
+		at.scale(1 / zoom, 1 / zoom);
+		
+		g2d.drawImage(vesselImage, at, null);
 //		Submarine sub = master.getScenario().getSub();
 //		BufferedImage subImage = ImageResource.getSubmarine();
 //		AffineTransform at = new AffineTransform();
@@ -123,7 +164,6 @@ public class MapScreen implements Screen {
 	
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
 		
 	}
 

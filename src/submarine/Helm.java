@@ -12,12 +12,14 @@ public class Helm {
 	private Submarine sub;
 	private boolean speedReached;
 	private boolean headingReached;
+	private boolean depthReached;
 	
 	public Helm(Submarine sub) {
 		super();
 		this.sub = sub;
 		speedReached = true;
 		headingReached = true;
+		depthReached = true;
 	}
 
 	public void tick() {
@@ -39,6 +41,16 @@ public class Helm {
 			}
 		} else {
 			headingReached = sub.getHeading() == sub.getMyHeading();
+		}
+		
+		if (!depthReached) {
+			if (sub.getDepth() == sub.getMyDepth()) {
+				depthReached = true;
+				ExecutiveOfficer.log("Diving: We are at depth "
+						+ Magnitudes.feetToHuman(sub.getMyDepth()) + " feet");
+			}
+		} else {
+			depthReached = sub.getDepth() == sub.getMyDepth();
 		}
 	}
 
