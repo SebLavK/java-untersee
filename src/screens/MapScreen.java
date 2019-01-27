@@ -1,6 +1,7 @@
 package screens;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -23,8 +24,15 @@ import submarine.Submarine;
 
 public class MapScreen implements Screen {
 	
+	public static final double ZOOM_DESIGNATION_CUTOFF = 2;
+	public static final int TARGET_FONT_SIZE = 16;
+	public static final Color TARGET_COLOR = new Color(255, 255, 255);
+	public static final double TARGET_OFFSET_X = 0;
+	public static final double TARGET_OFFSET_Y = 0;
+	
 	private Master master;
 	private GamePanel gamePanel;
+	private Font targetFont;
 	
 	private BufferedImage[] bg;
 	
@@ -47,6 +55,8 @@ public class MapScreen implements Screen {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		renderHints.put(RenderingHints.KEY_RENDERING,
 				RenderingHints.VALUE_RENDER_QUALITY);
+		targetFont = ImageResource.getMainFont();
+		targetFont = targetFont.deriveFont(Font.PLAIN, TARGET_FONT_SIZE);
 	}
 	
 	@Override
@@ -103,14 +113,25 @@ public class MapScreen implements Screen {
 		double zoom = master.getScenario().getCamera().getZoom();
 		
 		Point2D relPos = camera.relativePositionOf(vessel);
-		at.translate(
-				(relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2,
-				( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2
-				);
+		double screenX = (relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2;
+		double screenY = ( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2;
+		at.translate(screenX, screenY);
 		at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
 		at.scale(1 / zoom, 1 / zoom);
 		
 		g2d.drawImage(vesselImage, at, null);
+		
+		//If the zoom is far away enough
+		System.out.println(zoom);
+		if (zoom >= ZOOM_DESIGNATION_CUTOFF && !"".equals(vessel.getDesignation())) {
+			System.out.println("POW");
+			g2d.setColor(TARGET_COLOR);
+			g2d.setFont(targetFont);
+			g2d.drawString(vessel.getDesignation(),
+					(float)(screenX + TARGET_OFFSET_X),
+					(float)(screenY + TARGET_OFFSET_Y)
+					);
+		}
 	}
 
 	public void drawSub(Graphics2D g2d) {

@@ -8,6 +8,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
 
+import commons.Clock;
 import commons.Magnitudes;
 import commons.Vessel;
 import submarine.Submarine;
@@ -20,11 +21,18 @@ import submarine.Submarine;
  *
  */
 public class Camera extends Vessel implements MouseWheelListener, MouseListener {
+	
+	public static final double INITIAL_ZOOM = 2;
+	public static final double MAX_ZOOM = 16;
+	public static final double MIN_ZOOM = 0.5;
+	public static final double ZOOM_RATE = 5;
+	
 
 	private boolean followSub;
 	private boolean trackMouse;
 	private Point mouseOriginPoint;
 	private double zoom;
+	private double desiredZoom;
 	private Submarine sub;
 	
 
@@ -33,18 +41,26 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 		this.sub = sub;
 		followSub = true;
 		trackMouse = false;
-		zoom = 2;
+		zoom = INITIAL_ZOOM;
+		desiredZoom = INITIAL_ZOOM;
 	}
 	
 	public void zoomIn() {
-		zoom -= 0.1;
-		if (zoom < 0.5) {
-			zoom = 0.5;
+		desiredZoom /= 2;
+//		desiredZoom -= 0.1;
+		if (desiredZoom < MIN_ZOOM) {
+			desiredZoom = MIN_ZOOM;
 		}
+		desiredZoom = (double) Math.round(desiredZoom * 10) / 10;
 	}
 	
 	public void zoomOut() {
-		zoom += 0.1;
+		desiredZoom *= 2;
+//		desiredZoom += 0.1;
+		if (desiredZoom > MAX_ZOOM) {
+			desiredZoom = MAX_ZOOM;
+		}
+		desiredZoom = (double) Math.round(desiredZoom * 10) / 10;
 	}
 	
 	/* (non-Javadoc)
@@ -55,6 +71,20 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 //		super.tick();
 		if (trackMouse && !followSub) {
 			trackMouse();
+		}
+		updateZoom();
+	}
+	
+	public void updateZoom() {
+		if (zoom != desiredZoom) {
+			int dir = (zoom < desiredZoom) ? 1 : -1;
+			double deltaZoom = ZOOM_RATE * Clock.TICK_TIME * dir
+					* Math.max((Math.abs(zoom - desiredZoom)), 0.01);
+			if (Math.abs(deltaZoom) > Math.abs(zoom - desiredZoom)) {
+				zoom = desiredZoom;
+			} else {
+				zoom += deltaZoom;
+			}
 		}
 	}
 

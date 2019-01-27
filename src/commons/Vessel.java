@@ -34,12 +34,21 @@ public abstract class Vessel {
 	/* Rate of diving by changing buoyancy */
 	protected double depthBubble;
 	
+	protected String designation;
+	
 	/* Position */
 	/** Current position, X is East, Y is North */
 	protected Point2D position;
 	/** A collection of points that define this vessel's course */
 	protected LinkedHashSet<Point2D> course;
 	
+	
+	
+	public Vessel() {
+		super();
+		designation = "";
+	}
+
 	public void tick() {
 		makeTurns();
 		steer();
@@ -305,6 +314,20 @@ public abstract class Vessel {
 	 */
 	public double getDepthBubble() {
 		return depthBubble;
+	}
+
+	/**
+	 * @return the designation
+	 */
+	public String getDesignation() {
+		return designation;
+	}
+
+	/**
+	 * @param designation the designation to set
+	 */
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 
 	
