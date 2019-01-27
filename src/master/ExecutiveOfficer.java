@@ -63,7 +63,7 @@ public class ExecutiveOfficer implements Runnable {
 //	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void execute(Order<Object> order) {
 		order.getVerb().accept(order);
-		log("XO:\t"+order.getVerbose() + ", aye sir.");
+		log(order.getVerbose());
 	}
 	
 	public static void log(String msg) {
@@ -73,19 +73,60 @@ public class ExecutiveOfficer implements Runnable {
 	
 	/**
 	 * Changes the set speed of the sub
-	 * @param newSpeed an Order with a Double as object
+	 * @param speedOrder an Order with a Double as object
 	 */
-	public void makeSpeed(Order<Double> newSpeed) {
-		sub.setMySpeed((Double) newSpeed.getObject());
+	public void makeSpeed(Order<Double> speedOrder) {
+		double newSpeed = (double) speedOrder.getObject();
+		if (newSpeed > Submarine.SPEED_FLANK) {
+			newSpeed = Submarine.SPEED_FLANK;
+		} else if (newSpeed < Submarine.SPEED_BACK_EMERG) {
+			newSpeed = Submarine.SPEED_BACK_EMERG;
+		}
+		sub.setMySpeed(newSpeed);
 	}
 	
 	/**
 	 * Changes the set heading of the sub
-	 * @param newHeading an Order with a Double as object
+	 * @param headingOrder an Order with a Double as object
 	 */
-	public void makeHeading(Order<Double> newHeading) {
-		sub.setMyHeading(Math.toRadians((Double) newHeading.getObject()));
+	public void makeHeading(Order<Double> headingOrder) {
+		double newHeading = (Double) headingOrder.getObject();
+		newHeading %= 360;
+		if (newHeading == 360) {
+			newHeading = 0;
+		}
+		sub.setMyHeading(Math.toRadians(newHeading));
 	}
+	
+	/**
+	 * Changes the set depth of the sub
+	 * @param depthOrder an Order with a Double as object
+	 */
+	public void makeDepth(Order<Double> depthOrder) {
+		double newDepth = (Double) depthOrder.getObject();
+		if (newDepth < 0) {
+			newDepth = 0;
+		}
+		sub.setMyDepth(newDepth);
+	}
+	
+	/**
+	 * Changes the set speed, heading and depth of the sub
+	 * @param navOrder an Order with an array od Doubles for speed, heading and depth
+	 */
+	public void makeNav(Order<Double[]> navOrder) {
+		Double[] settings = (Double[]) navOrder.getObject();
+		if (settings[0] != null) {
+			makeSpeed(new Order<Double>(null, settings[0], ""));
+		}
+		if (settings[1] != null) {
+			makeHeading(new Order<Double>(null, settings[1], ""));
+		}
+		if (settings[2] != null) {
+			makeDepth(new Order<Double>(null, settings[2], ""));
+		}
+	}
+	
 	
 	/**
 	 * To be used when the parser doesn't generate an order, either by failure or
@@ -93,7 +134,7 @@ public class ExecutiveOfficer implements Runnable {
 	 */
 	public void unkownCommand() {
 //		System.out.println("I don't understand that command, sir");
-		master.getSidePanel().addToLog("XO:\tI don't understand that command, sir");
+		master.getSidePanel().addToLog("XO:     I don't understand that command, sir");
 	}
 
 	

@@ -26,6 +26,13 @@ public abstract class Vessel {
 	/** Current heading */
 	protected double heading;
 	protected double rotationSpeed;
+	/** Depth */
+	protected double depth;
+	protected double myDepth;
+	protected double maxDepth;
+	protected double minDepth;
+	/* Rate of diving by changing buoyancy */
+	protected double depthBubble;
 	
 	/* Position */
 	/** Current position, X is East, Y is North */
@@ -34,14 +41,16 @@ public abstract class Vessel {
 	protected LinkedHashSet<Point2D> course;
 	
 	public void tick() {
+		makeTurns();
 		steer();
+		dive();
 		sail();
 	}
 	
 	/**
-	 * Changes speed and heading acording to settings
+	 * Changes speed according to settings
 	 */
-	private void steer() {
+	protected void makeTurns() {
 		if (speed > maxSpeed || speed < maxSpeedReverse) {
 			speed = (speed > 0) ? maxSpeed : maxSpeedReverse;
 		} else if (speed != mySpeed) {
@@ -59,7 +68,12 @@ public abstract class Vessel {
 			}
 		}
 		//Speed here is in knots
-		
+	}
+	
+	/**
+	 * Changes heading according to settings
+	 */
+	protected void steer() {
 		if (heading != myHeading) {
 			double angleDiff = (2 * Math.PI + myHeading - heading) % (2 * Math.PI);
 			//Determine left or right
@@ -83,13 +97,38 @@ public abstract class Vessel {
 			} else {
 				heading += deltaRot;
 			}
+			if (heading < 0) {
+				heading += Math.PI * 2;
+			}
+		}
+	}
+
+	/**
+	 * Changes depth according to settings
+	 */
+	protected void dive() {
+		if (depth > maxDepth || depth < minDepth) {
+			depth = (depth > maxDepth) ? maxDepth : minDepth;
+		} else if (depth != myDepth) {
+			//Down or up
+			int dir = (depth < myDepth) ? 1 : -1;
+			//Depth change rate depending on speed, up to 5 ft/s at max speed
+			double depthPlane = Math.abs(speed) / maxSpeed * 5;
+			//Amount to increase depth
+			double deltaDepth = (depthBubble + depthPlane) * Clock.TICK_TIME * dir;
+			//If diving overshoots desired depth
+			if (Math.abs(deltaDepth) > Math.abs(myDepth - depth)) {
+				depth = myDepth;
+			} else {
+				depth += deltaDepth;
+			}
 		}
 	}
 	
 	/**
 	 * Changes position according to speed and heading
 	 */
-	private void sail() {
+	protected void sail() {
 		//Speed here is converted to feet/s
 		double longitude = position.getX()
 				+ speed * Magnitudes.FEET_SECOND_PER_KN * Math.sin(heading) * Clock.TICK_TIME;
@@ -224,6 +263,48 @@ public abstract class Vessel {
 	 */
 	public double getMaxSpeedReverse() {
 		return maxSpeedReverse;
+	}
+
+	/**
+	 * @return the myDepth
+	 */
+	public double getMyDepth() {
+		return myDepth;
+	}
+
+	/**
+	 * @param myDepth the myDepth to set
+	 */
+	public void setMyDepth(double myDepth) {
+		this.myDepth = myDepth;
+	}
+
+	/**
+	 * @return the depth
+	 */
+	public double getDepth() {
+		return depth;
+	}
+
+	/**
+	 * @return the maxDepth
+	 */
+	public double getMaxDepth() {
+		return maxDepth;
+	}
+
+	/**
+	 * @return the minDepth
+	 */
+	public double getMinDepth() {
+		return minDepth;
+	}
+
+	/**
+	 * @return the depthBubble
+	 */
+	public double getDepthBubble() {
+		return depthBubble;
 	}
 
 	

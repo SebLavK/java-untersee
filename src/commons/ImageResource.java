@@ -1,5 +1,6 @@
 package commons;
 
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -11,7 +12,6 @@ import ships.Cruiser;
 import ships.Destroyer;
 import ships.PatrolShip;
 import ships.RescueShip;
-import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne
@@ -22,8 +22,9 @@ public class ImageResource {
 	public static final int BG_TILE_WIDTH = 324;
 	public static final int BG_TILE_HEIGHT = 144;
 	
+	private static Font mainFont;
 	
-	private static BufferedImage submarine;
+	private static BufferedImage[] submarine;
 	private static BufferedImage battleship;
 	private static BufferedImage cruiser;
 	private static BufferedImage destroyer;
@@ -33,11 +34,23 @@ public class ImageResource {
 	
 	public static void instantiateImages() {
 		try {
+			loadFonts();
 			loadBackground();
 			loadVessels();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void loadFonts() {
+		try{
+            mainFont = Font.createFont(Font.TRUETYPE_FONT,
+            		Main.class.getResourceAsStream("/fonts/joystix monospace.ttf"));
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+//		mainFont = mainFont.deriveFont(Font.PLAIN, 10);
 	}
 
 	
@@ -54,7 +67,7 @@ public class ImageResource {
 	 * @throws IOException
 	 */
 	private static void loadVessels() throws IOException {
-		submarine = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipSubMarineHull.png"));
+		loadSubmarine();
 		battleship = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipBattleshipHull.png"));
 		cruiser = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipCruiserHull.png"));
 		destroyer = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipDestroyerHull.png"));
@@ -62,10 +75,16 @@ public class ImageResource {
 		rescueShip = ImageIO.read(Main.class.getResource("/sprites/vessels/ShipRescue.png"));
 	}
 	
+	public static void loadSubmarine() throws IOException {
+		submarine = new BufferedImage[6];
+		for (int i = 0; i < submarine.length; i++) {
+			submarine[i] = ImageIO.read(Main.class.getResource("/sprites/vessels/sub"+i+".png"));
+		}
+		
+	}
+	
 	public static BufferedImage getImageForVessel(Vessel vessel) {
-		if (vessel instanceof Submarine) {
-			return submarine;
-		} else if (vessel instanceof Battleship) {
+		if (vessel instanceof Battleship) {
 			return battleship;
 		} else if (vessel instanceof Cruiser) {
 			return cruiser;
@@ -83,7 +102,7 @@ public class ImageResource {
 	/**
 	 * @return the submarine
 	 */
-	public static BufferedImage getSubmarine() {
+	public static BufferedImage[] getSubmarine() {
 		return submarine;
 	}
 	
@@ -134,6 +153,13 @@ public class ImageResource {
 	 */
 	public static BufferedImage[] getBackground() {
 		return background;
+	}
+
+	/**
+	 * @return the mainFont
+	 */
+	public static Font getMainFont() {
+		return mainFont;
 	}
 
 	

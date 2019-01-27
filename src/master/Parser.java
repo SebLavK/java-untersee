@@ -59,24 +59,39 @@ public class Parser {
 		parseCommand.put("ahead", this::parseAhead);
 		parseCommand.put("all", this::parseAll);
 		parseCommand.put("back", this::parseBack);
+		parseCommand.put("depth", this::parseDepth);
+		parseCommand.put("surface", this::parseSurface);
+		parseCommand.put("periscope", this::parsePeriscope);
+		parseCommand.put("emergency", this::parseEmergency);
 		
 		parseCommand.get(sentence[0]).run();
 	}
 	
 	public void parseSpeed() {
+		double newSpeed = Double.parseDouble(sentence[1]);
+		if (newSpeed > Submarine.SPEED_FLANK) {
+			newSpeed = Submarine.SPEED_FLANK;
+		} else if (newSpeed < Submarine.SPEED_BACK_EMERG) {
+			newSpeed = Submarine.SPEED_BACK_EMERG;
+		}
 		order = new Order<Double>(
 				xo::makeSpeed,
-				Double.parseDouble(sentence[1]),
-				"Make turns for "+sentence[1]+" knots"
+				newSpeed,
+				"Helm:   Make turns for "+sentence[1]+" knots. Maneuvering aye."
 				);
 	}
 	
 	public void parseHeading() {
 		//TODO: change it to "come [right/left] to course XXX
+		double newHeading = Double.parseDouble(sentence[1]);
+		newHeading %= 360;
+		if (newHeading == 360) {
+			newHeading = 0;
+		}
 		order = new Order<Double>(
 				xo::makeHeading,
-				Double.parseDouble(sentence[1]),
-				"Come to course "+String.format("%03d", Integer.parseInt(sentence[1]))+"º"
+				newHeading,
+				"Helm:   Come to course " + newHeading + "º. Maneuvering aye."
 				);
 	}
 	
@@ -91,58 +106,10 @@ public class Parser {
 		parseCommand.get(sentence[1]).run();
 	}
 	
-	public void aheadFlank() {
-		order = new Order<Double>(
-				xo::makeSpeed,
-				Submarine.SPEED_FLANK,
-				"Engine ahead flank"
-				);
-	}
-	
-	public void aheadFull() {
-		order = new Order<Double>(
-				xo::makeSpeed,
-				Submarine.SPEED_FULL,
-				"Engine ahead full"
-				);
-	}
-	
-	public void aheadStandard() {
-		order = new Order<Double>(
-				xo::makeSpeed,
-				Submarine.SPEED_STANDARD,
-				"Engine ahead standard"
-				);
-	}
-	
-	public void ahead23() {
-		order = new Order<Double>(
-				xo::makeSpeed,
-				Submarine.SPEED_STANDARD * 2 / 3,
-				"Engine ahead two thirds"
-				);
-	}
-	
-	public void ahead13() {
-		order = new Order<Double>(
-				xo::makeSpeed,
-				Submarine.SPEED_STANDARD / 3,
-				"Engine ahead one third"
-				);
-	}
-	
 	public void parseAll() {
 		if (sentence[1].equals("stop")) {
 			allStop();
 		}
-	}
-	
-	public void allStop() {
-		order = new Order<Double>(
-				xo::makeSpeed,
-				0.0,
-				"All engines stop"
-				);
 	}
 	
 	public void parseBack() {
@@ -155,11 +122,95 @@ public class Parser {
 		parseCommand.get(sentence[1]).run();
 	}
 	
+	public void parseDepth() {
+		double newDepth = Double.parseDouble(sentence[1]);
+		order = new Order<Double>(xo::makeDepth,
+				newDepth,
+				"Diving: Make my depth " + (int) newDepth + " feet. Dive aye."
+				);
+	}
+	
+	public void parseSurface() {
+		if (sentence[1].equals("boat")) {
+			order = new Order<Double>(xo::makeDepth,
+					Submarine.SURFACE_DEPTH,
+					"Diving: Surface the boat. Dive aye."
+					);
+		}
+	}
+	
+	public void parsePeriscope() {
+		HashMap<String, Runnable> parseCommand = new HashMap<>();
+		parseCommand.put("depth", this::periscopeDepth);
+		//TODO
+//		parseCommand.put("up", this::periscopeDepth);
+//		parseCommand.put("down", this::periscopeDepth);
+		
+		parseCommand.get(sentence[1]).run();
+	}
+	
+	public void parseEmergency() {
+		HashMap<String, Runnable> parseCommand = new HashMap<>();
+		parseCommand.put("dive", this::crashDive);
+		parseCommand.put("blow", this::blowBallast);
+		//TODO
+		
+		parseCommand.get(sentence[1]).run();
+	}
+	
+	public void aheadFlank() {
+		order = new Order<Double>(
+				xo::makeSpeed,
+				Submarine.SPEED_FLANK,
+				"Helm:   Engine ahead flank. Helm aye."
+				);
+	}
+	
+	public void aheadFull() {
+		order = new Order<Double>(
+				xo::makeSpeed,
+				Submarine.SPEED_FULL,
+				"Helm:   Engine ahead full. Helm aye."
+				);
+	}
+	
+	public void aheadStandard() {
+		order = new Order<Double>(
+				xo::makeSpeed,
+				Submarine.SPEED_STANDARD,
+				"Helm:   Engine ahead standard, Helm aye."
+				);
+	}
+	
+	public void ahead23() {
+		order = new Order<Double>(
+				xo::makeSpeed,
+				Submarine.SPEED_STANDARD * 2 / 3,
+				"Helm:   Engine ahead two thirds. Helm, aye."
+				);
+	}
+	
+	public void ahead13() {
+		order = new Order<Double>(
+				xo::makeSpeed,
+				Submarine.SPEED_STANDARD / 3,
+				"Helm:   Engine ahead one third. Helm, aye."
+				);
+	}
+	
+	public void allStop() {
+		order = new Order<Double>(
+				xo::makeSpeed,
+				0.0,
+				"Helm:   All engines stop. Helm, aye."
+				);
+	}
+	
 	public void back13() {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL / 3,
-				"Engine back one third"
+				"Helm:   Engine back one third. Helm, aye."
 				);
 	}
 	
@@ -167,7 +218,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL * 2 / 3,
-				"Engine back two thirds"
+				"Helm:   Engine back two thirds. Helm, aye."
 				);
 	}
 	
@@ -175,7 +226,7 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL,
-				"Engine back full"
+				"Helm:   Engine back full. Helm, aye."
 				);
 	}
 	
@@ -183,11 +234,30 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_EMERG,
-				"Engine back emergency"
+				"Helm:   Engine back emergency. Helm, aye."
 				);
 	}
+	
+	public void periscopeDepth() {
+		if (sentence[1].equals("boat")) {
+			order = new Order<Double>(xo::makeDepth,
+					Submarine.PERISCOPE_DEPTH,
+					"Diving: Go to periscope depth. Dive aye."
+					);
+		}
+	}
 
-//	/**
+	public void crashDive() {
+		Double[] settings = {Submarine.SPEED_FLANK, null, Submarine.TEST_DEPTH};
+		order = new Order<Double[]>(xo::makeNav, settings, "Diving: Crash dive! Engine full ahead!");
+	}
+	
+	public void blowBallast() {
+		Double[] settings = {Submarine.SPEED_FLANK, null, Submarine.SURFACE_DEPTH};
+		order = new Order<Double[]>(xo::makeNav, settings, "Diving: Blow ballast! Engine full ahead!");
+	}
+	
+	//	/**
 //	 * Evaluates the command given by the player into an order executable by the XO
 //	 * @param fullCommand
 //	 * @return an Order
