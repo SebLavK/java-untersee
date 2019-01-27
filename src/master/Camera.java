@@ -25,7 +25,6 @@ public class Camera extends Vessel implements MouseWheelListener{
 	}
 	
 	public void zoomIn() {
-		System.out.println("in");
 		zoom -= 0.1;
 		if (zoom < 0.5) {
 			zoom = 0.5;
@@ -33,7 +32,6 @@ public class Camera extends Vessel implements MouseWheelListener{
 	}
 	
 	public void zoomOut() {
-		System.out.println("out");
 		zoom += 0.1;
 	}
 	

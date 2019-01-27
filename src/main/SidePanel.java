@@ -74,8 +74,9 @@ public class SidePanel extends JPanel {
 		log.setForeground(Color.GRAY);
 		log.setBackground(Color.BLACK);
 		log.setRows(10);
-		log.setColumns(52);
+		log.setColumns(60);
 		log.setLineWrap(true);
+		log.setWrapStyleWord(true);
 		log.setFont(logFont);
 		log.setFocusable(false);
 		log.setEditable(false);
