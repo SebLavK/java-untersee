@@ -19,7 +19,18 @@ Asset: [The Battle for Wesnoth water animation](https://opengameart.org/content/
 Author: **Zabin** and **zookeper** at opengameart.org  
 License:  Free use license
 
+Asset: [Joystix Monospace](http://typodermicfonts.com/proportional-joystix/)  
+Author: **Typodermic Fonts**  
+License: The Fontspring Desktop Font EULA Version 1.7.0 - February 26, 2017 ([link](https://www.fontspring.com/lic/jcefupvyrh))
+
 ## Changelog
+
+### v0.0.9
+* Added antialiasing
+* Started work on the data screen
+* Vessels can now dive!
+* Submarine sprite changes to a bluer color the deeper it is
+* Added depth related commands
 
 ### v0.0.8
 * Various bugfixes and a few changes to crew messages
