@@ -20,7 +20,7 @@ import submarine.Submarine;
 public class DataScreen implements Screen {
 	
 	public static final int NAV_Y = 20;
-	public static final int WEAPONS_Y = 110;
+	public static final int WEAPONS_Y = 120;
 	public static final int TARGET_Y = 210;
 	public static final int ROW_HEIGHT = 24;
 	public static final int HEAD_X = 50;
@@ -99,9 +99,9 @@ public class DataScreen implements Screen {
 		Submarine sub = master.getScenario().getSub();
 		g2d.setColor(TEXT_COLOR);
 		
-		g2d.drawString("HDG "+ Magnitudes.radiansToHumanDegrees(sub.getHeading()), ROW_0_X, NAV_Y + ROW_HEIGHT * 1);
-		g2d.drawString("SPD "+ Magnitudes.knotsToHuman(sub.getSpeed()), ROW_0_X, NAV_Y + ROW_HEIGHT * 2);
-		g2d.drawString("DEP "+ Magnitudes.knotsToHuman(sub.getSpeed()), ROW_0_X, NAV_Y + ROW_HEIGHT * 3);
+		g2d.drawString("HDG  "+ Magnitudes.radiansToHumanDegrees(sub.getHeading()), ROW_0_X, NAV_Y + ROW_HEIGHT * 1);
+		g2d.drawString("SPD   "+ Magnitudes.knotsToHuman(sub.getSpeed()) + " kn", ROW_0_X, NAV_Y + ROW_HEIGHT * 2);
+		g2d.drawString("DEP "+ Magnitudes.feetToHuman(sub.getDepth()) + " ft", ROW_0_X, NAV_Y + ROW_HEIGHT * 3);
 		
 	}
 	

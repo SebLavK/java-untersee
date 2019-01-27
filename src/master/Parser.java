@@ -203,7 +203,7 @@ public class Parser {
 		double newDepth = Double.parseDouble(sentence[1]);
 		order = new Order<Double>(xo::makeDepth,
 				newDepth,
-				"Diving: Make my depth " + newDepth + " feet. Dive aye."
+				"Diving: Make my depth " + (int) newDepth + " feet. Dive aye."
 				);
 	}
 //	/**

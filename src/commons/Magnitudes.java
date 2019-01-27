@@ -39,6 +39,6 @@ public class Magnitudes {
 	}
 	
 	public static String feetToHuman(double feet) {
-		return Integer.toString((int)Math.round(feet));
+		return String.format("% 4d", (int)Math.round(feet));
 	}
 }

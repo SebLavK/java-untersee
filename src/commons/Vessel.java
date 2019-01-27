@@ -121,7 +121,6 @@ public abstract class Vessel {
 				depth = myDepth;
 			} else {
 				depth += deltaDepth;
-				System.out.println(depth);
 			}
 		}
 	}
