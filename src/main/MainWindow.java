@@ -52,6 +52,7 @@ public class MainWindow {
 	public void initializeListeners() {
 		sidePanel.initializeListeners();
 		window.addMouseWheelListener(master.getScenario().getCamera());
+		window.addMouseListener(master.getScenario().getCamera());
 	}
 	
 	public void initialize() {
