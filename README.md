@@ -21,7 +21,10 @@ License:  Free use license
 
 Asset: [Joystix Monospace](http://typodermicfonts.com/proportional-joystix/)  
 Author: **Typodermic Fonts**  
-License: The Fontspring Desktop Font EULA Version 1.7.0 - February 26, 2017 ([link](https://www.fontspring.com/lic/jcefupvyrh))
+Licenses:  
+The Fontspring Desktop Font EULA Version 1.7.0 - February 26, 2017 ([link](https://www.fontspring.com/lic/jcefupvyrh))  
+and  
+The Fontspring Application Font EULA Version 1.7.2 - May 14, 2018 ([link](https://www.fontspring.com/lic/avhl0opgxj)) (with permission from the author)
 
 ## Changelog
 
