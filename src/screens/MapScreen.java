@@ -3,6 +3,7 @@ package screens;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -26,6 +27,8 @@ public class MapScreen implements Screen {
 	
 	private BufferedImage[] bg;
 	
+	RenderingHints renderHints;
+	
 	/**
 	 * 
 	 */
@@ -38,11 +41,17 @@ public class MapScreen implements Screen {
 	@Override
 	public void initializeScreen() {
 		bg = ImageResource.getBackground();
+		
+		renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		renderHints.put(RenderingHints.KEY_RENDERING,
+				RenderingHints.VALUE_RENDER_QUALITY);
 	}
 	
 	@Override
 	public void drawScreen(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHints(renderHints);
 		drawBackground(g2d);
 		drawSub(g2d);
 		drawShips(g2d);
