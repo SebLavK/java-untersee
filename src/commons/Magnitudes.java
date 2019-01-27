@@ -28,4 +28,13 @@ public class Magnitudes {
 	public static String radiansToHumanDegrees(double rad) {
 		return String.format("%03d", (int) Math.round(Math.toDegrees(rad)));
 	}
+	
+	/**
+	 * 
+	 * @param knots the speed to convert
+	 * @return the speed expressed as a two digit integer
+	 */
+	public static String knotsToHuman(double knots) {
+		return String.format("%02d", (int) Math.round(knots));
+	}
 }

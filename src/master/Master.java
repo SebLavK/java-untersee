@@ -66,7 +66,6 @@ public class Master implements Runnable {
 				waitTimeMillis = 0;
 				waitTimeNanos = 0;
 			}
-			System.out.println(elapsedTime);
 			try {
 				Thread.sleep(waitTimeMillis, waitTimeNanos);
 //				Thread.sleep(Clock.FRAME_PERIOD);

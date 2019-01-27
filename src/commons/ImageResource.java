@@ -1,5 +1,6 @@
 package commons;
 
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -22,6 +23,7 @@ public class ImageResource {
 	public static final int BG_TILE_WIDTH = 324;
 	public static final int BG_TILE_HEIGHT = 144;
 	
+	private static Font mainFont;
 	
 	private static BufferedImage submarine;
 	private static BufferedImage battleship;
@@ -33,11 +35,23 @@ public class ImageResource {
 	
 	public static void instantiateImages() {
 		try {
+			loadFonts();
 			loadBackground();
 			loadVessels();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void loadFonts() {
+		try{
+            mainFont = Font.createFont(Font.TRUETYPE_FONT,
+            		Main.class.getResourceAsStream("/fonts/joystix monospace.ttf"));
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+//		mainFont = mainFont.deriveFont(Font.PLAIN, 10);
 	}
 
 	
@@ -134,6 +148,13 @@ public class ImageResource {
 	 */
 	public static BufferedImage[] getBackground() {
 		return background;
+	}
+
+	/**
+	 * @return the mainFont
+	 */
+	public static Font getMainFont() {
+		return mainFont;
 	}
 
 	

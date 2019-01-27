@@ -61,7 +61,8 @@ public class MapScreen implements Screen {
 	
 	public void drawBackground(Graphics2D g2d) {
 		double zoom = master.getScenario().getCamera().getZoom();
-		int index = master.getTickCount() / 3 % bg.length;
+		//change of background animation frame every 5 frames
+		int index = master.getTickCount() / 5 % bg.length;
 		//Fill the edges
 		int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
 		int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
@@ -132,7 +133,6 @@ public class MapScreen implements Screen {
 	
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
 		
 	}
 

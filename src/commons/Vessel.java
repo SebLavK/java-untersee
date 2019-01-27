@@ -83,6 +83,9 @@ public abstract class Vessel {
 			} else {
 				heading += deltaRot;
 			}
+			if (heading < 0) {
+				heading += Math.PI * 2;
+			}
 		}
 	}
 	
