@@ -73,18 +73,29 @@ public class ExecutiveOfficer implements Runnable {
 	
 	/**
 	 * Changes the set speed of the sub
-	 * @param newSpeed an Order with a Double as object
+	 * @param speedOrder an Order with a Double as object
 	 */
-	public void makeSpeed(Order<Double> newSpeed) {
-		sub.setMySpeed((Double) newSpeed.getObject());
+	public void makeSpeed(Order<Double> speedOrder) {
+		double newSpeed = (double) speedOrder.getObject();
+		if (newSpeed > Submarine.SPEED_FLANK) {
+			newSpeed = Submarine.SPEED_FLANK;
+		} else if (newSpeed < Submarine.SPEED_BACK_EMERG) {
+			newSpeed = Submarine.SPEED_BACK_EMERG;
+		}
+		sub.setMySpeed(newSpeed);
 	}
 	
 	/**
 	 * Changes the set heading of the sub
-	 * @param newHeading an Order with a Double as object
+	 * @param headingOrder an Order with a Double as object
 	 */
-	public void makeHeading(Order<Double> newHeading) {
-		sub.setMyHeading(Math.toRadians((Double) newHeading.getObject()));
+	public void makeHeading(Order<Double> headingOrder) {
+		double newHeading = (Double) headingOrder.getObject();
+		newHeading %= 360;
+		if (newHeading == 360) {
+			newHeading = 0;
+		}
+		sub.setMyHeading(Math.toRadians(newHeading));
 	}
 	
 	/**

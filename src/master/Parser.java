@@ -64,19 +64,30 @@ public class Parser {
 	}
 	
 	public void parseSpeed() {
+		double newSpeed = Double.parseDouble(sentence[1]);
+		if (newSpeed > Submarine.SPEED_FLANK) {
+			newSpeed = Submarine.SPEED_FLANK;
+		} else if (newSpeed < Submarine.SPEED_BACK_EMERG) {
+			newSpeed = Submarine.SPEED_BACK_EMERG;
+		}
 		order = new Order<Double>(
 				xo::makeSpeed,
-				Double.parseDouble(sentence[1]),
+				newSpeed,
 				"Helm:   Make turns for "+sentence[1]+" knots. Maneuvering aye."
 				);
 	}
 	
 	public void parseHeading() {
 		//TODO: change it to "come [right/left] to course XXX
+		double newHeading = Double.parseDouble(sentence[1]);
+		newHeading %= 360;
+		if (newHeading == 360) {
+			newHeading = 0;
+		}
 		order = new Order<Double>(
 				xo::makeHeading,
-				Double.parseDouble(sentence[1]),
-				"Helm:   Come to course "+String.format("%03d", Integer.parseInt(sentence[1]))+"º. Maneuvering aye."
+				newHeading,
+				"Helm:   Come to course " + newHeading + "º. Maneuvering aye."
 				);
 	}
 	
