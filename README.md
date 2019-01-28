@@ -28,6 +28,13 @@ The Fontspring Application Font EULA Version 1.7.2 - May 14, 2018 ([link](https:
 
 ## Changelog
 
+### v0.0.11
+* Added more ships to starting scenario
+* Added targeting command
+* Information of targeted ship now appears on side panel
+* Started weapon and projectile structure
+* Added Sonar class for the submarine
+
 ### v0.0.10
 * Added camera panning, now you can choose between following the sub or free roaming
 * Smoothed zooming
