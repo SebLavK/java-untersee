@@ -25,6 +25,8 @@ public class Submarine extends Vessel {
 	public static final double SAIL_DEPTH = 46;
 	public static final double SURFACE_DEPTH = 27;
 	
+	public static final String DEFAULT_NAME = "Stingray";
+	
 	private Helm helm;
 	
 	private double periscopeDepth;
@@ -46,6 +48,8 @@ public class Submarine extends Vessel {
 		periscopeDepth = PERISCOPE_DEPTH;
 		depthBubble = DEPTH_BUBBLE;
 		depth = periscopeDepth;
+		
+		designation = DEFAULT_NAME;
 	}
 
 	@Override

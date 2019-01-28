@@ -34,7 +34,7 @@ public class Scenario {
 	
 	public void initializeCamera() {
 		camera = new Camera(sub);
-		camera.setPosition(new Point2D.Double(0,0));
+		camera.setPosition(sub.getPosition());
 	}
 	
 	public void populateShips() {
@@ -42,6 +42,7 @@ public class Scenario {
 		
 		Battleship b = new Battleship();
 		b.setPosition(new Point2D.Double(100, 100));
+		b.setDesignation("S1");
 		
 		ships.add(b);
 	}

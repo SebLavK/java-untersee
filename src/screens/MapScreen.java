@@ -1,6 +1,9 @@
 package screens;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -23,10 +26,24 @@ import submarine.Submarine;
 
 public class MapScreen implements Screen {
 	
+	public static final double ZOOM_DESIGNATION_CUTOFF = 4;
+	public static final int TARGET_FONT_SIZE = 10;
+	public static final Color TARGET_NEUTRAL_COLOR = new Color(63, 186, 81);
+	public static final Color TARGET_FRIENDLY_COLOR = new Color(63, 104, 186);
+	public static final Color TARGET_ENEMY_COLOR = new Color(186, 63, 63);
+	public static final double TARGET_OFFSET_X = 12;
+	public static final double TARGET_OFFSET_Y = -2;
+	
+	public static final Color STRATEGY_COLOR = new Color(0x0d,0x3f,0x58);
+	public static final Color GRID_COLOR = new Color(0x19,0x68,0x53);
+	
 	private Master master;
 	private GamePanel gamePanel;
+	private Font targetFont;
 	
 	private BufferedImage[] bg;
+	private BufferedImage sunglare;
+	private BufferedImage crtShadow;
 	
 	RenderingHints renderHints;
 	
@@ -42,11 +59,15 @@ public class MapScreen implements Screen {
 	@Override
 	public void initializeScreen() {
 		bg = ImageResource.getBackground();
+		sunglare = ImageResource.getSunglare();
+		crtShadow = ImageResource.getCrtShadow();
 		
 		renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		renderHints.put(RenderingHints.KEY_RENDERING,
 				RenderingHints.VALUE_RENDER_QUALITY);
+		targetFont = ImageResource.getMainFont();
+		targetFont = targetFont.deriveFont(Font.PLAIN, TARGET_FONT_SIZE);
 	}
 	
 	@Override
@@ -56,66 +77,218 @@ public class MapScreen implements Screen {
 		drawBackground(g2d);
 		drawSub(g2d);
 		drawShips(g2d);
+		drawForeground(g2d);
 		g2d.dispose();
 		g.dispose();
 	}
 	
+	public void drawForeground(Graphics2D g2d) {
+		Camera camera = master.getScenario().getCamera(); 
+		double zoom = camera.getZoom();
+		if (zoom > ZOOM_DESIGNATION_CUTOFF) {
+			if (zoom < Camera.STRATEGY_ZOOM) {
+//			g2d.setColor(getTransitionColor(zoom, color));
+				Composite comp = g2d.getComposite();
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+						(float) ((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF))));
+				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+				g2d.setComposite(comp);
+			} else {
+				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+			}
+		}
+	}
+	
 	public void drawBackground(Graphics2D g2d) {
 		double zoom = master.getScenario().getCamera().getZoom();
-		//change of background animation frame every 5 frames
-		int index = master.getTickCount() / 5 % bg.length;
-		//Fill the edges
-		int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
-		int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
-		
-		Camera camera = master.getScenario().getCamera();
-		
 		//Offset for movement of background relative to sub
-		double offsetX = (camera.getPosition().getX() * Magnitudes.FEET_PER_PIXEL
-				% ImageResource.BG_TILE_WIDTH * -1 ) / zoom;
-		double offsetY = (camera.getPosition().getY() * Magnitudes.FEET_PER_PIXEL
-				% ImageResource.BG_TILE_HEIGHT) / zoom;
+		Camera camera = master.getScenario().getCamera();
+		double offsetX;
+		double offsetY;
 		
-		for (int i = -repeatX; i < repeatX; i++) {
-			for (int j = -repeatY; j < repeatY; j++) {
-				AffineTransform at = new AffineTransform();
-				at.translate(
-						(double) (ImageResource.BG_TILE_WIDTH * i) / zoom + offsetX + gamePanel.getWidth() / 2,
-						(double) (ImageResource.BG_TILE_HEIGHT * j) / zoom + offsetY + gamePanel.getHeight() / 2
-						);
-				at.scale(1 / zoom, 1 / zoom);
-				
-				g2d.drawImage(bg[index],
-						at,
-						null);
+		if (zoom < Camera.STRATEGY_ZOOM) {
+			//change of background animation frame every 5 frames
+			int index = master.getTickCount() / 5 % bg.length;
+			//Fill the edges
+			int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
+			int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
+			offsetX = (camera.getPosition().getX() * Magnitudes.FEET_PER_PIXEL % ImageResource.BG_TILE_WIDTH * -1)
+					/ zoom;
+			offsetY = (camera.getPosition().getY() * Magnitudes.FEET_PER_PIXEL % ImageResource.BG_TILE_HEIGHT) / zoom;
+			for (int i = -repeatX; i < repeatX; i++) {
+				for (int j = -repeatY; j < repeatY; j++) {
+					AffineTransform at = new AffineTransform();
+					at.translate((double) (ImageResource.BG_TILE_WIDTH * i) / zoom + offsetX + gamePanel.getWidth() / 2,
+							(double) (ImageResource.BG_TILE_HEIGHT * j) / zoom + offsetY + gamePanel.getHeight() / 2);
+					at.scale(1 / zoom, 1 / zoom);
+
+					g2d.drawImage(bg[index], at, null);
+				}
+			} 
+			AffineTransform sat = new AffineTransform();
+			sat.translate(gamePanel.getWidth() / 2 - sunglare.getWidth() / 2, gamePanel.getHeight() / 2 - sunglare.getHeight() / 2);
+			sat.rotate(Math.PI/3, sunglare.getWidth() / 2, sunglare.getHeight() / 2);
+			g2d.drawImage(sunglare, sat, null);
+		}
+		
+		if (zoom > ZOOM_DESIGNATION_CUTOFF) {
+			//Draw the "strategy view" background
+			Color color = STRATEGY_COLOR;
+			g2d.setColor(color);
+			if (zoom < Camera.STRATEGY_ZOOM) {
+//				g2d.setColor(getTransitionColor(zoom, color));
+				Composite comp = g2d.getComposite();
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF))));
+				g2d.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+				drawGrid(g2d, zoom, camera);
+				g2d.setComposite(comp);
+			} else {
+				g2d.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+				drawGrid(g2d, zoom, camera);
 			}
 		}
 		
-		//TODO this is for debugging
-		g2d.setColor(Color.RED);
-		g2d.fillRect(300 + (int)offsetX, 300 + (int)offsetY, 10, 10);
+	}
+	
+	public void drawGrid(Graphics2D g2d, double zoom, Camera camera) {
+		//How many pixels for a nautical mile
+		int gridSize = (int) Math.round(1 / zoom * Magnitudes.FEET_PER_PIXEL * Magnitudes.FEET_PER_NM / 5);
+		int horLines = gamePanel.getHeight() / gridSize + 2;
+		int verLines = gamePanel.getWidth() / gridSize + 2;
+		horLines /= 2;
+		verLines /= 2;
+		double offsetX =(camera.getPosition().getX() * Magnitudes.FEET_PER_PIXEL / zoom % gridSize * -1);
+		double offsetY =(camera.getPosition().getY() * Magnitudes.FEET_PER_PIXEL / zoom % gridSize);
+		int posX;
+		int posY;
+		g2d.setColor(GRID_COLOR);
+		for (int i = -verLines; i < horLines; i++) {
+			posY = (int) Math.round(gridSize * i + offsetY + gamePanel.getHeight() / 2);
+			g2d.drawLine(0, posY, gamePanel.getWidth(), posY);
+		}
+		for (int i = -horLines; i < verLines; i++) {
+			posX = (int) Math.round(gridSize * i + offsetX + gamePanel.getWidth() / 2);
+			g2d.drawLine(posX, 0, posX, gamePanel.getHeight());
+		}
 	}
 	
 	public void drawVessel(Graphics2D g2d, Vessel vessel) {
-		Camera camera = master.getScenario().getCamera();
 		BufferedImage vesselImage = ImageResource.getImageForVessel(vessel);
-		AffineTransform at = new AffineTransform();
-		double zoom = master.getScenario().getCamera().getZoom();
-		
+		Camera camera = master.getScenario().getCamera();
 		Point2D relPos = camera.relativePositionOf(vessel);
-		at.translate(
-				(relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2,
-				( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2
-				);
-		at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
-		at.scale(1 / zoom, 1 / zoom);
+		double zoom = master.getScenario().getCamera().getZoom();
+		double screenX = transformCoordXForSprite(vesselImage, relPos, zoom);
+		double screenY = transformCoordYForSprite(vesselImage, relPos, zoom);
 		
-		g2d.drawImage(vesselImage, at, null);
+		drawTrueVessel(g2d, vessel, vesselImage, zoom, screenX, screenY);
+		screenX = transformCoordX(relPos, zoom);
+		screenY = transformCoordY(relPos, zoom);
+		drawVesselDesignation(g2d, vessel, screenX, screenY, zoom, TARGET_ENEMY_COLOR);
+	}
+	
+	private double transformCoordX(Point2D relPos, double zoom) {
+		return (relPos.getX() * Magnitudes.FEET_PER_PIXEL) / zoom + gamePanel.getWidth() / 2;
+	}
+	
+	private double transformCoordY(Point2D relPos, double zoom) {
+		return ( - relPos.getY() * Magnitudes.FEET_PER_PIXEL) / zoom + gamePanel.getHeight() / 2;
+	}
+
+	/**
+	 * @param vesselImage
+	 * @param relPos
+	 * @param zoom
+	 * @return
+	 */
+	private double transformCoordXForSprite(BufferedImage vesselImage, Point2D relPos, double zoom) {
+		double screenX = (relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2;
+		return screenX;
+	}
+
+	/**
+	 * @param vesselImage
+	 * @param relPos
+	 * @param zoom
+	 * @return
+	 */
+	private double transformCoordYForSprite(BufferedImage vesselImage, Point2D relPos, double zoom) {
+		double screenY = ( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2;
+		return screenY;
+	}
+
+
+	/**
+	 * @param g2d
+	 * @param vessel
+	 * @param vesselImage
+	 * @param zoom
+	 * @param screenY
+	 * @param screenX
+	 */
+	private void drawTrueVessel(Graphics2D g2d, Vessel vessel, BufferedImage vesselImage, double zoom, double screenX,
+			double screenY) {
+		if (zoom < Camera.STRATEGY_ZOOM) {
+			AffineTransform at = new AffineTransform();
+			at.translate(screenX, screenY);
+			at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
+			at.scale(1 / zoom, 1 / zoom);
+			
+			g2d.drawImage(vesselImage, at, null);
+		}
+	}
+	
+	/**
+	 * @param g2d
+	 * @param vessel
+	 * @param zoom
+	 */
+	private void drawVesselDesignation(Graphics2D g2d, Vessel vessel, double screenX, double screenY, double zoom, Color color) {
+		//If the zoom is far away enough
+		if (zoom >= ZOOM_DESIGNATION_CUTOFF) {
+			if (zoom < Camera.STRATEGY_ZOOM) {
+				color = getTransitionColor(zoom, color);
+			}
+			g2d.setColor(color);
+			g2d.setFont(targetFont);
+			g2d.drawRect((int) screenX - 10, (int) screenY - 10, 20, 20);
+			g2d.drawString(vessel.getDesignation(),
+					(float)(screenX + TARGET_OFFSET_X),
+					(float)(screenY + TARGET_OFFSET_Y)
+					);
+		}
+	}
+
+	/**
+	 * @param zoom
+	 * @param color
+	 * @return
+	 */
+	private Color getTransitionColor(double zoom, Color color) {
+		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+		return color;
 	}
 
 	public void drawSub(Graphics2D g2d) {
 		Submarine sub = master.getScenario().getSub();
 		double subDepth = sub.getDepth();
+		int subIndex = subIndexFromDepth(subDepth);
+		Camera camera = master.getScenario().getCamera();
+		BufferedImage vesselImage = ImageResource.getSubmarine()[subIndex];
+		double zoom = master.getScenario().getCamera().getZoom();
+		Point2D relPos = camera.relativePositionOf(sub);
+		double screenX = transformCoordXForSprite(vesselImage, relPos, zoom);
+		double screenY = transformCoordYForSprite(vesselImage, relPos, zoom);
+		drawTrueVessel(g2d, sub, vesselImage, zoom, screenX, screenY);
+		screenX = transformCoordX(relPos, zoom);
+		screenY = transformCoordY(relPos, zoom);
+		drawVesselDesignation(g2d, sub, screenX, screenY, zoom, TARGET_FRIENDLY_COLOR);
+	}
+
+	/**
+	 * @param subDepth
+	 * @return
+	 */
+	private int subIndexFromDepth(double subDepth) {
 		int subIndex;
 		//Different shaded sprites for different depths
 		if (subDepth <= Submarine.SURFACE_DEPTH) {
@@ -131,29 +304,7 @@ public class MapScreen implements Screen {
 		} else {
 			subIndex = 5;
 		}
-		Camera camera = master.getScenario().getCamera();
-		BufferedImage vesselImage = ImageResource.getSubmarine()[subIndex];
-		AffineTransform at = new AffineTransform();
-		double zoom = master.getScenario().getCamera().getZoom();
-		
-		Point2D relPos = camera.relativePositionOf(sub);
-		at.translate(
-				(relPos.getX()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getWidth() / 2) / zoom + gamePanel.getWidth() / 2,
-				( - relPos.getY()  * Magnitudes.FEET_PER_PIXEL - vesselImage.getHeight() / 2) / zoom + gamePanel.getHeight() / 2
-				);
-		at.rotate(sub.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
-		at.scale(1 / zoom, 1 / zoom);
-		
-		g2d.drawImage(vesselImage, at, null);
-//		Submarine sub = master.getScenario().getSub();
-//		BufferedImage subImage = ImageResource.getSubmarine();
-//		AffineTransform at = new AffineTransform();
-//		at.translate(
-//				gamePanel.getWidth() / 2 - subImage.getWidth() / 2 / Master.mapZoom,
-//				gamePanel.getHeight() / 2 - subImage.getHeight() / 2 / Master.mapZoom);
-//		at.rotate(sub.getHeading(), subImage.getWidth() / 2, subImage.getHeight() / 2);
-//		at.scale(1d / Master.mapZoom, 1d / Master.mapZoom);
-//		g2d.drawImage(subImage, at, null);
+		return subIndex;
 	}
 	
 	public void drawShips(Graphics2D g2d) {

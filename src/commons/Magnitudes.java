@@ -22,6 +22,11 @@ public class Magnitudes {
 	public static final double PIXEL_SECOND_PER_KN = 0.678949065144;
 	
 	/**
+	 * Feet per nautical mile
+	 */
+	public static final double FEET_PER_NM = 6076.12;
+	
+	/**
 	 * @param rad the angle to convert
 	 * @return an angle expressed in degrees with leading zeros e.g. 001º
 	 */

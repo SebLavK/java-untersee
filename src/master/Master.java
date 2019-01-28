@@ -30,7 +30,6 @@ public class Master implements Runnable {
 	}
 	
 	public void initializeMaster() {
-		ImageResource.instantiateImages();
 		scenario = new Scenario();
 		
 		xo = new ExecutiveOfficer(this, scenario.getSub());
