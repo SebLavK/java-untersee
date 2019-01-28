@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,8 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import commons.ImageResource;
 import commons.Screen;
 import master.Master;
+import screens.DataScreen;
 
 /**
 *@author Sebas Lavigne
@@ -33,6 +38,8 @@ public class SidePanel extends JPanel {
 	private JTextField commandLine;
 	private JTextArea log;
 	
+	private BufferedImage crtShadow;
+	
 	private Font logFont;
 	
 	private Master master;
@@ -41,6 +48,7 @@ public class SidePanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		dataPanel = new GamePanel();
 		commandPanel = new JPanel();
+		this.setBackground(DataScreen.BG_COLOR);
 	}
 	
 	public void initializeComponents() {
@@ -52,6 +60,7 @@ public class SidePanel extends JPanel {
         	e.printStackTrace();
         }
 		logFont = logFont.deriveFont(Font.PLAIN, LOG_FONT_SIZE);
+		crtShadow = ImageResource.getCrtShadow();
 		
 		GridBagConstraints settings;
 		
@@ -62,6 +71,7 @@ public class SidePanel extends JPanel {
 		this.add(dataPanel, settings);
 		
 		commandPanel.setLayout(new GridBagLayout());
+		commandPanel.setOpaque(false);
 		settings = new GridBagConstraints();
 		settings.fill = GridBagConstraints.BOTH;
 		settings.gridy = 1;
@@ -69,13 +79,16 @@ public class SidePanel extends JPanel {
 		
 		log = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(log);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane.setFocusable(false);
 		scrollPane.setBackground(Color.BLACK);
 		scrollPane.setBorder(new EmptyBorder(10, 10, 0, 10));
 		log.setForeground(Color.GRAY);
-		log.setBackground(Color.BLACK);
+		log.setOpaque(false);
+//		log.setBackground(Color.BLACK);
 		log.setRows(10);
 		log.setColumns(60);
 		log.setLineWrap(true);
@@ -90,6 +103,7 @@ public class SidePanel extends JPanel {
 		commandPanel.add(scrollPane, settings);
 		
 		commandLine = new JTextField();
+		commandLine.setOpaque(false);
 		commandLine.setMinimumSize(new Dimension(20, 20));
 		commandLine.setColumns(20);
 		commandLine.setFont(logFont);
@@ -119,12 +133,18 @@ public class SidePanel extends JPanel {
 		log.setText(log.getText() + "\n" + text);
 	}
 	
-	/* (non-Javadoc)
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		double scaleX = (double)dataPanel.getWidth() / (double)crtShadow.getWidth();
+		double scaleY = (double)dataPanel.getHeight() / (double)crtShadow.getHeight();
+		Graphics2D g2d = (Graphics2D) g;
+		AffineTransform at4 = new AffineTransform();
+		at4.translate(0, this.getHeight() - commandPanel.getHeight() - DataScreen.NAV_Y);
+//		at4.translate(0, 750);
+		at4.scale(scaleX,
+				scaleY * (DataScreen.TARGET_Y - DataScreen.WEAPONS_Y) / dataPanel.getHeight());
+		g2d.drawImage(crtShadow, at4, null);
 		dataPanel.repaint();
 	}
 

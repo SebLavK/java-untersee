@@ -34,7 +34,7 @@ public class Scenario {
 	
 	public void initializeCamera() {
 		camera = new Camera(sub);
-		camera.setPosition(new Point2D.Double(0,0));
+		camera.setPosition(sub.getPosition());
 	}
 	
 	public void populateShips() {

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import commons.ImageResource;
 import commons.Magnitudes;
@@ -19,8 +21,8 @@ import submarine.Submarine;
 public class DataScreen implements Screen {
 	
 	public static final int NAV_Y = 20;
-	public static final int WEAPONS_Y = 120;
-	public static final int TARGET_Y = 210;
+	public static final int WEAPONS_Y = 140;
+	public static final int TARGET_Y = 340;
 	public static final int ROW_HEIGHT = 24;
 	public static final int HEAD_X = 50;
 	public static final int HEAD_LINE_MARGIN = 20;
@@ -30,15 +32,16 @@ public class DataScreen implements Screen {
 	public static final int ROW_2_X = 30;
 	
 	public static final int FONT_BIG_SIZE = 16;
-	public static final int FONT_SMALL_SIZE = 16;
+	public static final int FONT_SMALL_SIZE = 12;
 	
-	public static final Color BG_COLOR = Color.BLACK;
+	public static final Color BG_COLOR = new Color(31, 31, 31);
 	public static final Color TEXT_COLOR = Color.WHITE;
-	public static final Color HEAD_COLOR = new Color(0, 127, 127);
+	public static final Color HEAD_COLOR = new Color(31, 168, 168);
 
 	private Master master;
 	private GamePanel dataPanel;
 	
+	private BufferedImage crtShadow;
 	private Font bigFont;
 	private Font smallFont;
 	
@@ -51,6 +54,7 @@ public class DataScreen implements Screen {
 
 	@Override
 	public void initializeScreen() {
+		crtShadow = ImageResource.getCrtShadow();
 		bigFont = ImageResource.getMainFont();
 		smallFont = ImageResource.getMainFont();
 		bigFont = bigFont.deriveFont(Font.PLAIN, FONT_BIG_SIZE);
@@ -63,11 +67,59 @@ public class DataScreen implements Screen {
 		
 		drawSections(g2d);
 		drawNavigation(g2d);
+		drawWeapons(g2d);
+		drawTarget(g2d);
+		drawShadows(g2d);
 		
 		g2d.dispose();
 		g.dispose();
 	}
 	
+	/**
+	 * @param g2d
+	 */
+	private void drawShadows(Graphics2D g2d) {
+		double scaleX = (double)dataPanel.getWidth() / (double)crtShadow.getWidth();
+		double scaleY = (double)dataPanel.getHeight() / (double)crtShadow.getHeight();
+		
+		AffineTransform at1 = new AffineTransform();
+		at1.scale(scaleX,
+				scaleY * (WEAPONS_Y - NAV_Y) / dataPanel.getHeight());
+		AffineTransform at2 = new AffineTransform();
+		at2.translate(0, WEAPONS_Y - NAV_Y);
+		at2.scale(scaleX,
+				scaleY * (TARGET_Y - WEAPONS_Y) / dataPanel.getHeight());
+		AffineTransform at3 = new AffineTransform();
+		at3.translate(0, TARGET_Y - NAV_Y);
+		at3.scale(scaleX,
+				scaleY * (dataPanel.getHeight() - TARGET_Y) / dataPanel.getHeight());
+		AffineTransform at4 = new AffineTransform();
+		at4.translate(0, dataPanel.getHeight() - NAV_Y);
+		at4.scale(scaleX,
+				scaleY * (TARGET_Y - WEAPONS_Y) / dataPanel.getHeight());
+		
+		g2d.drawImage(crtShadow, at1, null);
+		g2d.drawImage(crtShadow, at2, null);
+		g2d.drawImage(crtShadow, at3, null);
+		g2d.drawImage(crtShadow, at4, null);
+	}
+
+	/**
+	 * @param g2d
+	 */
+	private void drawTarget(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * @param g2d
+	 */
+	private void drawWeapons(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void drawSections(Graphics2D g2d) {
 		g2d.setColor(BG_COLOR);
 		g2d.fillRect(0, 0, dataPanel.getWidth(), dataPanel.getHeight());
@@ -95,6 +147,7 @@ public class DataScreen implements Screen {
 	public void drawNavigation(Graphics2D g2d) {
 		Submarine sub = master.getScenario().getSub();
 		g2d.setColor(TEXT_COLOR);
+		g2d.setFont(smallFont);
 		
 		g2d.drawString("HDG  "+ Magnitudes.radiansToHumanDegrees(sub.getHeading()), ROW_0_X, NAV_Y + ROW_HEIGHT * 1);
 		g2d.drawString("SPD   "+ Magnitudes.knotsToHuman(sub.getSpeed()) + " kn", ROW_0_X, NAV_Y + ROW_HEIGHT * 2);
