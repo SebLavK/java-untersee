@@ -2,7 +2,6 @@ package master;
 
 import java.awt.geom.Point2D;
 import java.util.HashSet;
-
 import ships.Battleship;
 import ships.Ship;
 import submarine.Submarine;
@@ -24,7 +23,7 @@ public class Scenario {
 	}
 	
 	public void initializeSub() {
-		sub = new Submarine();
+		sub = new Submarine(this);
 		sub.setMyHeading(Math.toRadians(0));
 		sub.setMySpeed(0);
 		sub.setSpeed(0);
@@ -42,7 +41,6 @@ public class Scenario {
 		
 		Battleship b = new Battleship();
 		b.setPosition(new Point2D.Double(100, 100));
-		b.setDesignation("S1");
 		
 		ships.add(b);
 	}

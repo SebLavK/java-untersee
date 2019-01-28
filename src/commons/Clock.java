@@ -12,14 +12,29 @@ public final class Clock {
 	
 	/** The time between frames in milliseconds */
 	public final static long FRAME_PERIOD = 16;
+	public final static long FPS = 60;
 	public final static long FRAME_NANO = 16666666;
 	/** The time spent in frame in seconds */
 	public final static double TICK_TIME = 0.016666666;
 	
+	private static int tickCount;
 	private static long gameStartTime;
 
 	private Clock() {}
 	
+	public static void tick() {
+		tickCount++;
+	}
+	
+	
+	
+	/**
+	 * @return the tickCount
+	 */
+	public static int getTickCount() {
+		return tickCount;
+	}
+
 	/**
 	 * @return the gameStartTime
 	 */

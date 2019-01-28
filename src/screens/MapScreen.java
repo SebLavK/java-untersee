@@ -11,6 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import commons.Clock;
 import commons.ImageResource;
 import commons.Magnitudes;
 import commons.Screen;
@@ -91,10 +92,10 @@ public class MapScreen implements Screen {
 				Composite comp = g2d.getComposite();
 				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 						(float) ((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF))));
-				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+				g2d.drawImage(crtShadow, 0, 0, null);
 				g2d.setComposite(comp);
 			} else {
-				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+				g2d.drawImage(crtShadow, 0, 0, null);
 			}
 		}
 	}
@@ -108,7 +109,7 @@ public class MapScreen implements Screen {
 		
 		if (zoom < Camera.STRATEGY_ZOOM) {
 			//change of background animation frame every 5 frames
-			int index = master.getTickCount() / 5 % bg.length;
+			int index = Clock.getTickCount() / 5 % bg.length;
 			//Fill the edges
 			int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
 			int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
@@ -308,7 +309,7 @@ public class MapScreen implements Screen {
 	}
 	
 	public void drawShips(Graphics2D g2d) {
-		for (Vessel vessel : master.getScenario().getShips()) {
+		for (Vessel vessel : master.getScenario().getSub().getSonar().getContacts()) {
 			drawVessel(g2d, vessel);
 		}
 	}

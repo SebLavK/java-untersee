@@ -3,7 +3,6 @@ package master;
 import java.awt.Toolkit;
 
 import commons.Clock;
-import commons.ImageResource;
 import main.GamePanel;
 import main.SidePanel;
 import screens.DataScreen;
@@ -17,7 +16,6 @@ public class Master implements Runnable {
 	
 	public static Master master;
 	
-	private int tickCount;
 	private Scenario scenario;
 	private GamePanel gamePanel;
 	private SidePanel sidePanel;
@@ -50,7 +48,7 @@ public class Master implements Runnable {
 		sidePanel.repaint();
 		//Para funcionamiento fluido en Linux
 		Toolkit.getDefaultToolkit().sync();
-		tickCount++;
+		Clock.tick();
 	}
 
 	@Override
@@ -81,12 +79,6 @@ public class Master implements Runnable {
 		return scenario;
 	}
 
-	/**
-	 * @return the tickCount
-	 */
-	public int getTickCount() {
-		return tickCount;
-	}
 	
 	/**
 	 * @return the sidePanel

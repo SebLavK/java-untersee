@@ -1,6 +1,7 @@
 package submarine;
 
 import commons.Vessel;
+import master.Scenario;
 
 /**
 *@author Sebas Lavigne
@@ -28,12 +29,16 @@ public class Submarine extends Vessel {
 	public static final String DEFAULT_NAME = "Stingray";
 	
 	private Helm helm;
+	private Sonar sonar;
 	
 	private double periscopeDepth;
+	private Scenario scenario;
 	
-	public Submarine() {
+	public Submarine(Scenario scenario) {
 		super();
+		this.scenario = scenario;
 		helm = new Helm(this);
+		sonar = new Sonar(scenario);
 		
 		maxSpeed = SPEED_FLANK;
 		standardSpeed = SPEED_STANDARD;
@@ -56,11 +61,21 @@ public class Submarine extends Vessel {
 	public void tick() {
 		super.tick();
 		helm.tick();
+		sonar.tick();
 	}
 
 	
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
+
+	/**
+	 * @return the sonar
+	 */
+	public Sonar getSonar() {
+		return sonar;
+	}
+	
+	
 	
 }
