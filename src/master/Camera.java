@@ -23,7 +23,7 @@ import submarine.Submarine;
 public class Camera extends Vessel implements MouseWheelListener, MouseListener {
 	
 	public static final double INITIAL_ZOOM = 2;
-	public static final double MAX_ZOOM = 16;
+	public static final double MAX_ZOOM = 32;
 	public static final double MIN_ZOOM = 0.5;
 	public static final double ZOOM_RATE = 5;
 	public static final double STRATEGY_ZOOM = 16;

@@ -1,6 +1,8 @@
 package screens;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,6 +33,9 @@ public class MapScreen implements Screen {
 	public static final Color TARGET_ENEMY_COLOR = new Color(186, 63, 63);
 	public static final double TARGET_OFFSET_X = 0;
 	public static final double TARGET_OFFSET_Y = 30;
+	
+	public static final Color STRATEGY_COLOR = new Color(0x0d,0x3f,0x58);
+	public static final Color GRID_COLOR = new Color(0x19,0x68,0x53);
 	
 	private Master master;
 	private GamePanel gamePanel;
@@ -74,38 +79,64 @@ public class MapScreen implements Screen {
 	
 	public void drawBackground(Graphics2D g2d) {
 		double zoom = master.getScenario().getCamera().getZoom();
-		//change of background animation frame every 5 frames
-		int index = master.getTickCount() / 5 % bg.length;
-		//Fill the edges
-		int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
-		int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
-		
-		Camera camera = master.getScenario().getCamera();
-		
 		//Offset for movement of background relative to sub
-		double offsetX = (camera.getPosition().getX() * Magnitudes.FEET_PER_PIXEL
-				% ImageResource.BG_TILE_WIDTH * -1 ) / zoom;
-		double offsetY = (camera.getPosition().getY() * Magnitudes.FEET_PER_PIXEL
-				% ImageResource.BG_TILE_HEIGHT) / zoom;
+		Camera camera = master.getScenario().getCamera();
+		double offsetX;
+		double offsetY;
 		
-		for (int i = -repeatX; i < repeatX; i++) {
-			for (int j = -repeatY; j < repeatY; j++) {
-				AffineTransform at = new AffineTransform();
-				at.translate(
-						(double) (ImageResource.BG_TILE_WIDTH * i) / zoom + offsetX + gamePanel.getWidth() / 2,
-						(double) (ImageResource.BG_TILE_HEIGHT * j) / zoom + offsetY + gamePanel.getHeight() / 2
-						);
-				at.scale(1 / zoom, 1 / zoom);
-				
-				g2d.drawImage(bg[index],
-						at,
-						null);
-			}
+		if (zoom < Camera.STRATEGY_ZOOM) {
+			//change of background animation frame every 5 frames
+			int index = master.getTickCount() / 5 % bg.length;
+			//Fill the edges
+			int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
+			int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
+			offsetX = (camera.getPosition().getX() * Magnitudes.FEET_PER_PIXEL % ImageResource.BG_TILE_WIDTH * -1)
+					/ zoom;
+			offsetY = (camera.getPosition().getY() * Magnitudes.FEET_PER_PIXEL % ImageResource.BG_TILE_HEIGHT) / zoom;
+			for (int i = -repeatX; i < repeatX; i++) {
+				for (int j = -repeatY; j < repeatY; j++) {
+					AffineTransform at = new AffineTransform();
+					at.translate((double) (ImageResource.BG_TILE_WIDTH * i) / zoom + offsetX + gamePanel.getWidth() / 2,
+							(double) (ImageResource.BG_TILE_HEIGHT * j) / zoom + offsetY + gamePanel.getHeight() / 2);
+					at.scale(1 / zoom, 1 / zoom);
+
+					g2d.drawImage(bg[index], at, null);
+				}
+			} 
+			//TODO this is for debugging
+			g2d.setColor(Color.RED);
+			g2d.fillRect(300 + (int)offsetX, 300 + (int)offsetY, 10, 10);
 		}
 		
-		//TODO this is for debugging
-		g2d.setColor(Color.RED);
-		g2d.fillRect(300 + (int)offsetX, 300 + (int)offsetY, 10, 10);
+		if (zoom > ZOOM_DESIGNATION_CUTOFF) {
+			//Draw the "strategy view" background
+			Color color = STRATEGY_COLOR;
+			g2d.setColor(color);
+			if (zoom < Camera.STRATEGY_ZOOM) {
+//				g2d.setColor(getTransitionColor(zoom, color));
+				Composite comp = g2d.getComposite();
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF))));
+				g2d.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+				drawGrid(g2d, zoom, camera);
+				g2d.setComposite(comp);
+			} else {
+				g2d.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+				drawGrid(g2d, zoom, camera);
+			}
+			
+			//Draw the grid
+			color = GRID_COLOR;
+			if (zoom < Camera.STRATEGY_ZOOM) {
+				g2d.setColor(getTransitionColor(zoom, color));
+			}
+			g2d.setColor(color);
+			g2d.drawLine(0, 100, gamePanel.getWidth(), 100);
+		}
+		
+	}
+	
+	public void drawGrid(Graphics2D g2d, double zoom, Camera camera) {
+		
 	}
 	
 	public void drawVessel(Graphics2D g2d, Vessel vessel) {
@@ -169,7 +200,9 @@ public class MapScreen implements Screen {
 	private void drawVesselDesignation(Graphics2D g2d, Vessel vessel, double screenX, double screenY, double zoom, Color color) {
 		//If the zoom is far away enough
 		if (zoom >= ZOOM_DESIGNATION_CUTOFF) {
-			color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+			if (zoom < Camera.STRATEGY_ZOOM) {
+				color = getTransitionColor(zoom, color);
+			}
 			g2d.setColor(color);
 			g2d.setFont(targetFont);
 			g2d.drawRect((int) screenX, (int) screenY, 20, 20);
@@ -178,6 +211,16 @@ public class MapScreen implements Screen {
 					(float)(screenY + TARGET_OFFSET_Y)
 					);
 		}
+	}
+
+	/**
+	 * @param zoom
+	 * @param color
+	 * @return
+	 */
+	private Color getTransitionColor(double zoom, Color color) {
+		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+		return color;
 	}
 
 	public void drawSub(Graphics2D g2d) {
