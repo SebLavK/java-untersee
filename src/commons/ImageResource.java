@@ -35,8 +35,11 @@ public class ImageResource {
 	private static BufferedImage crtShadow;
 	private static BufferedImage sunglare;
 	
+	private static BufferedImage introImage;
+	
 	public static void instantiateImages() {
 		try {
+			loadImages();
 			loadFonts();
 			loadBackground();
 			loadVessels();
@@ -54,6 +57,10 @@ public class ImageResource {
         	e.printStackTrace();
         }
 //		mainFont = mainFont.deriveFont(Font.PLAIN, 10);
+	}
+	
+	public static void loadImages() throws IOException {
+		introImage = ImageIO.read(Main.class.getResource("/images/submarineSurfacing.jpg"));
 	}
 
 	
@@ -160,6 +167,13 @@ public class ImageResource {
 	 */
 	public static BufferedImage[] getBackground() {
 		return background;
+	}
+
+	/**
+	 * @return the introImage
+	 */
+	public static BufferedImage getIntroImage() {
+		return introImage;
 	}
 
 	/**

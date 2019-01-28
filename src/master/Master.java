@@ -5,7 +5,9 @@ import java.awt.Toolkit;
 import commons.Clock;
 import main.GamePanel;
 import main.SidePanel;
+import screens.BlankScreen;
 import screens.DataScreen;
+import screens.IntroScreen;
 import screens.MapScreen;
 
 /**
@@ -21,6 +23,8 @@ public class Master implements Runnable {
 	private SidePanel sidePanel;
 	private ExecutiveOfficer xo;
 	
+	private boolean running;
+	
 	public Master(GamePanel gamePanel, SidePanel sidePanel) {
 		this.gamePanel = gamePanel;
 		this.sidePanel = sidePanel;
@@ -28,27 +32,30 @@ public class Master implements Runnable {
 	}
 	
 	public void initializeMaster() {
+		running = false;
 		scenario = new Scenario();
 		
 		xo = new ExecutiveOfficer(this, scenario.getSub());
 		xo.initialize();
 		
-		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
-		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+		gamePanel.setCurrentScreen(new IntroScreen(this));
+		gamePanel.getCurrentScreen().initializeScreen();
+//		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+		sidePanel.setCurrentScreen(new BlankScreen(sidePanel));
 	}
 	
 	public void startGame() {
-		Clock.setGameStartTime();
 		new Thread(this).start();
 	}
 	
 	private void tick() {
-		scenario.tick();
+		if (running) {
+			scenario.tick();
+		}
 		gamePanel.repaint();
 		sidePanel.repaint();
-		//Para funcionamiento fluido en Linux
-		Toolkit.getDefaultToolkit().sync();
 		Clock.tick();
+		Toolkit.getDefaultToolkit().sync();
 	}
 
 	@Override
@@ -94,7 +101,12 @@ public class Master implements Runnable {
 		return xo;
 	}
 	
-	
+	public void startRunning() {
+		running = true;
+		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
+		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+		Clock.setGameStartTime();
+	}
 
 	
 }

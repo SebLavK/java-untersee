@@ -2,6 +2,7 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 

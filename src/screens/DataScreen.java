@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
@@ -194,6 +195,15 @@ public class DataScreen implements Screen {
 	
 	@Override
 	public void tick() {
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see commons.Screen#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

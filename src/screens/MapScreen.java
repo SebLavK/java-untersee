@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -347,6 +348,15 @@ public class MapScreen implements Screen {
 	
 	@Override
 	public void tick() {
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see commons.Screen#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 

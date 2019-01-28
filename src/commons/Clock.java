@@ -46,6 +46,7 @@ public final class Clock {
 	 * Sets the current time as the game starting time
 	 */
 	public static void setGameStartTime() {
+		tickCount = 0;
 		if (gameStartTime == 0) {
 			gameStartTime = System.nanoTime();
 		} else {
