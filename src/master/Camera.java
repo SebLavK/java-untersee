@@ -80,7 +80,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 		if (zoom != desiredZoom) {
 			int dir = (zoom < desiredZoom) ? 1 : -1;
 			double deltaZoom = ZOOM_RATE * Clock.TICK_TIME * dir
-					* Math.max((Math.abs(zoom - desiredZoom)), 0.05);
+					* Math.max((Math.abs(zoom - desiredZoom)), 0.2);
 			if (Math.abs(deltaZoom) > Math.abs(zoom - desiredZoom)) {
 				zoom = desiredZoom;
 			} else {

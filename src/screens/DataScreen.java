@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import commons.ImageResource;
 import commons.Magnitudes;
@@ -39,8 +38,6 @@ public class DataScreen implements Screen {
 
 	private Master master;
 	private GamePanel dataPanel;
-	
-	private BufferedImage bg;
 	
 	private Font bigFont;
 	private Font smallFont;
