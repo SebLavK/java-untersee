@@ -42,6 +42,8 @@ public class MapScreen implements Screen {
 	private Font targetFont;
 	
 	private BufferedImage[] bg;
+	private BufferedImage sunglare;
+	private BufferedImage crtShadow;
 	
 	RenderingHints renderHints;
 	
@@ -57,6 +59,8 @@ public class MapScreen implements Screen {
 	@Override
 	public void initializeScreen() {
 		bg = ImageResource.getBackground();
+		sunglare = ImageResource.getSunglare();
+		crtShadow = ImageResource.getCrtShadow();
 		
 		renderHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -73,8 +77,26 @@ public class MapScreen implements Screen {
 		drawBackground(g2d);
 		drawSub(g2d);
 		drawShips(g2d);
+		drawForeground(g2d);
 		g2d.dispose();
 		g.dispose();
+	}
+	
+	public void drawForeground(Graphics2D g2d) {
+		Camera camera = master.getScenario().getCamera(); 
+		double zoom = camera.getZoom();
+		if (zoom > ZOOM_DESIGNATION_CUTOFF) {
+			if (zoom < Camera.STRATEGY_ZOOM) {
+//			g2d.setColor(getTransitionColor(zoom, color));
+				Composite comp = g2d.getComposite();
+				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+						(float) ((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF))));
+				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+				g2d.setComposite(comp);
+			} else {
+				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+			}
+		}
 	}
 	
 	public void drawBackground(Graphics2D g2d) {
@@ -103,9 +125,10 @@ public class MapScreen implements Screen {
 					g2d.drawImage(bg[index], at, null);
 				}
 			} 
-			//TODO this is for debugging
-			g2d.setColor(Color.RED);
-			g2d.fillRect(300 + (int)offsetX, 300 + (int)offsetY, 10, 10);
+			AffineTransform sat = new AffineTransform();
+			sat.translate(gamePanel.getWidth() / 2 - sunglare.getWidth() / 2, gamePanel.getHeight() / 2 - sunglare.getHeight() / 2);
+			sat.rotate(Math.PI/3, sunglare.getWidth() / 2, sunglare.getHeight() / 2);
+			g2d.drawImage(sunglare, sat, null);
 		}
 		
 		if (zoom > ZOOM_DESIGNATION_CUTOFF) {
@@ -130,15 +153,22 @@ public class MapScreen implements Screen {
 	public void drawGrid(Graphics2D g2d, double zoom, Camera camera) {
 		//How many pixels for a nautical mile
 		int gridSize = (int) Math.round(1 / zoom * Magnitudes.FEET_PER_PIXEL * Magnitudes.FEET_PER_NM / 5);
-		int horLines = gamePanel.getHeight() / gridSize + 1;
-		int verLines = gamePanel.getWidth() / gridSize + 1;
-		
+		int horLines = gamePanel.getHeight() / gridSize + 2;
+		int verLines = gamePanel.getWidth() / gridSize + 2;
+		horLines /= 2;
+		verLines /= 2;
+		double offsetX =(camera.getPosition().getX() * Magnitudes.FEET_PER_PIXEL / zoom % gridSize * -1);
+		double offsetY =(camera.getPosition().getY() * Magnitudes.FEET_PER_PIXEL / zoom % gridSize);
+		int posX;
+		int posY;
 		g2d.setColor(GRID_COLOR);
-		for (int i = 0; i < horLines; i++) {
-			g2d.drawLine(0, i * gridSize, gamePanel.getWidth(), i * gridSize);
+		for (int i = -verLines; i < horLines; i++) {
+			posY = (int) Math.round(gridSize * i + offsetY + gamePanel.getHeight() / 2);
+			g2d.drawLine(0, posY, gamePanel.getWidth(), posY);
 		}
-		for (int i = 0; i < verLines; i++) {
-			g2d.drawLine(i * gridSize, 0, i * gridSize, gamePanel.getHeight());
+		for (int i = -horLines; i < verLines; i++) {
+			posX = (int) Math.round(gridSize * i + offsetX + gamePanel.getWidth() / 2);
+			g2d.drawLine(posX, 0, posX, gamePanel.getHeight());
 		}
 	}
 	
@@ -197,12 +227,14 @@ public class MapScreen implements Screen {
 	 */
 	private void drawTrueVessel(Graphics2D g2d, Vessel vessel, BufferedImage vesselImage, double zoom, double screenX,
 			double screenY) {
-		AffineTransform at = new AffineTransform();
-		at.translate(screenX, screenY);
-		at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
-		at.scale(1 / zoom, 1 / zoom);
-		
-		g2d.drawImage(vesselImage, at, null);
+		if (zoom < Camera.STRATEGY_ZOOM) {
+			AffineTransform at = new AffineTransform();
+			at.translate(screenX, screenY);
+			at.rotate(vessel.getHeading(), vesselImage.getWidth() / 2 / zoom, vesselImage.getHeight() / 2 / zoom);
+			at.scale(1 / zoom, 1 / zoom);
+			
+			g2d.drawImage(vesselImage, at, null);
+		}
 	}
 	
 	/**

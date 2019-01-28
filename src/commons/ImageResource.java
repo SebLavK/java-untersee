@@ -31,6 +31,8 @@ public class ImageResource {
 	private static BufferedImage patrolShip;
 	private static BufferedImage rescueShip;
 	private static BufferedImage[] background;
+	private static BufferedImage crtShadow;
+	private static BufferedImage sunglare;
 	
 	public static void instantiateImages() {
 		try {
@@ -61,6 +63,8 @@ public class ImageResource {
 			url = "/sprites/bg/ocean" + String.format("%02d", i+1) + ".png";
 			background[i] = ImageIO.read(Main.class.getResource(url));
 		}
+		crtShadow = ImageIO.read(Main.class.getResource("/sprites/bg/crtShadow.png"));
+		sunglare = ImageIO.read(Main.class.getResource("/sprites/bg/sunGlare.png"));
 	}
 	
 	/**
@@ -160,6 +164,20 @@ public class ImageResource {
 	 */
 	public static Font getMainFont() {
 		return mainFont;
+	}
+
+	/**
+	 * @return the foreground
+	 */
+	public static BufferedImage getCrtShadow() {
+		return crtShadow;
+	}
+
+	/**
+	 * @return the sunglare
+	 */
+	public static BufferedImage getSunglare() {
+		return sunglare;
 	}
 
 	
