@@ -47,6 +47,8 @@ public class MapScreen implements Screen {
 	private BufferedImage sunglare;
 	private BufferedImage crtShadow;
 	
+	private boolean fadeIn;
+	
 	RenderingHints renderHints;
 	
 	/**
@@ -70,6 +72,8 @@ public class MapScreen implements Screen {
 				RenderingHints.VALUE_RENDER_QUALITY);
 		targetFont = ImageResource.getMainFont();
 		targetFont = targetFont.deriveFont(Font.PLAIN, TARGET_FONT_SIZE);
+		
+		fadeIn = true;
 	}
 	
 	@Override
@@ -83,8 +87,21 @@ public class MapScreen implements Screen {
 		drawProjectiles(g2d);
 		
 		drawForeground(g2d);
+		if (fadeIn) {
+			fadeIn(g2d);
+		}
 		g2d.dispose();
 		g.dispose();
+	}
+	
+	public void fadeIn(Graphics2D g2d) {
+		if (Clock.getTickCount() < Clock.FPS * 2) {
+			g2d.setColor(new Color(0, 0, 0,
+					(int) Math.round(((double)Clock.FPS * 2 - (double)Clock.getTickCount()) / ((double)Clock.FPS * 3) * 255d)));
+			g2d.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+		} else {
+			
+		}
 	}
 	
 	public void drawForeground(Graphics2D g2d) {

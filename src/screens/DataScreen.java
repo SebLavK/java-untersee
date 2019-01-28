@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import commons.Clock;
 import commons.ImageResource;
 import commons.Magnitudes;
 import commons.Screen;
@@ -47,6 +48,8 @@ public class DataScreen implements Screen {
 	private Font bigFont;
 	private Font smallFont;
 	
+	private boolean fadeIn;
+	
 	
 	public DataScreen(Master master, GamePanel dataPanel) {
 		this.master = master;
@@ -61,6 +64,8 @@ public class DataScreen implements Screen {
 		smallFont = ImageResource.getMainFont();
 		bigFont = bigFont.deriveFont(Font.PLAIN, FONT_BIG_SIZE);
 		smallFont = smallFont.deriveFont(Font.PLAIN, FONT_SMALL_SIZE);
+		
+		fadeIn = true;
 	}
 	
 	@Override
@@ -73,8 +78,22 @@ public class DataScreen implements Screen {
 		drawTarget(g2d);
 		drawShadows(g2d);
 		
+		if (fadeIn) {
+			fadeIn(g2d);
+		}
+		
 		g2d.dispose();
 		g.dispose();
+	}
+	
+	public void fadeIn(Graphics2D g2d) {
+		if (Clock.getTickCount() < Clock.FPS * 2) {
+			g2d.setColor(new Color(0, 0, 0,
+					(int) Math.round(((double)Clock.FPS * 2 - (double)Clock.getTickCount()) / ((double)Clock.FPS * 3) * 255d)));
+			g2d.fillRect(0, 0, dataPanel.getWidth(), dataPanel.getHeight());
+		} else {
+			fadeIn = true;
+		}
 	}
 	
 	/**
