@@ -154,8 +154,8 @@ public class MapScreen implements Screen {
 	
 	public void drawGrid(Graphics2D g2d, double zoom, Camera camera) {
 		//How many pixels for a kiloyard mile
-		//Should make the grid size 500 yards
-		int gridSize = (int) Math.round(1 / zoom * Magnitudes.FEET_PER_PIXEL * Magnitudes.FEET_PER_KYD / 2);
+		//Should make the grid size 1000 yards
+		int gridSize = (int) Math.round(1 / zoom * Magnitudes.FEET_PER_PIXEL * Magnitudes.FEET_PER_KYD);
 		int horLines = gamePanel.getHeight() / gridSize + 2;
 		int verLines = gamePanel.getWidth() / gridSize + 2;
 		horLines /= 2;

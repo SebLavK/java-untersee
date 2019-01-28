@@ -65,15 +65,6 @@ public class Submarine extends Vessel {
 		sonar.tick();
 	}
 	
-	public void floodTube(int num) {
-		
-	}
-	
-	public void launchTube(int num) {
-		tRoom.launch(num);
-	}
-
-	
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
