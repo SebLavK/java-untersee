@@ -70,7 +70,9 @@ public class GamePanel extends JPanel {
 		this.currentScreen = currentScreen;
 	}
 
-	
+	public void removeListeners() {
+		this.removeMouseListener(this.getMouseListeners()[0]);
+	}
 	
 
 

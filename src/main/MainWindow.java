@@ -40,7 +40,7 @@ public class MainWindow {
 		sidePanel = new SidePanel();
 		sidePanel.setPreferredSize(new Dimension(WINDOW_WIDTH - WINDOW_HEIGHT, WINDOW_HEIGHT));
 		
-		master = new Master(gamePanel, sidePanel);
+		master = new Master(this, gamePanel, sidePanel);
 		gamePanel.initializePanel();
 		sidePanel.setMaster(master);
 		sidePanel.initializePanel();

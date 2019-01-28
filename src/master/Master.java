@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 
 import commons.Clock;
 import main.GamePanel;
+import main.MainWindow;
 import main.SidePanel;
 import screens.BlankScreen;
 import screens.DataScreen;
@@ -18,6 +19,8 @@ public class Master implements Runnable {
 	
 	public static Master master;
 	
+	private MainWindow mainWindow;
+	
 	private Scenario scenario;
 	private GamePanel gamePanel;
 	private SidePanel sidePanel;
@@ -25,7 +28,7 @@ public class Master implements Runnable {
 	
 	private boolean running;
 	
-	public Master(GamePanel gamePanel, SidePanel sidePanel) {
+	public Master(MainWindow mainWindow, GamePanel gamePanel, SidePanel sidePanel) {
 		this.gamePanel = gamePanel;
 		this.sidePanel = sidePanel;
 		master = this;
@@ -102,10 +105,12 @@ public class Master implements Runnable {
 	}
 	
 	public void startRunning() {
+		gamePanel.removeListeners();
 		running = true;
 		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
 		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
 		Clock.setGameStartTime();
+//		mainWindow.initializeListeners();
 	}
 
 	
