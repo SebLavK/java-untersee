@@ -135,6 +135,10 @@ public class ExecutiveOfficer implements Runnable {
 		sub.getSonar().target((String) targetOrder.getObject()); 
 	}
 	
+	public void launchTube(Order<Integer> launchOrder) {
+		sub.gettRoom().launch((Integer) launchOrder.getObject());
+	}
+	
 	
 	/**
 	 * To be used when the parser doesn't generate an order, either by failure or

@@ -75,6 +75,13 @@ public class Submarine extends Vessel {
 	public Sonar getSonar() {
 		return sonar;
 	}
+
+	/**
+	 * @return the tRoom
+	 */
+	public TorpedoRoom gettRoom() {
+		return tRoom;
+	}
 	
 
 	

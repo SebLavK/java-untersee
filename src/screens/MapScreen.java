@@ -77,8 +77,11 @@ public class MapScreen implements Screen {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHints(renderHints);
 		drawBackground(g2d);
+		
 		drawSub(g2d);
 		drawShips(g2d);
+		drawProjectiles(g2d);
+		
 		drawForeground(g2d);
 		g2d.dispose();
 		g.dispose();
@@ -263,16 +266,16 @@ public class MapScreen implements Screen {
 		}
 	}
 
-	/**
-	 * @param zoom
-	 * @param color
-	 * @return
-	 */
-	private Color getTransitionColor(double zoom, Color color) {
-		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
-System.out.println((int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
-		return color;
-	}
+//	/**
+//	 * @param zoom
+//	 * @param color
+//	 * @return
+//	 */
+//	private Color getTransitionColor(double zoom, Color color) {
+//		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+//System.out.println((int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+//		return color;
+//	}
 
 	public void drawSub(Graphics2D g2d) {
 		Submarine sub = master.getScenario().getSub();

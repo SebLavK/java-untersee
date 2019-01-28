@@ -1,5 +1,7 @@
 package submarine;
 
+import master.ExecutiveOfficer;
+import weapons.Torpedo;
 import weapons.TorpedoTube;
 
 /**
@@ -30,8 +32,12 @@ public class TorpedoRoom {
 	}
 	
 	public void launch(int tubeNum) {
-		tubes[tubeNum].setTarget(sub.getTarget());
-		tubes[tubeNum].fire();
+		if (sub.getTarget() != null) {
+			Torpedo torpedo = new Torpedo(sub, Torpedo.TORPEDO_FAST, sub.getTarget());
+			sub.getScenario().getProjectiles().add(torpedo);
+		} else {
+			ExecutiveOfficer.log("WEP O:  No target selected, Captain.");
+		}
 	}
 
 }

@@ -8,6 +8,7 @@ import commons.Vessel;
 import master.ExecutiveOfficer;
 import master.Scenario;
 import ships.Ship;
+import weapons.Projectile;
 
 /**
 *@author Sebas Lavigne
@@ -33,6 +34,7 @@ public class Sonar {
 	public void everyFiveSeconds() {
 		if (Clock.getTickCount() % (Clock.FPS * 5) == 0) {
 			updateContacts();
+			removeDestroyed();
 		}
 	}
 	
@@ -46,6 +48,21 @@ public class Sonar {
 				contacts.add(ship);
 				String bearing = Magnitudes.radiansToHumanDegrees(sub.bearingTo(ship));
 				ExecutiveOfficer.log("Sonar:  New contact bearing " + bearing + "º. Designated "+ship.getDesignation() + ".");
+			}
+		}
+	}
+	
+	public void removeDestroyed() {
+		HashSet<Vessel> toRemove = new HashSet<>();
+		for (Ship ship : contacts) {
+			if (ship.isDestroyed()) {
+				toRemove.add(ship);
+			}
+		}
+		
+		for (Vessel vessel : toRemove) {
+			if (contacts.contains(vessel)) {
+				contacts.remove(vessel);
 			}
 		}
 	}

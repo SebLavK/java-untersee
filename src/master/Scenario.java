@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.Random;
 
+import commons.Vessel;
 import ships.Battleship;
 import ships.Cruiser;
 import ships.Destroyer;
@@ -87,7 +88,30 @@ public class Scenario {
 			p.tick();
 		}
 		
+		removeDestroyed();
+		
 		camera.tick();
+	}
+	
+	public void removeDestroyed() {
+		HashSet<Vessel> toRemove = new HashSet<>();
+		for (Ship ship : ships) {
+			if (ship.isDestroyed()) {
+				toRemove.add(ship);
+			}
+		}
+		for (Projectile projectile : projectiles) {
+			if (projectile.isDestroyed()) {
+				toRemove.add(projectile);
+			}
+		}
+		for (Vessel vessel : toRemove) {
+			if (ships.contains(vessel)) {
+				ships.remove(vessel);
+			} else if (projectiles.contains(vessel)) {
+				projectiles.remove(vessel);
+			}
+		}
 	}
 	
 	
