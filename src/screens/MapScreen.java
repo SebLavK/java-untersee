@@ -26,7 +26,7 @@ import submarine.Submarine;
 
 public class MapScreen implements Screen {
 	
-	public static final double ZOOM_DESIGNATION_CUTOFF = 2;
+	public static final double ZOOM_DESIGNATION_CUTOFF = 8;
 	public static final int TARGET_FONT_SIZE = 10;
 	public static final Color TARGET_NEUTRAL_COLOR = new Color(63, 186, 81);
 	public static final Color TARGET_FRIENDLY_COLOR = new Color(63, 104, 186);
@@ -123,20 +123,23 @@ public class MapScreen implements Screen {
 				g2d.fillRect(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
 				drawGrid(g2d, zoom, camera);
 			}
-			
-			//Draw the grid
-			color = GRID_COLOR;
-			if (zoom < Camera.STRATEGY_ZOOM) {
-				g2d.setColor(getTransitionColor(zoom, color));
-			}
-			g2d.setColor(color);
-			g2d.drawLine(0, 100, gamePanel.getWidth(), 100);
 		}
 		
 	}
 	
 	public void drawGrid(Graphics2D g2d, double zoom, Camera camera) {
+		//How many pixels for a nautical mile
+		int gridSize = (int) Math.round(1 / zoom * Magnitudes.FEET_PER_PIXEL * Magnitudes.FEET_PER_NM / 5);
+		int horLines = gamePanel.getHeight() / gridSize;
+		int verLines = gamePanel.getWidth() / gridSize;
 		
+		g2d.setColor(GRID_COLOR);
+		for (int i = 0; i < horLines; i++) {
+			g2d.drawLine(0, i * gridSize, gamePanel.getWidth(), i * gridSize);
+		}
+		for (int i = 0; i < verLines; i++) {
+			g2d.drawLine(i * gridSize, 0, i * gridSize, gamePanel.getHeight());
+		}
 	}
 	
 	public void drawVessel(Graphics2D g2d, Vessel vessel) {
