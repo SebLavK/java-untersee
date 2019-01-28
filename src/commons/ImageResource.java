@@ -12,6 +12,7 @@ import ships.Cruiser;
 import ships.Destroyer;
 import ships.PatrolShip;
 import ships.RescueShip;
+import weapons.Projectile;
 
 /**
 *@author Sebas Lavigne
@@ -31,9 +32,14 @@ public class ImageResource {
 	private static BufferedImage patrolShip;
 	private static BufferedImage rescueShip;
 	private static BufferedImage[] background;
+	private static BufferedImage crtShadow;
+	private static BufferedImage sunglare;
+	
+	private static BufferedImage introImage;
 	
 	public static void instantiateImages() {
 		try {
+			loadImages();
 			loadFonts();
 			loadBackground();
 			loadVessels();
@@ -52,6 +58,10 @@ public class ImageResource {
         }
 //		mainFont = mainFont.deriveFont(Font.PLAIN, 10);
 	}
+	
+	public static void loadImages() throws IOException {
+		introImage = ImageIO.read(Main.class.getResource("/images/submarineSurfacing.jpg"));
+	}
 
 	
 	public static void loadBackground() throws IOException {
@@ -61,6 +71,8 @@ public class ImageResource {
 			url = "/sprites/bg/ocean" + String.format("%02d", i+1) + ".png";
 			background[i] = ImageIO.read(Main.class.getResource(url));
 		}
+		crtShadow = ImageIO.read(Main.class.getResource("/sprites/bg/crtShadow.png"));
+		sunglare = ImageIO.read(Main.class.getResource("/sprites/bg/sunGlare.png"));
 	}
 	
 	/**
@@ -93,6 +105,8 @@ public class ImageResource {
 		} else if (vessel instanceof PatrolShip) {
 			return patrolShip;
 		} else if (vessel instanceof RescueShip) {
+			return rescueShip;
+		} else if (vessel instanceof Projectile) {
 			return rescueShip;
 		} else {
 			return null;
@@ -156,10 +170,31 @@ public class ImageResource {
 	}
 
 	/**
+	 * @return the introImage
+	 */
+	public static BufferedImage getIntroImage() {
+		return introImage;
+	}
+
+	/**
 	 * @return the mainFont
 	 */
 	public static Font getMainFont() {
 		return mainFont;
+	}
+
+	/**
+	 * @return the foreground
+	 */
+	public static BufferedImage getCrtShadow() {
+		return crtShadow;
+	}
+
+	/**
+	 * @return the sunglare
+	 */
+	public static BufferedImage getSunglare() {
+		return sunglare;
 	}
 
 	

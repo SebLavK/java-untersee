@@ -2,9 +2,11 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
+import commons.ImageResource;
 import master.Master;
 
 
@@ -30,6 +32,7 @@ public class MainWindow {
 	}
 	
 	public void initializeComponents() {
+		ImageResource.instantiateImages();
 		window.setLayout(new BorderLayout());
 		gamePanel = new GamePanel();
 		gamePanel.setPreferredSize(new Dimension(WINDOW_HEIGHT, WINDOW_HEIGHT));
@@ -37,7 +40,7 @@ public class MainWindow {
 		sidePanel = new SidePanel();
 		sidePanel.setPreferredSize(new Dimension(WINDOW_WIDTH - WINDOW_HEIGHT, WINDOW_HEIGHT));
 		
-		master = new Master(gamePanel, sidePanel);
+		master = new Master(this, gamePanel, sidePanel);
 		gamePanel.initializePanel();
 		sidePanel.setMaster(master);
 		sidePanel.initializePanel();
@@ -52,6 +55,7 @@ public class MainWindow {
 	public void initializeListeners() {
 		sidePanel.initializeListeners();
 		window.addMouseWheelListener(master.getScenario().getCamera());
+		window.addMouseListener(master.getScenario().getCamera());
 	}
 	
 	public void initialize() {

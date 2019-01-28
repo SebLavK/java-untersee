@@ -22,6 +22,18 @@ public class Magnitudes {
 	public static final double PIXEL_SECOND_PER_KN = 0.678949065144;
 	
 	/**
+	 * Feet per nautical mile
+	 */
+	public static final double FEET_PER_NM = 6076.12;
+	
+	public static final double FEET_PER_YARD = 3;
+	
+	/**
+	 * Feet per kiloyard
+	 */
+	public static final double FEET_PER_KYD = 3000;
+	
+	/**
 	 * @param rad the angle to convert
 	 * @return an angle expressed in degrees with leading zeros e.g. 001º
 	 */
@@ -40,5 +52,17 @@ public class Magnitudes {
 	
 	public static String feetToHuman(double feet) {
 		return String.format("% 4d", (int)Math.round(feet));
+	}
+	
+	public static String feetToNauticalMilesHuman(double feet) {
+		return String.format("%.1f", feet / FEET_PER_NM);
+	}
+	
+	public static String feetToKydHuman(double feet) {
+		return String.format("% 2.1f", feet / FEET_PER_KYD);
+	}
+	
+	public static String feetToYardHuman(double feet) {
+		return String.format("% 3d", (int) Math.round(feet / FEET_PER_YARD));
 	}
 }

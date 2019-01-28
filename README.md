@@ -26,7 +26,33 @@ The Fontspring Desktop Font EULA Version 1.7.0 - February 26, 2017 ([link](https
 and  
 The Fontspring Application Font EULA Version 1.7.2 - May 14, 2018 ([link](https://www.fontspring.com/lic/avhl0opgxj)) (with permission from the author)
 
+Asset: [USS Columbus (SSN 762) performing an emergency ballast blow](https://commons.wikimedia.org/wiki/File:980604-N-7726D-002_Submarine_Emergency_Surfacing_Drill.jpg)  
+Author: U.S. Navy photo by Photographer's Mate 2nd Class David C. Duncan  
+License: Public domain
+
 ## Changelog
+
+### v0.1
+* Reached v0.1!
+
+### v0.0.12
+* Submarine can now launch torpedoes
+* Added intro screen with fading in and out animation
+
+### v0.0.11
+* Added more ships to starting scenario
+* Added targeting command
+* Information of targeted ship now appears on side panel
+* Started weapon and projectile structure
+* Added Sonar class for the submarine
+
+### v0.0.10
+* Added camera panning, now you can choose between following the sub or free roaming
+* Smoothed zooming
+* When zooming out the map changes background into a "strategy" view
+* Transition between close zoom and far zoom, dynamic change of vessel display mode
+* Added a grid to the strategy map
+* Added some transparent images for beautiness, both to map screen and side panel
 
 ### v0.0.9
 * Added antialiasing

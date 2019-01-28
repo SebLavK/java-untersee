@@ -3,10 +3,12 @@ package master;
 import java.awt.Toolkit;
 
 import commons.Clock;
-import commons.ImageResource;
 import main.GamePanel;
+import main.MainWindow;
 import main.SidePanel;
+import screens.BlankScreen;
 import screens.DataScreen;
+import screens.IntroScreen;
 import screens.MapScreen;
 
 /**
@@ -17,41 +19,46 @@ public class Master implements Runnable {
 	
 	public static Master master;
 	
-	private int tickCount;
+	private MainWindow mainWindow;
+	
 	private Scenario scenario;
 	private GamePanel gamePanel;
 	private SidePanel sidePanel;
 	private ExecutiveOfficer xo;
 	
-	public Master(GamePanel gamePanel, SidePanel sidePanel) {
+	private boolean running;
+	
+	public Master(MainWindow mainWindow, GamePanel gamePanel, SidePanel sidePanel) {
 		this.gamePanel = gamePanel;
 		this.sidePanel = sidePanel;
 		master = this;
 	}
 	
 	public void initializeMaster() {
-		ImageResource.instantiateImages();
+		running = false;
 		scenario = new Scenario();
 		
 		xo = new ExecutiveOfficer(this, scenario.getSub());
 		xo.initialize();
 		
-		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
-		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+		gamePanel.setCurrentScreen(new IntroScreen(this));
+		gamePanel.getCurrentScreen().initializeScreen();
+//		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+		sidePanel.setCurrentScreen(new BlankScreen(sidePanel));
 	}
 	
 	public void startGame() {
-		Clock.setGameStartTime();
 		new Thread(this).start();
 	}
 	
 	private void tick() {
-		scenario.tick();
+		if (running) {
+			scenario.tick();
+		}
 		gamePanel.repaint();
 		sidePanel.repaint();
-		//Para funcionamiento fluido en Linux
+		Clock.tick();
 		Toolkit.getDefaultToolkit().sync();
-		tickCount++;
 	}
 
 	@Override
@@ -82,12 +89,6 @@ public class Master implements Runnable {
 		return scenario;
 	}
 
-	/**
-	 * @return the tickCount
-	 */
-	public int getTickCount() {
-		return tickCount;
-	}
 	
 	/**
 	 * @return the sidePanel
@@ -103,7 +104,14 @@ public class Master implements Runnable {
 		return xo;
 	}
 	
-	
+	public void startRunning() {
+		gamePanel.removeListeners();
+		running = true;
+		gamePanel.setCurrentScreen(new MapScreen(this, gamePanel));
+		sidePanel.setCurrentScreen(new DataScreen(this, sidePanel.getDataPanel()));
+		Clock.setGameStartTime();
+//		mainWindow.initializeListeners();
+	}
 
 	
 }

@@ -24,33 +24,33 @@ public class Helm {
 
 	public void tick() {
 		if (!speedReached) {
-			if (sub.getSpeed() == sub.getMySpeed()) {
+			if (Math.abs(sub.getSpeed() - sub.getMySpeed()) < 0.01) {
 				speedReached = true;
 				ExecutiveOfficer.log("Helm:   We have reached "
 						+ String.format("%d", (int) sub.getMySpeed()) + " knots");
 			}
 		} else {
-			speedReached = sub.getSpeed() == sub.getMySpeed();
+			speedReached = Math.abs(sub.getSpeed() - sub.getMySpeed()) < 0.01;
 		}
 		
 		if (!headingReached) {
-			if (sub.getHeading() == sub.getMyHeading()){
+			if (Math.abs(sub.getHeading() - sub.getMyHeading()) < 0.01) {
 				headingReached = true;
 				ExecutiveOfficer.log("Helm:   Steady on course "
 				+ Magnitudes.radiansToHumanDegrees(sub.getMyHeading()) + "º");
 			}
 		} else {
-			headingReached = sub.getHeading() == sub.getMyHeading();
+			headingReached = Math.abs(sub.getHeading() - sub.getMyHeading()) < 0.01;
 		}
 		
 		if (!depthReached) {
-			if (sub.getDepth() == sub.getMyDepth()) {
+			if (Math.abs(sub.getDepth() - sub.getMyDepth()) < 0.01) {
 				depthReached = true;
 				ExecutiveOfficer.log("Diving: We are at depth "
 						+ Magnitudes.feetToHuman(sub.getMyDepth()) + " feet");
 			}
 		} else {
-			depthReached = sub.getDepth() == sub.getMyDepth();
+			depthReached = Math.abs(sub.getDepth() - sub.getMyDepth()) < 0.01;
 		}
 	}
 

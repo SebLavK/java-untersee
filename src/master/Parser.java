@@ -63,6 +63,8 @@ public class Parser {
 		parseCommand.put("surface", this::parseSurface);
 		parseCommand.put("periscope", this::parsePeriscope);
 		parseCommand.put("emergency", this::parseEmergency);
+		parseCommand.put("target", this::parseTarget);
+		parseCommand.put("launch", this::parseLaunch);
 		
 		parseCommand.get(sentence[0]).run();
 	}
@@ -156,6 +158,23 @@ public class Parser {
 		//TODO
 		
 		parseCommand.get(sentence[1]).run();
+	}
+	
+	public void parseTarget() {
+		order = new Order<String>(xo::target, sentence[1], "XO:     Targeting "+sentence[1]);
+	}
+	
+	public void parseLaunch() {
+		if (sentence[1].equals("tube")) {
+			int tubeNum = Integer.parseInt(sentence[2]);
+			if (tubeNum > 0 && tubeNum <= 4) {
+				order = new Order<Integer>(
+						xo::launchTube,
+						tubeNum,
+						"WEP O:  Launch tube "+sentence[2]+". Aye sir."
+						);
+			}
+		}
 	}
 	
 	public void aheadFlank() {
