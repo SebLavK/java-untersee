@@ -247,9 +247,11 @@ public class MapScreen implements Screen {
 	 */
 	private void drawVesselDesignation(Graphics2D g2d, Vessel vessel, double screenX, double screenY, double zoom, Color color) {
 		//If the zoom is far away enough
-		if (zoom >= ZOOM_DESIGNATION_CUTOFF) {
-			if (zoom < Camera.STRATEGY_ZOOM) {
-				color = getTransitionColor(zoom, color);
+		if (zoom >= ZOOM_DESIGNATION_CUTOFF / 4) {
+			if (zoom < Camera.STRATEGY_ZOOM / 4) {
+//				color = getTransitionColor(zoom, color);
+				color = new Color(color.getRed(), color.getGreen(), color.getBlue(),
+						(int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF / 4) / (Camera.STRATEGY_ZOOM / 4 - ZOOM_DESIGNATION_CUTOFF / 4) * 255));
 			}
 			g2d.setColor(color);
 			g2d.setFont(targetFont);
@@ -268,6 +270,7 @@ public class MapScreen implements Screen {
 	 */
 	private Color getTransitionColor(double zoom, Color color) {
 		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+System.out.println((int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
 		return color;
 	}
 

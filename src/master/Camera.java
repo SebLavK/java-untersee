@@ -53,6 +53,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 			desiredZoom = MIN_ZOOM;
 		}
 		desiredZoom = (double) Math.round(desiredZoom * 10) / 10;
+		System.out.println(desiredZoom);
 	}
 	
 	public void zoomOut() {
@@ -62,6 +63,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 			desiredZoom = MAX_ZOOM;
 		}
 		desiredZoom = (double) Math.round(desiredZoom * 10) / 10;
+		System.out.println(desiredZoom);
 	}
 	
 	/* (non-Javadoc)
