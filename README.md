@@ -28,6 +28,14 @@ The Fontspring Application Font EULA Version 1.7.2 - May 14, 2018 ([link](https:
 
 ## Changelog
 
+### v0.0.10
+* Added camera panning, now you can choose between following the sub or free roaming
+* Smoothed zooming
+* When zooming out the map changes background into a "strategy" view
+* Transition between close zoom and far zoom, dynamic change of vessel display mode
+* Added a grid to the strategy map
+* Added some transparent images for beautiness, both to map screen and side panel
+
 ### v0.0.9
 * Added antialiasing
 * Started work on the data screen
