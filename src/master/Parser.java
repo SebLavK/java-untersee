@@ -63,6 +63,7 @@ public class Parser {
 		parseCommand.put("surface", this::parseSurface);
 		parseCommand.put("periscope", this::parsePeriscope);
 		parseCommand.put("emergency", this::parseEmergency);
+		parseCommand.put("target", this::parseTarget);
 		
 		parseCommand.get(sentence[0]).run();
 	}
@@ -156,6 +157,10 @@ public class Parser {
 		//TODO
 		
 		parseCommand.get(sentence[1]).run();
+	}
+	
+	public void parseTarget() {
+		order = new Order<String>(xo::target, sentence[1], "XO:     Targeting "+sentence[1]);
 	}
 	
 	public void aheadFlank() {

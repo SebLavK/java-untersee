@@ -127,6 +127,14 @@ public class ExecutiveOfficer implements Runnable {
 		}
 	}
 	
+	/**
+	 * Tells sonar to try a target
+	 * @param targetOrder an Order with a String as object
+	 */
+	public void target(Order<String> targetOrder) {
+		sub.getSonar().target((String) targetOrder.getObject()); 
+	}
+	
 	
 	/**
 	 * To be used when the parser doesn't generate an order, either by failure or

@@ -23,7 +23,7 @@ import submarine.Submarine;
 public class Camera extends Vessel implements MouseWheelListener, MouseListener {
 	
 	public static final double INITIAL_ZOOM = 2;
-	public static final double MAX_ZOOM = 32;
+	public static final double MAX_ZOOM = 64;
 	public static final double MIN_ZOOM = 0.5;
 	public static final double ZOOM_RATE = 5;
 	public static final double STRATEGY_ZOOM = 16;
@@ -53,6 +53,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 			desiredZoom = MIN_ZOOM;
 		}
 		desiredZoom = (double) Math.round(desiredZoom * 10) / 10;
+		System.out.println(desiredZoom);
 	}
 	
 	public void zoomOut() {
@@ -62,6 +63,7 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 			desiredZoom = MAX_ZOOM;
 		}
 		desiredZoom = (double) Math.round(desiredZoom * 10) / 10;
+		System.out.println(desiredZoom);
 	}
 	
 	/* (non-Javadoc)

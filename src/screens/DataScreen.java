@@ -10,8 +10,10 @@ import java.awt.image.BufferedImage;
 import commons.ImageResource;
 import commons.Magnitudes;
 import commons.Screen;
+import commons.Vessel;
 import main.GamePanel;
 import master.Master;
+import ships.Ship;
 import submarine.Submarine;
 
 /**
@@ -27,9 +29,9 @@ public class DataScreen implements Screen {
 	public static final int HEAD_X = 50;
 	public static final int HEAD_LINE_MARGIN = 20;
 	public static final int HEAD_LINE_HEIGHT = 3;
-	public static final int ROW_0_X = 20;
-	public static final int ROW_1_X = 20;
-	public static final int ROW_2_X = 30;
+	public static final int ROW_0_X = 25;
+	public static final int ROW_1_X = 175;
+	public static final int ROW_2_X = 325;
 	
 	public static final int FONT_BIG_SIZE = 16;
 	public static final int FONT_SMALL_SIZE = 12;
@@ -104,22 +106,6 @@ public class DataScreen implements Screen {
 		g2d.drawImage(crtShadow, at4, null);
 	}
 
-	/**
-	 * @param g2d
-	 */
-	private void drawTarget(Graphics2D g2d) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * @param g2d
-	 */
-	private void drawWeapons(Graphics2D g2d) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void drawSections(Graphics2D g2d) {
 		g2d.setColor(BG_COLOR);
 		g2d.fillRect(0, 0, dataPanel.getWidth(), dataPanel.getHeight());
@@ -153,6 +139,38 @@ public class DataScreen implements Screen {
 		g2d.drawString("SPD   "+ Magnitudes.knotsToHuman(sub.getSpeed()) + " kn", ROW_0_X, NAV_Y + ROW_HEIGHT * 2);
 		g2d.drawString("DEP "+ Magnitudes.feetToHuman(sub.getDepth()) + " ft", ROW_0_X, NAV_Y + ROW_HEIGHT * 3);
 		
+	}
+	
+	/**
+	 * @param g2d
+	 */
+	private void drawWeapons(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * @param g2d
+	 */
+	private void drawTarget(Graphics2D g2d) {
+		Submarine sub = master.getScenario().getSub();
+		g2d.setColor(TEXT_COLOR);
+		g2d.setFont(smallFont);
+		if (sub.getTarget() != null) {
+			Vessel target = sub.getTarget();
+			String range;
+			if (sub.distanceTo(target) / Magnitudes.FEET_PER_YARD > 300) {
+				range = Magnitudes.feetToKydHuman(sub.distanceTo(target)) + " KYD";
+			} else {
+				range = Magnitudes.feetToYardHuman(sub.distanceTo(target)) + " YD";
+			}
+			g2d.drawString("BRG  "+ Magnitudes.radiansToHumanDegrees(sub.bearingTo(target)), ROW_0_X, TARGET_Y + ROW_HEIGHT * 1);
+			g2d.drawString("RNG   "+ range, ROW_0_X, TARGET_Y + ROW_HEIGHT * 2);
+			g2d.drawString("SOL   "+ String.format("% 3d", (int) Math.round(target.getSolution())) + "%", ROW_0_X, TARGET_Y + ROW_HEIGHT * 3);
+			
+			g2d.drawString("HDG  "+ Magnitudes.radiansToHumanDegrees(target.getHeading()), ROW_1_X, TARGET_Y + ROW_HEIGHT * 1);
+			g2d.drawString("SPD   "+ Magnitudes.knotsToHuman(target.getSpeed()) + " kn", ROW_1_X, TARGET_Y + ROW_HEIGHT * 2);
+		}
 	}
 	
 	@Override

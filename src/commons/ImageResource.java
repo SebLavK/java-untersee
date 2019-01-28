@@ -12,6 +12,7 @@ import ships.Cruiser;
 import ships.Destroyer;
 import ships.PatrolShip;
 import ships.RescueShip;
+import weapons.Projectile;
 
 /**
 *@author Sebas Lavigne
@@ -97,6 +98,8 @@ public class ImageResource {
 		} else if (vessel instanceof PatrolShip) {
 			return patrolShip;
 		} else if (vessel instanceof RescueShip) {
+			return rescueShip;
+		} else if (vessel instanceof Projectile) {
 			return rescueShip;
 		} else {
 			return null;

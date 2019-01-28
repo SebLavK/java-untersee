@@ -11,6 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import commons.Clock;
 import commons.ImageResource;
 import commons.Magnitudes;
 import commons.Screen;
@@ -19,6 +20,7 @@ import main.GamePanel;
 import master.Camera;
 import master.Master;
 import submarine.Submarine;
+import weapons.Projectile;
 
 /**
 *@author Sebas Lavigne
@@ -91,10 +93,10 @@ public class MapScreen implements Screen {
 				Composite comp = g2d.getComposite();
 				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 						(float) ((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF))));
-				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+				g2d.drawImage(crtShadow, 0, 0, null);
 				g2d.setComposite(comp);
 			} else {
-				g2d.drawImage(ImageResource.getCrtShadow(), 0, 0, null);
+				g2d.drawImage(crtShadow, 0, 0, null);
 			}
 		}
 	}
@@ -108,7 +110,7 @@ public class MapScreen implements Screen {
 		
 		if (zoom < Camera.STRATEGY_ZOOM) {
 			//change of background animation frame every 5 frames
-			int index = master.getTickCount() / 5 % bg.length;
+			int index = Clock.getTickCount() / 5 % bg.length;
 			//Fill the edges
 			int repeatX = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_WIDTH + 4) * zoom);
 			int repeatY = (int) ((gamePanel.getWidth() / ImageResource.BG_TILE_HEIGHT + 4) * zoom);
@@ -151,8 +153,9 @@ public class MapScreen implements Screen {
 	}
 	
 	public void drawGrid(Graphics2D g2d, double zoom, Camera camera) {
-		//How many pixels for a nautical mile
-		int gridSize = (int) Math.round(1 / zoom * Magnitudes.FEET_PER_PIXEL * Magnitudes.FEET_PER_NM / 5);
+		//How many pixels for a kiloyard mile
+		//Should make the grid size 1000 yards
+		int gridSize = (int) Math.round(1 / zoom * Magnitudes.FEET_PER_PIXEL * Magnitudes.FEET_PER_KYD);
 		int horLines = gamePanel.getHeight() / gridSize + 2;
 		int verLines = gamePanel.getWidth() / gridSize + 2;
 		horLines /= 2;
@@ -244,9 +247,11 @@ public class MapScreen implements Screen {
 	 */
 	private void drawVesselDesignation(Graphics2D g2d, Vessel vessel, double screenX, double screenY, double zoom, Color color) {
 		//If the zoom is far away enough
-		if (zoom >= ZOOM_DESIGNATION_CUTOFF) {
-			if (zoom < Camera.STRATEGY_ZOOM) {
-				color = getTransitionColor(zoom, color);
+		if (zoom >= ZOOM_DESIGNATION_CUTOFF / 4) {
+			if (zoom < Camera.STRATEGY_ZOOM / 4) {
+//				color = getTransitionColor(zoom, color);
+				color = new Color(color.getRed(), color.getGreen(), color.getBlue(),
+						(int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF / 4) / (Camera.STRATEGY_ZOOM / 4 - ZOOM_DESIGNATION_CUTOFF / 4) * 255));
 			}
 			g2d.setColor(color);
 			g2d.setFont(targetFont);
@@ -265,6 +270,7 @@ public class MapScreen implements Screen {
 	 */
 	private Color getTransitionColor(double zoom, Color color) {
 		color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
+System.out.println((int) Math.round((zoom - ZOOM_DESIGNATION_CUTOFF) / (Camera.STRATEGY_ZOOM - ZOOM_DESIGNATION_CUTOFF) * 255));
 		return color;
 	}
 
@@ -308,8 +314,14 @@ public class MapScreen implements Screen {
 	}
 	
 	public void drawShips(Graphics2D g2d) {
-		for (Vessel vessel : master.getScenario().getShips()) {
+		for (Vessel vessel : master.getScenario().getSub().getSonar().getContacts()) {
 			drawVessel(g2d, vessel);
+		}
+	}
+	
+	public void drawProjectiles(Graphics2D g2d) {
+		for (Projectile p : master.getScenario().getProjectiles()) {
+			drawVessel(g2d, p);
 		}
 	}
 	
