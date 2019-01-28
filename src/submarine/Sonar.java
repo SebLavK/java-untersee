@@ -3,7 +3,9 @@ package submarine;
 import java.util.HashSet;
 
 import commons.Clock;
+import commons.Magnitudes;
 import commons.Vessel;
+import master.ExecutiveOfficer;
 import master.Scenario;
 import ships.Ship;
 
@@ -14,11 +16,13 @@ import ships.Ship;
 public class Sonar {
 	
 	private Scenario scenario;
+	private Submarine sub;
 	private HashSet<Ship> contacts;
 	private int designationTicket;
 	
-	public Sonar(Scenario scenario) {
+	public Sonar(Scenario scenario, Submarine sub) {
 		this.scenario = scenario;
+		this.sub = sub;
 		contacts = new HashSet<>();
 	}
 	
@@ -40,6 +44,8 @@ public class Sonar {
 				designationTicket++;
 				ship.setDesignation("S"+designationTicket);
 				contacts.add(ship);
+				String bearing = Magnitudes.radiansToHumanDegrees(sub.bearingTo(ship));
+				ExecutiveOfficer.log("Sonar:  New contact bearing " + bearing + "º. Designated "+ship.getDesignation());
 			}
 		}
 	}

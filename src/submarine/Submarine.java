@@ -30,15 +30,16 @@ public class Submarine extends Vessel {
 	
 	private Helm helm;
 	private Sonar sonar;
+	private TorpedoRoom tRoom;
 	
 	private double periscopeDepth;
-	private Scenario scenario;
 	
 	public Submarine(Scenario scenario) {
 		super();
 		this.scenario = scenario;
 		helm = new Helm(this);
-		sonar = new Sonar(scenario);
+		sonar = new Sonar(scenario, this);
+		tRoom = new TorpedoRoom(this);
 		
 		maxSpeed = SPEED_FLANK;
 		standardSpeed = SPEED_STANDARD;
@@ -63,6 +64,14 @@ public class Submarine extends Vessel {
 		helm.tick();
 		sonar.tick();
 	}
+	
+	public void floodTube(int num) {
+		
+	}
+	
+	public void launchTube(int num) {
+		tRoom.launch(num);
+	}
 
 	
 	public void setSpeed(double speed) {
@@ -76,6 +85,6 @@ public class Submarine extends Vessel {
 		return sonar;
 	}
 	
-	
+
 	
 }

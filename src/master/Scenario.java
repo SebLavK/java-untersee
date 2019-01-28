@@ -5,6 +5,7 @@ import java.util.HashSet;
 import ships.Battleship;
 import ships.Ship;
 import submarine.Submarine;
+import weapons.Projectile;
 
 /**
 *@author Sebas Lavigne
@@ -15,11 +16,13 @@ public class Scenario {
 	private Camera camera;
 	private Submarine sub;
 	private HashSet<Ship> ships;
+	private HashSet<Projectile> projectiles;
 
 	public Scenario() {
 		initializeSub();
 		initializeCamera();
 		populateShips();
+		projectiles = new HashSet<>();
 	}
 	
 	public void initializeSub() {
@@ -50,11 +53,21 @@ public class Scenario {
 		for (Ship ship : ships) {
 			ship.tick();
 		}
+		for(Projectile p : projectiles) {
+			p.tick();
+		}
 		
 		camera.tick();
 	}
 	
 	
+
+	/**
+	 * @return the projectiles
+	 */
+	public HashSet<Projectile> getProjectiles() {
+		return projectiles;
+	}
 
 	/**
 	 * @return the camera

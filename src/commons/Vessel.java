@@ -3,6 +3,8 @@ package commons;
 import java.awt.geom.Point2D;
 import java.util.LinkedHashSet;
 
+import master.Scenario;
+
 /**
 *@author Sebas Lavigne
 */
@@ -42,6 +44,12 @@ public abstract class Vessel {
 	/** A collection of points that define this vessel's course */
 	protected LinkedHashSet<Point2D> course;
 	
+	protected Vessel target;
+	protected boolean goToTarget;
+	
+	protected boolean destroyed;
+	
+	protected Scenario scenario;
 	
 	
 	public Vessel() {
@@ -54,6 +62,9 @@ public abstract class Vessel {
 		steer();
 		dive();
 		sail();
+		if (goToTarget) {
+			steerTowardsTarget();
+		}
 	}
 	
 	/**
@@ -146,6 +157,10 @@ public abstract class Vessel {
 		position.setLocation(longitude, latitude);
 	}
 	
+	protected void steerTowardsTarget() {
+		myHeading = bearingTo(target);
+	}
+	
 	/**
 	 * @param other the other vessel
 	 * @return the distance between this and the other vessel
@@ -164,9 +179,9 @@ public abstract class Vessel {
 		// function
 		// Angle is measured using the arc cosine of the Y component
 		// and substracted from 360º if the X component is negative
-		double bearing = Math.acos(relPos.getY());
-		if (relPos.getX() < 0) {
-			bearing = 2 * Math.PI - bearing;
+		double bearing = Math.atan2(relPos.getX(), relPos.getY());
+		if (bearing < 0) {
+			bearing += 2 * Math.PI;
 		}
 		return bearing;
 	}
@@ -328,6 +343,41 @@ public abstract class Vessel {
 	 */
 	public void setDesignation(String designation) {
 		this.designation = designation;
+	}
+
+	/**
+	 * @return the target
+	 */
+	public Vessel getTarget() {
+		return target;
+	}
+
+	/**
+	 * @param target the target to set
+	 */
+	public void setTarget(Vessel target) {
+		this.target = target;
+	}
+
+	/**
+	 * @return the destroyed
+	 */
+	public boolean isDestroyed() {
+		return destroyed;
+	}
+
+	/**
+	 * @param destroyed the destroyed to set
+	 */
+	public void setDestroyed(boolean destroyed) {
+		this.destroyed = destroyed;
+	}
+
+	/**
+	 * @return the scenario
+	 */
+	public Scenario getScenario() {
+		return scenario;
 	}
 
 	

@@ -20,6 +20,7 @@ import main.GamePanel;
 import master.Camera;
 import master.Master;
 import submarine.Submarine;
+import weapons.Projectile;
 
 /**
 *@author Sebas Lavigne
@@ -311,6 +312,12 @@ public class MapScreen implements Screen {
 	public void drawShips(Graphics2D g2d) {
 		for (Vessel vessel : master.getScenario().getSub().getSonar().getContacts()) {
 			drawVessel(g2d, vessel);
+		}
+	}
+	
+	public void drawProjectiles(Graphics2D g2d) {
+		for (Projectile p : master.getScenario().getProjectiles()) {
+			drawVessel(g2d, p);
 		}
 	}
 	
