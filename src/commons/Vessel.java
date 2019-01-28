@@ -38,6 +38,12 @@ public abstract class Vessel {
 	
 	protected String designation;
 	
+	/* Solution and detection between 0 and 1 */
+	/** The player's solution on this ship */
+	protected double solution;
+	/** This ships's solution on the player */
+	protected double detection;
+	
 	/* Position */
 	/** Current position, X is East, Y is North */
 	protected Point2D position;
@@ -378,6 +384,20 @@ public abstract class Vessel {
 	 */
 	public Scenario getScenario() {
 		return scenario;
+	}
+
+	/**
+	 * @return the solution
+	 */
+	public double getSolution() {
+		return solution;
+	}
+
+	/**
+	 * @return the detection
+	 */
+	public double getDetection() {
+		return detection;
 	}
 
 	

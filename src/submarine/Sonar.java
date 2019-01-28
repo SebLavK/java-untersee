@@ -45,8 +45,21 @@ public class Sonar {
 				ship.setDesignation("S"+designationTicket);
 				contacts.add(ship);
 				String bearing = Magnitudes.radiansToHumanDegrees(sub.bearingTo(ship));
-				ExecutiveOfficer.log("Sonar:  New contact bearing " + bearing + "º. Designated "+ship.getDesignation());
+				ExecutiveOfficer.log("Sonar:  New contact bearing " + bearing + "º. Designated "+ship.getDesignation() + ".");
 			}
+		}
+	}
+	
+	public void target(String designation) {
+		boolean found = false;
+		for (Ship ship : contacts) {
+			if (ship.getDesignation().equalsIgnoreCase(designation)) {
+				sub.setTarget(ship);
+				found = true;
+			}
+		}
+		if (!found) {
+			ExecutiveOfficer.log("Sonar:  No targets with that designation.");
 		}
 	}
 
