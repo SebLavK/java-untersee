@@ -1,7 +1,5 @@
 package master;
 
-import java.awt.Toolkit;
-
 import commons.Clock;
 import main.GamePanel;
 import main.MainWindow;
@@ -10,6 +8,8 @@ import screens.BlankScreen;
 import screens.DataScreen;
 import screens.IntroScreen;
 import screens.MapScreen;
+
+import java.awt.*;
 
 /**
 *@author Sebas Lavigne
@@ -39,6 +39,7 @@ public class Master implements Runnable {
 		scenario = new Scenario();
 		
 		xo = new ExecutiveOfficer(this, scenario.getSub());
+		Parser.setXo(xo);
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new IntroScreen(this));
