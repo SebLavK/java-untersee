@@ -25,7 +25,14 @@ public class Parser {
 	private static ExecutiveOfficer xo;
 	private static String[] sentence;
 	private static Order<?> order;
-	
+
+	/* Parser maps */
+	private static HashMap<String, Runnable> mainMap;
+	private static HashMap<String, Runnable> aheadMap;
+	private static HashMap<String, Runnable> backMap;
+	private static HashMap<String, Runnable> periscopeMap;
+	private static HashMap<String, Runnable> emergencyMap;
+
 	/**
 	 * 
 	 * @param xo the ExecutiveOfficer that will interpret the Order
@@ -59,24 +66,51 @@ public class Parser {
 		Parser.xo = xo;
 	}
 
+	public static void initializeMaps() {
+		mainMap = new HashMap<>();
+			mainMap.put("speed", Parser::parseSpeed);
+			mainMap.put("heading", Parser::parseHeading);
+			mainMap.put("ahead", Parser::parseAhead);
+			mainMap.put("all", Parser::parseAll);
+			mainMap.put("back", Parser::parseBack);
+			mainMap.put("depth", Parser::parseDepth);
+			mainMap.put("surface", Parser::parseSurface);
+			mainMap.put("periscope", Parser::parsePeriscope);
+			mainMap.put("emergency", Parser::parseEmergency);
+			mainMap.put("target", Parser::parseTarget);
+			mainMap.put("launch", Parser::parseLaunch);
+
+		aheadMap = new HashMap<>();
+			aheadMap.put("flank", Parser::aheadFlank);
+			aheadMap.put("full", Parser::aheadFull);
+			aheadMap.put("standard", Parser::aheadStandard);
+			aheadMap.put("2/3", Parser::ahead23);
+			aheadMap.put("1/3", Parser::ahead13);
+
+		backMap = new HashMap<>();
+			backMap.put("1/3", Parser::back13);
+			backMap.put("2/3", Parser::back23);
+			backMap.put("full", Parser::backFull);
+			backMap.put("emergency", Parser::backEmerg);
+
+		periscopeMap = new HashMap<>();
+			periscopeMap.put("depth", Parser::periscopeDepth);
+			//TODO
+	//		periscopeMap.put("up", this::periscopeDepth);
+	//		periscopeMap.put("down", this::periscopeDepth);
+
+		emergencyMap = new HashMap<>();
+			emergencyMap.put("dive", Parser::crashDive);
+			emergencyMap.put("blow", Parser::blowBallast);
+			//TODO
+
+	}
+
 	/**
 	 * Evaluates the first word in a sentence
 	 */
 	public static void parseCommand() {
-		HashMap<String, Runnable> parseCommand = new HashMap<>();
-		parseCommand.put("speed", Parser::parseSpeed);
-		parseCommand.put("heading", Parser::parseHeading);
-		parseCommand.put("ahead", Parser::parseAhead);
-		parseCommand.put("all", Parser::parseAll);
-		parseCommand.put("back", Parser::parseBack);
-		parseCommand.put("depth", Parser::parseDepth);
-		parseCommand.put("surface", Parser::parseSurface);
-		parseCommand.put("periscope", Parser::parsePeriscope);
-		parseCommand.put("emergency", Parser::parseEmergency);
-		parseCommand.put("target", Parser::parseTarget);
-		parseCommand.put("launch", Parser::parseLaunch);
-		
-		parseCommand.get(sentence[0]).run();
+		mainMap.get(sentence[0]).run();
 	}
 	
 	public static void parseSpeed() {
@@ -108,14 +142,7 @@ public class Parser {
 	}
 	
 	public static void parseAhead() {
-		HashMap<String, Runnable> parseCommand = new HashMap<>();
-		parseCommand.put("flank", Parser::aheadFlank);
-		parseCommand.put("full", Parser::aheadFull);
-		parseCommand.put("standard", Parser::aheadStandard);
-		parseCommand.put("2/3", Parser::ahead23);
-		parseCommand.put("1/3", Parser::ahead13);
-		
-		parseCommand.get(sentence[1]).run();
+		aheadMap.get(sentence[1]).run();
 	}
 	
 	public static void parseAll() {
@@ -125,13 +152,7 @@ public class Parser {
 	}
 	
 	public static void parseBack() {
-		HashMap<String, Runnable> parseCommand = new HashMap<>();
-		parseCommand.put("1/3", Parser::back13);
-		parseCommand.put("2/3", Parser::back23);
-		parseCommand.put("full", Parser::backFull);
-		parseCommand.put("emergency", Parser::backEmerg);
-		
-		parseCommand.get(sentence[1]).run();
+		backMap.get(sentence[1]).run();
 	}
 	
 	public static void parseDepth() {
@@ -152,22 +173,11 @@ public class Parser {
 	}
 	
 	public static void parsePeriscope() {
-		HashMap<String, Runnable> parseCommand = new HashMap<>();
-		parseCommand.put("depth", Parser::periscopeDepth);
-		//TODO
-//		parseCommand.put("up", this::periscopeDepth);
-//		parseCommand.put("down", this::periscopeDepth);
-		
-		parseCommand.get(sentence[1]).run();
+		periscopeMap.get(sentence[1]).run();
 	}
 	
 	public static void parseEmergency() {
-		HashMap<String, Runnable> parseCommand = new HashMap<>();
-		parseCommand.put("dive", Parser::crashDive);
-		parseCommand.put("blow", Parser::blowBallast);
-		//TODO
-		
-		parseCommand.get(sentence[1]).run();
+		emergencyMap.get(sentence[1]).run();
 	}
 	
 	public static void parseTarget() {
