@@ -1,13 +1,10 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.Scanner;
-
-import javax.swing.JFrame;
-
 import commons.ImageResource;
 import master.Master;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 /**
@@ -26,7 +23,7 @@ public class MainWindow {
 	private SidePanel sidePanel;
 	
 	public MainWindow() {
-		window = new JFrame("Java Unterzee");
+		window = new JFrame("Java Untersee");
 		window.setBounds(100, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

@@ -1,8 +1,8 @@
 package master;
 
-import java.util.Scanner;
-
 import submarine.Submarine;
+
+import java.util.Scanner;
 
 /**
 *@author Sebas Lavigne
@@ -33,9 +33,9 @@ public class ExecutiveOfficer implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				Parser parser = new Parser(this, readCommand());
+//				Parser parser = new Parser(this, readCommand());
 				@SuppressWarnings("unchecked")
-				Order<Object> order = parser.getOrder();
+				Order<Object> order = Parser.getOrder(readCommand());
 //				execute(new Parser(this, readCommand()).getOrder());
 				execute(order);
 			} catch (NullPointerException e) {
@@ -46,9 +46,9 @@ public class ExecutiveOfficer implements Runnable {
 	
 	public void sendCommand(String command) {
 		try {
-			Parser parser = new Parser(this, command);
+//			Parser parser = new Parser(this, command);
 			@SuppressWarnings("unchecked")
-			Order<Object> order = parser.getOrder();
+			Order<Object> order = Parser.getOrder(command);
 //			execute(new Parser(this, readCommand()).getOrder());
 			execute(order);
 		} catch (NullPointerException e) {

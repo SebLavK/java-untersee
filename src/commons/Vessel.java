@@ -1,9 +1,9 @@
 package commons;
 
+import master.Scenario;
+
 import java.awt.geom.Point2D;
 import java.util.LinkedHashSet;
-
-import master.Scenario;
 
 /**
 *@author Sebas Lavigne
@@ -197,11 +197,10 @@ public abstract class Vessel {
 	 * @return the position of the other vessel with this vessel as origin
 	 */
 	public Point2D relativePositionOf(Vessel other) {
-		Point2D relativePosition = new Point2D.Double(
+		return new Point2D.Double(
 				other.getPosition().getX() - this.position.getX(),
 				other.getPosition().getY() - this.position.getY()
 				);
-		return relativePosition;
 	}
 
 	/**

@@ -1,25 +1,23 @@
 package commons;
 
-import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import main.Main;
+import ships.*;
+import weapons.Projectile;
 
 import javax.imageio.ImageIO;
-
-import main.Main;
-import ships.Battleship;
-import ships.Cruiser;
-import ships.Destroyer;
-import ships.PatrolShip;
-import ships.RescueShip;
-import weapons.Projectile;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
 *@author Sebas Lavigne
 */
 
 public class ImageResource {
-	
+
+	private ImageResource() {
+	}
+
 	public static final int BG_TILE_WIDTH = 324;
 	public static final int BG_TILE_HEIGHT = 144;
 	

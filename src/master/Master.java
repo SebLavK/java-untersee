@@ -1,7 +1,5 @@
 package master;
 
-import java.awt.Toolkit;
-
 import commons.Clock;
 import main.GamePanel;
 import main.MainWindow;
@@ -10,6 +8,8 @@ import screens.BlankScreen;
 import screens.DataScreen;
 import screens.IntroScreen;
 import screens.MapScreen;
+
+import java.awt.*;
 
 /**
 *@author Sebas Lavigne
@@ -39,6 +39,8 @@ public class Master implements Runnable {
 		scenario = new Scenario();
 		
 		xo = new ExecutiveOfficer(this, scenario.getSub());
+		Parser.setXo(xo);
+		Parser.initializeMaps();
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new IntroScreen(this));
@@ -52,12 +54,12 @@ public class Master implements Runnable {
 	}
 	
 	private void tick() {
+		gamePanel.paintImmediately(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+		sidePanel.repaint();
+		Clock.tick();
 		if (running) {
 			scenario.tick();
 		}
-		gamePanel.repaint();
-		sidePanel.repaint();
-		Clock.tick();
 		Toolkit.getDefaultToolkit().sync();
 	}
 
