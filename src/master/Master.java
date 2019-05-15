@@ -54,12 +54,12 @@ public class Master implements Runnable {
 	}
 	
 	private void tick() {
+		gamePanel.paintImmediately(0, 0, gamePanel.getWidth(), gamePanel.getHeight());
+		sidePanel.repaint();
+		Clock.tick();
 		if (running) {
 			scenario.tick();
 		}
-		gamePanel.repaint();
-		sidePanel.repaint();
-		Clock.tick();
 		Toolkit.getDefaultToolkit().sync();
 	}
 

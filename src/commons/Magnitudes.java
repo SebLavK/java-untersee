@@ -5,6 +5,10 @@ package commons;
 */
 
 public class Magnitudes {
+
+	private Magnitudes (){
+
+	}
 	
 	/**
 	 * In feet/pixel based on the size of the submarine sprite and the length of a real submarine

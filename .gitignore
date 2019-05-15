@@ -29,3 +29,10 @@ hs_err_pid*
 
 # assets
 assets/
+
+# pdf
+*.pdf
+
+# IntelliJ
+.idea/
+*.iml

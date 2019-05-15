@@ -1,22 +1,14 @@
 package screens;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import commons.*;
+import main.GamePanel;
+import master.Master;
+import submarine.Submarine;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-
-import commons.Clock;
-import commons.ImageResource;
-import commons.Magnitudes;
-import commons.Screen;
-import commons.Vessel;
-import main.GamePanel;
-import master.Master;
-import ships.Ship;
-import submarine.Submarine;
 
 /**
 *@author Sebas Lavigne
