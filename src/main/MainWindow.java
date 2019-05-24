@@ -1,5 +1,6 @@
 package main;
 
+import commons.Configuration;
 import commons.ImageResource;
 import master.Master;
 
@@ -59,6 +60,7 @@ public class MainWindow {
 		initializeComponents();
 		initializeListeners();
 		window.setVisible(true);
+		Configuration.loadProperties();
 		master.startGame();
 	}
 

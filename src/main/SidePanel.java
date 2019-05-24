@@ -1,26 +1,18 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.EmptyBorder;
-
+import commons.Configuration;
 import commons.ImageResource;
 import commons.Screen;
+import commons.gameObject.Verbose;
 import master.Master;
 import screens.DataScreen;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.text.MessageFormat;
 
 /**
 *@author Sebas Lavigne
@@ -129,8 +121,21 @@ public class SidePanel extends JPanel {
 		master.getXo().sendCommand(command);
 	}
 	
-	public void addToLog(String text) {
-		log.setText(log.getText() + "\n" + text);
+	public void addToLog(Verbose verbose) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(Configuration.getGameLogValue(verbose.getHeader()));
+		if (verbose.getMessageParams() != null) {
+			sb.append(MessageFormat.format(
+					Configuration.getGameLogValue(verbose.getMessage()),
+					(Object[]) verbose.getMessageParams())
+			);
+		} else {
+			sb.append(Configuration.getGameLogValue(verbose.getMessage()));
+		}
+		if (verbose.getAcknowledgement() != null) {
+			sb.append(Configuration.getGameLogValue(verbose.getAcknowledgement()));
+		}
+		log.setText(log.getText() + "\n" + sb.toString());
 	}
 	
 	@Override

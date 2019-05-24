@@ -1,5 +1,6 @@
 package submarine;
 
+import commons.gameObject.Verbose;
 import master.ExecutiveOfficer;
 import weapons.Torpedo;
 import weapons.TorpedoTube;
@@ -36,7 +37,9 @@ public class TorpedoRoom {
 			Torpedo torpedo = new Torpedo(sub, Torpedo.TORPEDO_FAST, sub.getTarget());
 			sub.getScenario().getProjectiles().add(torpedo);
 		} else {
-			ExecutiveOfficer.log("WEP O:  No target selected, Captain.");
+			ExecutiveOfficer.log(new Verbose("header.weapons",
+					"reply.weapons.no.target")
+			);
 		}
 	}
 

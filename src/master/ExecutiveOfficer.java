@@ -1,5 +1,7 @@
 package master;
 
+import commons.gameObject.Order;
+import commons.gameObject.Verbose;
 import submarine.Submarine;
 
 import java.util.Scanner;
@@ -66,9 +68,9 @@ public class ExecutiveOfficer implements Runnable {
 		log(order.getVerbose());
 	}
 	
-	public static void log(String msg) {
+	public static void log(Verbose log) {
 //		System.out.println(msg);
-		Master.master.getSidePanel().addToLog(msg);
+		Master.master.getSidePanel().addToLog(log);
 	}
 	
 	/**
@@ -117,13 +119,13 @@ public class ExecutiveOfficer implements Runnable {
 	public void makeNav(Order<Double[]> navOrder) {
 		Double[] settings = (Double[]) navOrder.getObject();
 		if (settings[0] != null) {
-			makeSpeed(new Order<Double>(null, settings[0], ""));
+			makeSpeed(new Order<Double>(null, settings[0], null));
 		}
 		if (settings[1] != null) {
-			makeHeading(new Order<Double>(null, settings[1], ""));
+			makeHeading(new Order<Double>(null, settings[1], null));
 		}
 		if (settings[2] != null) {
-			makeDepth(new Order<Double>(null, settings[2], ""));
+			makeDepth(new Order<Double>(null, settings[2], null));
 		}
 	}
 	
@@ -145,8 +147,7 @@ public class ExecutiveOfficer implements Runnable {
 	 * mistype of the player
 	 */
 	public void unkownCommand() {
-//		System.out.println("I don't understand that command, sir");
-		master.getSidePanel().addToLog("XO:     I don't understand that command, sir");
+		master.getSidePanel().addToLog(new Verbose("header.xo", "reply.xo.unknown.command"));
 	}
 
 	
