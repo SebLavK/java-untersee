@@ -1,14 +1,14 @@
 package submarine;
 
-import java.util.HashSet;
-
 import commons.Clock;
 import commons.Magnitudes;
 import commons.Vessel;
+import commons.gameObject.Verbose;
 import master.ExecutiveOfficer;
 import master.Scenario;
 import ships.Ship;
-import weapons.Projectile;
+
+import java.util.HashSet;
 
 /**
 *@author Sebas Lavigne
@@ -47,7 +47,9 @@ public class Sonar {
 				ship.setDesignation("S"+designationTicket);
 				contacts.add(ship);
 				String bearing = Magnitudes.radiansToHumanDegrees(sub.bearingTo(ship));
-				ExecutiveOfficer.log("Sonar:  New contact bearing " + bearing + "º. Designated "+ship.getDesignation() + ".");
+				ExecutiveOfficer.log(new Verbose("header.sonar",
+						"update.sonar.new.contact",
+						new String[]{bearing, ship.getDesignation()}));
 			}
 		}
 	}
@@ -76,7 +78,8 @@ public class Sonar {
 			}
 		}
 		if (!found) {
-			ExecutiveOfficer.log("Sonar:  No targets with that designation.");
+			ExecutiveOfficer.log(new Verbose("header.sonar",
+					"reply.sonar.unknown.contact"));
 		}
 	}
 

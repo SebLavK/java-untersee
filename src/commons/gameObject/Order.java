@@ -1,4 +1,4 @@
-package master;
+package commons.gameObject;
 
 import java.util.function.Consumer;
 
@@ -23,9 +23,9 @@ public class Order<T> {
 	
 	private Consumer<Order<T>> verb;
 	private T object;
-	private String verbose;
+	private Verbose verbose;
 	
-	public Order(Consumer<Order<T>> verb, T object, String verbose) {
+	public Order(Consumer<Order<T>> verb, T object, Verbose verbose) {
 		super();
 		this.verb = verb;
 		this.object = object;
@@ -63,14 +63,14 @@ public class Order<T> {
 	/**
 	 * @return the verbose
 	 */
-	public String getVerbose() {
+	public Verbose getVerbose() {
 		return verbose;
 	}
 
 	/**
 	 * @param verbose the verbose to set
 	 */
-	public void setVerbose(String verbose) {
+	public void setVerbose(Verbose verbose) {
 		this.verbose = verbose;
 	}
 

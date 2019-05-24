@@ -40,7 +40,6 @@ public class Master implements Runnable {
 		
 		xo = new ExecutiveOfficer(this, scenario.getSub());
 		Parser.setXo(xo);
-		Parser.initializeMaps();
 		xo.initialize();
 		
 		gamePanel.setCurrentScreen(new IntroScreen(this));
