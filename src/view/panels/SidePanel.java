@@ -11,15 +11,18 @@ import view.screens.DataScreen;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
+import java.util.LinkedList;
 
 /**
 *@author Sebas Lavigne
 */
 
-public class SidePanel extends JPanel {
+public class SidePanel extends JPanel implements KeyListener {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -36,6 +39,9 @@ public class SidePanel extends JPanel {
 	private Font logFont;
 	
 	private Master master;
+
+	private java.util.List<String> commandHistory;
+	private int historyPointer;
 	
 	public void initializePanel() {
 		this.setLayout(new GridBagLayout());
@@ -109,17 +115,23 @@ public class SidePanel extends JPanel {
 		settings.weightx = 1;
 		settings.weighty = 1;
 		commandPanel.add(commandLine, settings);
-		
+
+		commandHistory = new LinkedList<>();
+		historyPointer = 0;
 	}
-	
+
 	public void initializeListeners() {
 		commandLine.addActionListener(e -> sendCommand());
+		commandLine.addKeyListener(this);
 	}
 	
 	public void sendCommand() {
 		String command = commandLine.getText();
 		commandLine.setText("");
 		master.getXo().sendCommand(command);
+		if (!command.equalsIgnoreCase("")) {
+			storeCommand(command);
+		}
 	}
 	
 	public void addToLog(Verbose verbose) {
@@ -137,6 +149,37 @@ public class SidePanel extends JPanel {
 			sb.append(Configuration.getGameLogValue(verbose.getAcknowledgement()));
 		}
 		log.setText(log.getText() + "\n" + sb.toString());
+	}
+
+	public void storeCommand(String command) {
+		commandHistory.add(0, command);
+		historyPointer = 0;
+	}
+
+	public void bringPreviousCommand() {
+		bringCommand();
+		historyPointer++;
+		if (historyPointer >= commandHistory.size()) {
+			historyPointer = commandHistory.size() - 1;
+		}
+	}
+
+	public void bringFollowingCommand() {
+		historyPointer--;
+		bringCommand();
+		if (historyPointer < 0) {
+			historyPointer = 0;
+			commandLine.setText("");
+		}
+	}
+
+	public void bringCommand() {
+		try {
+			String newCommand = commandHistory.get(historyPointer);
+			commandLine.setText(newCommand);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	@Override
@@ -181,7 +224,24 @@ public class SidePanel extends JPanel {
 	public void setMaster(Master master) {
 		this.master = master;
 	}
-	
-	
 
+
+	@Override
+	public void keyTyped(KeyEvent keyEvent) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent keyEvent) {
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent keyEvent) {
+		if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
+			bringPreviousCommand();
+		} else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+			bringFollowingCommand();
+		}
+	}
 }
