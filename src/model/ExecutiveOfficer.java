@@ -6,8 +6,6 @@ import controller.master.Master;
 import controller.master.Parser;
 import model.submarine.Submarine;
 
-import java.util.Scanner;
-
 /**
 *@author Sebas Lavigne
 */
@@ -39,18 +37,12 @@ public class ExecutiveOfficer {
 		}
 	}
 	
-	public String readCommand() {
-		return new Scanner(System.in).nextLine();
-	}
-	
-//	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void execute(Order<Object> order) {
+	private void execute(Order<Object> order) {
 		order.getVerb().accept(order);
 		log(order.getVerbose());
 	}
 	
 	public static void log(Verbose log) {
-//		System.out.println(msg);
 		Master.master.getSidePanel().addToLog(log);
 	}
 	
@@ -100,13 +92,13 @@ public class ExecutiveOfficer {
 	public void makeNav(Order<Double[]> navOrder) {
 		Double[] settings = (Double[]) navOrder.getObject();
 		if (settings[0] != null) {
-			makeSpeed(new Order<Double>(null, settings[0], null));
+			makeSpeed(new Order<>(null, settings[0], null));
 		}
 		if (settings[1] != null) {
-			makeHeading(new Order<Double>(null, settings[1], null));
+			makeHeading(new Order<>(null, settings[1], null));
 		}
 		if (settings[2] != null) {
-			makeDepth(new Order<Double>(null, settings[2], null));
+			makeDepth(new Order<>(null, settings[2], null));
 		}
 	}
 	
