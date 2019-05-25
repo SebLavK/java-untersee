@@ -1,6 +1,8 @@
-package controller.main;
+package view.panels;
 
 import commons.gameObject.Verbose;
+import controller.main.Configuration;
+import controller.main.Main;
 import controller.master.Master;
 import view.ImageResource;
 import view.Screen;

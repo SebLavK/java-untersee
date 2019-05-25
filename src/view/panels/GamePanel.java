@@ -1,4 +1,4 @@
-package controller.main;
+package view.panels;
 
 import view.Screen;
 

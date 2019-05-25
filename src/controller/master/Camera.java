@@ -176,13 +176,11 @@ public class Camera extends Vessel implements MouseWheelListener, MouseListener 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		switch (e.getButton()) {
-		case MouseEvent.BUTTON1:
+		int button = e.getButton();
+		if (button == MouseEvent.BUTTON1) {
 			switchFollowSub();
-			break;
-		case MouseEvent.BUTTON3:
+		} else if (button == MouseEvent.BUTTON3) {
 			setTrackMouse(true);
-			break;
 		}
 	}
 

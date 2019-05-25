@@ -2,12 +2,12 @@ package view.screens;
 
 import commons.Clock;
 import commons.Magnitudes;
-import controller.main.GamePanel;
 import controller.master.Master;
 import model.ships.Vessel;
 import model.submarine.Submarine;
 import view.ImageResource;
 import view.Screen;
+import view.panels.GamePanel;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

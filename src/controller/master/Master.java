@@ -1,11 +1,11 @@
 package controller.master;
 
 import commons.Clock;
-import controller.main.GamePanel;
-import controller.main.MainWindow;
-import controller.main.SidePanel;
 import model.ExecutiveOfficer;
 import model.Scenario;
+import view.MainWindow;
+import view.panels.GamePanel;
+import view.panels.SidePanel;
 import view.screens.BlankScreen;
 import view.screens.DataScreen;
 import view.screens.IntroScreen;

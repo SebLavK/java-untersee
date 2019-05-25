@@ -1,7 +1,9 @@
-package controller.main;
+package view;
 
+import controller.main.Configuration;
 import controller.master.Master;
-import view.ImageResource;
+import view.panels.GamePanel;
+import view.panels.SidePanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,5 +1,7 @@
 package controller.main;
 
+import view.MainWindow;
+
 import java.awt.*;
 
 /**
