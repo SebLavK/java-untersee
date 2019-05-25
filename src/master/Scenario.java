@@ -1,18 +1,14 @@
 package master;
 
+import commons.Vessel;
+import ships.*;
+import submarine.Submarine;
+import weapons.Projectile;
+
 import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.Random;
-
-import commons.Vessel;
-import ships.Battleship;
-import ships.Cruiser;
-import ships.Destroyer;
-import ships.PatrolShip;
-import ships.RescueShip;
-import ships.Ship;
-import submarine.Submarine;
-import weapons.Projectile;
+import java.util.Set;
 
 /**
 *@author Sebas Lavigne
@@ -81,45 +77,22 @@ public class Scenario {
 	
 	public void tick() {
 		sub.tick();
-		for (Ship ship : ships) {
-			ship.tick();
-		}
-		for(Projectile p : projectiles) {
-			p.tick();
-		}
-		
+		ships.forEach(Vessel::tick);
+		projectiles.forEach(Vessel::tick);
 		removeDestroyed();
 		
 		camera.tick();
 	}
 	
 	public void removeDestroyed() {
-		HashSet<Vessel> toRemove = new HashSet<>();
-		for (Ship ship : ships) {
-			if (ship.isDestroyed()) {
-				toRemove.add(ship);
-			}
-		}
-		for (Projectile projectile : projectiles) {
-			if (projectile.isDestroyed()) {
-				toRemove.add(projectile);
-			}
-		}
-		for (Vessel vessel : toRemove) {
-			if (ships.contains(vessel)) {
-				ships.remove(vessel);
-			} else if (projectiles.contains(vessel)) {
-				projectiles.remove(vessel);
-			}
-		}
+		ships.removeIf(Vessel::isDestroyed);
+		projectiles.removeIf(Vessel::isDestroyed);
 	}
-	
-	
 
 	/**
 	 * @return the projectiles
 	 */
-	public HashSet<Projectile> getProjectiles() {
+	public Set<Projectile> getProjectiles() {
 		return projectiles;
 	}
 
@@ -140,7 +113,7 @@ public class Scenario {
 	/**
 	 * @return the ships
 	 */
-	public HashSet<Ship> getShips() {
+	public Set<Ship> getShips() {
 		return ships;
 	}
 

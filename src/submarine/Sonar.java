@@ -9,6 +9,8 @@ import master.Scenario;
 import ships.Ship;
 
 import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 /**
 *@author Sebas Lavigne
@@ -39,45 +41,34 @@ public class Sonar {
 	}
 	
 	public void updateContacts() {
-		HashSet<Ship> ships = scenario.getShips();
-		//TODO make this realistic, only save contacts that can be heard by sonar
-		for (Ship ship : ships) {
-			if (!contacts.contains(ship)) {
-				designationTicket++;
-				ship.setDesignation("S"+designationTicket);
-				contacts.add(ship);
-				String bearing = Magnitudes.radiansToHumanDegrees(sub.bearingTo(ship));
-				ExecutiveOfficer.log(new Verbose("header.sonar",
-						"update.sonar.new.contact",
-						new String[]{bearing, ship.getDesignation()}));
-			}
-		}
+		scenario.getShips().stream()
+				.filter(e -> !contacts.contains(e))
+				.forEach(this::addContact);
 	}
-	
+
+	private void addContact(Ship ship) {
+		designationTicket++;
+		ship.setDesignation("S"+designationTicket);
+		contacts.add(ship);
+		String bearing = Magnitudes.radiansToHumanDegrees(sub.bearingTo(ship));
+		ExecutiveOfficer.log(new Verbose("header.sonar",
+				"update.sonar.new.contact",
+				new String[]{bearing, ship.getDesignation()}));
+	}
+
 	public void removeDestroyed() {
-		HashSet<Vessel> toRemove = new HashSet<>();
-		for (Ship ship : contacts) {
-			if (ship.isDestroyed()) {
-				toRemove.add(ship);
-			}
-		}
-		
-		for (Vessel vessel : toRemove) {
-			if (contacts.contains(vessel)) {
-				contacts.remove(vessel);
-			}
-		}
+		contacts.removeIf(Vessel::isDestroyed);
 	}
-	
+
 	public void target(String designation) {
-		boolean found = false;
-		for (Ship ship : contacts) {
-			if (ship.getDesignation().equalsIgnoreCase(designation)) {
-				sub.setTarget(ship);
-				found = true;
-			}
-		}
-		if (!found) {
+		Optional<Ship> target =
+				contacts.stream()
+						.filter(e -> e.getDesignation().equalsIgnoreCase(designation))
+						.findAny();
+
+		if (target.isPresent()) {
+			sub.setTarget(target.get());
+		} else {
 			ExecutiveOfficer.log(new Verbose("header.sonar",
 					"reply.sonar.unknown.contact"));
 		}
@@ -86,7 +77,7 @@ public class Sonar {
 	/**
 	 * @return the contacts
 	 */
-	public HashSet<Ship> getContacts() {
+	public Set<Ship> getContacts() {
 		return contacts;
 	}
 	

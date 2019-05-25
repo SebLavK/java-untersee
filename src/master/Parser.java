@@ -24,6 +24,10 @@ import java.util.HashMap;
  */
 public class Parser {
 
+	public static final String HEADER_HELM = "header.helm";
+	public static final String HEADER_DIVE = "header.dive";
+	public static final String ACKNOWLEDGEMENT_DIVE = "acknowledgement.dive";
+	public static final String ACKNOWLEDGEMENT_HELM = "acknowledgement.helm";
 	private static ExecutiveOfficer xo;
 	private static String[] sentence;
 	private static Order<?> order;
@@ -112,7 +116,7 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				newSpeed,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.set.speed",
 						new String[]{sentence[1]},
 						"acknowledgement.maneuvering")
@@ -129,7 +133,7 @@ public class Parser {
 		order = new Order<>(
 				xo::makeHeading,
 				newHeading,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.set.heading",
 						new String[]{Double.toString(newHeading)},
 						"acknowledgement.maneuvering")
@@ -154,10 +158,10 @@ public class Parser {
 		double newDepth = Double.parseDouble(sentence[1]);
 		order = new Order<>(xo::makeDepth,
 				newDepth,
-				new Verbose("header.dive",
+				new Verbose(HEADER_DIVE,
 						"ack.dive.set.depth",
 						new String[]{Integer.toString((int) newDepth)},
-						"acknowledgement.dive")
+						ACKNOWLEDGEMENT_DIVE)
 		);
 	}
 
@@ -165,10 +169,10 @@ public class Parser {
 		if (sentence[1].equals("boat")) {
 			order = new Order<>(xo::makeDepth,
 					Submarine.SURFACE_DEPTH,
-					new Verbose("header.dive",
+					new Verbose(HEADER_DIVE,
 							"ack.dive.depth.surface",
 							null,
-							"acknowledgement.dive")
+							ACKNOWLEDGEMENT_DIVE)
 			);
 		}
 	}
@@ -209,10 +213,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_FLANK,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.flank",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -220,10 +224,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_FULL,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.full",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -231,10 +235,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.standard",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -242,10 +246,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD * 2 / 3,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.2.3",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -253,10 +257,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_STANDARD / 3,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.1.3",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -264,10 +268,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				0.0,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.stop",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -275,10 +279,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL / 3,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.reverse.1.3",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -286,10 +290,10 @@ public class Parser {
 		order = new Order<Double>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL * 2 / 3,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.reverse.2.3",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -297,10 +301,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_FULL,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.reverse.full",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -308,10 +312,10 @@ public class Parser {
 		order = new Order<>(
 				xo::makeSpeed,
 				Submarine.SPEED_BACK_EMERG,
-				new Verbose("header.helm",
+				new Verbose(HEADER_HELM,
 						"ack.helm.speed.reverse.emergency",
 						null,
-						"acknowledgement.helm")
+						ACKNOWLEDGEMENT_HELM)
 		);
 	}
 
@@ -319,10 +323,10 @@ public class Parser {
 		if (sentence[1].equals("boat")) {
 			order = new Order<>(xo::makeDepth,
 					Submarine.PERISCOPE_DEPTH,
-					new Verbose("header.dive",
+					new Verbose(HEADER_DIVE,
 							"ack.dive.depth.periscope",
 							null,
-							"acknowledgement.dive")
+							ACKNOWLEDGEMENT_DIVE)
 			);
 		}
 	}
@@ -330,7 +334,7 @@ public class Parser {
 	public static void crashDive() {
 		Double[] settings = {Submarine.SPEED_FLANK, null, Submarine.TEST_DEPTH};
 		order = new Order<>(xo::makeNav, settings,
-				new Verbose("header.dive",
+				new Verbose(HEADER_DIVE,
 						"ack.dive.depth.crash")
 		);
 	}
@@ -338,7 +342,7 @@ public class Parser {
 	public static void blowBallast() {
 		Double[] settings = {Submarine.SPEED_FLANK, null, Submarine.SURFACE_DEPTH};
 		order = new Order<>(xo::makeNav, settings,
-				new Verbose("header.dive",
+				new Verbose(HEADER_DIVE,
 						"ack.dive.depth.blow.ballas")
 		);
 	}

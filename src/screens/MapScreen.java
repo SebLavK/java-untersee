@@ -1,27 +1,16 @@
 package screens;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-
-import commons.Clock;
-import commons.ImageResource;
-import commons.Magnitudes;
-import commons.Screen;
-import commons.Vessel;
+import commons.*;
 import main.GamePanel;
 import master.Camera;
 import master.Master;
 import submarine.Submarine;
-import weapons.Projectile;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 /**
 *@author Sebas Lavigne
@@ -84,8 +73,8 @@ public class MapScreen implements Screen {
 		drawBackground(g2d);
 		
 		drawSub(g2d);
-		drawShips(g2d);
-		drawProjectiles(g2d);
+		master.getScenario().getSub().getSonar().getContacts().forEach(e -> drawVessel(g2d, e));
+		master.getScenario().getProjectiles().forEach(e -> drawVessel(g2d, e));
 		
 		drawForeground(g2d);
 		if (fadeIn) {
@@ -332,18 +321,6 @@ public class MapScreen implements Screen {
 			subIndex = 5;
 		}
 		return subIndex;
-	}
-	
-	public void drawShips(Graphics2D g2d) {
-		for (Vessel vessel : master.getScenario().getSub().getSonar().getContacts()) {
-			drawVessel(g2d, vessel);
-		}
-	}
-	
-	public void drawProjectiles(Graphics2D g2d) {
-		for (Projectile p : master.getScenario().getProjectiles()) {
-			drawVessel(g2d, p);
-		}
 	}
 	
 	@Override
