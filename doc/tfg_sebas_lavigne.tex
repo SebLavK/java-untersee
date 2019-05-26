@@ -42,6 +42,9 @@ colorlinks=true
 % Set serifed font to Cambria
 \setmainfont{Cardo}
 
+%Itemize character
+\renewcommand{\labelitemi}{$\bullet$}
+
 %Colors
 \definecolor{WaveBlue}{RGB}{0,11,100}
 \definecolor{WaveLightBlue}{rgb}{0.32,0.60,0.98}
@@ -282,16 +285,28 @@ afterskip=1sp
 		\paragraph{La cámara}
 			El objeto \textit{Cámara} es una de las piezas principales en el momento de visualizar el juego por pantalla. Su clase está incluida en el modelo y hereda de \textit{Navío}, por lo que respecto a la simulación es un objeto que se encuentra en el plano junto a los demás barcos. De esta manera puede acceder a los mismos métodos de posición relativa a otros navíos. Posee el atributo propio de zoom, que no es relativo a la simulación pero que es esencial para la vista.
 			
-			La cámara también admite las acciones del jugador que recibe del controlador. El jugador puede cambiar el nivel de zoom, enfocarse en el submarino o mover la cámara a otros puntos del mapa.
+			La cámara también admite las acciones del jugador que recibe del controlador. El jugador puede cambiar el nivel de zoom, enfocarse en el submarino o mover la cámara a otros puntos del mapa usando el ratón.
 			
 		\paragraph{La pantalla de mapa}
-			La pantalla de mapa se encarga de representar visualmente la simulación desde un punto de vista cenital. Sitúa la cámara en el centro del panel y dibuja el mar los barcos calculando sus coordenadas en pantalla a partir de la posición relativa en el plano.
+			La pantalla de mapa se encarga de representar visualmente la simulación desde un punto de vista cenital. Sitúa la cámara en el centro del panel y dibuja el mar los barcos calculando sus coordenadas en pantalla a partir de la posición relativa en el plano. Para traducir las unidades marítimas que utiliza el juego a píxeles en la pantalla se usa la clase utilidad \textit{Magnitudes}.
 			
-			En función del zoom que tenga la cámara en cada momento se pinta la pantalla de una forma u otra. Para niveles de zoom cercanos:
+			En función del zoom que tenga la cámara en cada momento se pinta la pantalla de una forma u otra. Para niveles de zoom cercanos se muestra el juego en una vista ``real'':
 			
-%			\begin{itemize}
-%				
-%			\end{itemize}
+			\begin{itemize}[noitemsep]
+				\item Se rellena el fondo con las casillas del mar animadas. El número y tamaño de casillas a mostrar se calcula en base al zoom de la cámara de forma que ocupen el panel.
+				\item Se superpone una imagen con transparencia que simula el brillo del sol en el mar.
+				\item Se dibuja el submarino, el resto de barcos y proyectiles presentes en el escenario. El tamaño de su sprite y su posición relativa al centro de la pantalla dependerán del zoom y de su posición relativa a la cámara en la simulación. El submarino cambia a colores más o menos oscuros en función de su profundidad.
+			\end{itemize}
+		
+			Para niveles de zoom lejanos se muestra el juego en una vista ``estratégica'':
+			
+			\begin{itemize}[noitemsep]
+				\item El fondo toma un color fijo y se pintan líneas de cuadrante que representan una distancia de una kiloyarda.
+				\item Se marca la posición del submarino y de los barcos con un cuadrado y el nombre con el que hayan sido designados por el sonar en el juego.
+				\item Se superpone una imagen con transparencia que simula la pantalla de un viejo monitor.
+			\end{itemize}
+		
+			La cámara tiene definidos los niveles de zoom en los que se pinta el juego de una manera u otra, así como el rango de transición de un modo a otro, en el que se mezclan las dos vistas usando transparencias.
 	
 	\subsection{Intérprete de comandos}
 	\label{subsec:interprete_comandos}

@@ -18,9 +18,9 @@
 \contentsline {subsection}{\numberline {4.4}Motor gráfico}{18}{subsection.4.4}% 
 \contentsline {paragraph}{\nonumberline La cámara}{19}{section*.10}% 
 \contentsline {paragraph}{\nonumberline La pantalla de mapa}{19}{section*.11}% 
-\contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{19}{subsection.4.5}% 
-\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{19}{subsection.4.6}% 
-\contentsline {subsection}{\numberline {4.7}Rendimiento}{19}{subsection.4.7}% 
+\contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{20}{subsection.4.5}% 
+\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{20}{subsection.4.6}% 
+\contentsline {subsection}{\numberline {4.7}Rendimiento}{20}{subsection.4.7}% 
 \contentsline {section}{\numberline {5}Medios utilizados}{21}{section.5}% 
 \contentsline {paragraph}{\nonumberline Sea Warfare set, ships and more}{21}{section*.12}% 
 \contentsline {paragraph}{\nonumberline The Battle for Wesnoth water animation}{21}{section*.13}% 
