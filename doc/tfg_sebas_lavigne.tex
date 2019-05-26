@@ -234,10 +234,10 @@ afterskip=1sp
 		El proyecto sigue, como base, la estructura \textit{Modelo Vista Controlador}.
 		
 		\paragraph{El modelo}
-			Contiene una representación numérica del mundo simulado. Aquí existen los distintos barcos y el submarino del jugador contenidos dentro de un \textit{escenario} que está aislado del resto del programa. Es decir, el modelo no conoce sobre la existencia de la vista, del controlador, o incluso del jugador que influye en su evolución. Como se verá más adelante, existen dentro de él algunas clases que actúan de enlace entre el escenario y el resto del programa. La evolución del modelo a lo largo del tiempo se detalla en la \autoref{subsec:motor_juego}, \nameref{subsec:motor_juego}, en la página \pageref{subsec:motor_juego}.
+			Contiene una representación numérica del mundo simulado. Aquí existen los distintos barcos y el submarino del jugador contenidos dentro de un \textit{escenario} que está aislado del resto del programa. Es decir, el modelo no conoce sobre la existencia de la vista, del controlador, o incluso del jugador que influye en su evolución. Como se verá más adelante, existen dentro de él algunas clases que actúan de enlace entre el escenario y el resto del programa. La evolución del modelo a lo largo del tiempo se detalla en la \autoref{subsec:motor_juego} \nameref{subsec:motor_juego}, en la página \pageref{subsec:motor_juego}.
 					
 		\paragraph{La vista}
-			Se encarga de representar gráficamente los datos simulados en el modelo. Se podría decir que la vista sí conoce sobre la existencia del modelo, aunque sólo toma los datos necesarios relativos a la posición de los distintos elementos del juego en cada momento para mostrarlos por pantalla. Su implementación se explica en la \autoref{subsec:motor_grafico}, \nameref{subsec:motor_grafico}, en la página \pageref{subsec:motor_grafico}.
+			Se encarga de representar gráficamente los datos simulados en el modelo. Se podría decir que la vista sí conoce sobre la existencia del modelo, aunque sólo toma los datos necesarios relativos a la posición de los distintos elementos del juego en cada momento para mostrarlos por pantalla. Su implementación se explica en la \autoref{subsec:motor_grafico} \nameref{subsec:motor_grafico}, en la página \pageref{subsec:motor_grafico}.
 			
 		\paragraph{El controlador}
 			Es el núcleo del programa. Arranca el juego, cargando los datos necesarios e inicializando la vista y el modelo. Su pieza más importante es el \textit{bucle de juego} (definido en la \autoref{subsec:bucle_juego}, página \pageref{subsec:bucle_juego}), que ordena al modelo a avanzar en el tiempo y a la vista a actualizar la información representada. Actúa como puente para la totalidad del programa a través de clases \textit{híbridas}, o intermedias.
@@ -313,9 +313,9 @@ afterskip=1sp
 	
 	\subsection{Propiedades e internacionalización}
 	\label{subsec:propiedades_internacionalizacion}
-	
-	\subsection{Rendimiento}
-	\label{subsec:rendimiento}
+		Los textos que aparecen en la consola como respuesta a los comandos del jugador o eventos del juego llegan a la clase \textit{Panel Lateral} en forma de un objeto tipo \textit{Verbose}, que contiene las claves de los textos a mostrar. El panel lateral obtiene los textos literales pidiéndolos a un archivo de propiedades usando dichas claves. Así, se puede configurar la internacionalización de los textos en varios idiomas apuntando a distintos archivos de propiedades, donde las claves se mantienen y los literales están traducidos.
+		
+		Usando esta misma aproximación, se pueden configurar los parámetros que definen el funcionamiento de la simulación, en vez de usar codificación fija.
 	
 \section{Medios utilizados}
 \label{sec:medios}
@@ -359,6 +359,13 @@ afterskip=1sp
 
 \section{Dificultades}
 \label{sec:dificultades}
+	\subsection{Rendimiento}
+	\label{subsec:rendimiento}
+		La mayor carga en el rendimiento del programa es la representación gráfica. La librería \textit{Swing} no está optimizada para el tipo de actualización de gráficos en tiempo real que requiere el proyecto. Como se explicó en la \autoref{subsec:bucle_juego} \nameref{subsec:bucle_juego}, en la página \pageref{subsec:bucle_juego}, el tiempo de repintado varía considerablemente en función de los elementos a pintar.
+		
+		Además, el pintado de los elementos se hace secuencialmente en la misma pantalla. Es decir, los elementos se van añadiendo uno a uno en el lienzo que ve el jugador. Estas acciones no están sincronizadas con el refresco de la salida de vídeo y da lugar a animaciones menos fluidas.
+		
+		Una solución a este problema, no implementada aún en el proyecto, consiste en generar una imagen en el trasfondo con la que actualizar la pantalla en una única acción.
 
 \section{ ... otros ...}
 
