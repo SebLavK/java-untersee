@@ -245,13 +245,28 @@ afterskip=1sp
 		\paragraph{Clases comunes}
 			En el programa se encuentran algunas clases que son de uso común para todos los componentes. Son la clase utilidad \textit{Magnitudes}, para la conversión de las distintas unidades usadas en la simulación y la representación gráfica; la clase \textit{Reloj}, para cálculos temporales relacionados con el tiempo de ejecución del programa; y la clases \textit{Orden} y \textit{Verbose}, que definen una acción a realizar por el submarino, comandada por el jugador, y su reconocimiento verbal por parte de la tripulación.
 			
-	
 	\subsection{Bucle de juego}
 	\label{subsec:bucle_juego}
+		El bucle de juego está contenido en la clase \textit{Máster}, que toma el control del programa una vez se haya arrancado y se hayan cargado sus componentes. Es la fuerza motriz detrás de la simulación y la visualización.
+		
+		Consiste en un bucle infinito que manda a la vista repintar la pantalla, avanzar temporalmente la simulación y esperar un tiempo determinado antes de la siguiente iteración. Este tiempo de espera varía entre cada iteración dependiendo del tiempo transcurrido en la ejecución de la simulación, que tiende a ser constante, y la representación gráfica, que es mayor o menor en función de los objetos que haya en pantalla.
+		
+		El bucle busca iterar con una frecuencia de 60 veces por segundo, o cada 16 milisegundos. Cada iteración se guarda la hora del sistema antes y después de las fases de simulación y gráficos, y se calcula el tiempo de espera en base a su diferencia. Esta tasa de refresco está definida en la clase \textit{Reloj} para poder ser ajustada fácilmente.
 	
 	\subsection{Motor de juego}
 	\label{subsec:motor_juego}
-		Cada elemento del juego existe como un punto en un espacio bidimensional con la excepción del submarino del jugador, que tiene además la propiedad de \textit{profundidad}.
+		\paragraph{El paso del tiempo}
+			Por cada iteración del bucle de juego se ejecuta un paso en la simulación. El motor de juego tiene en cuenta el tiempo que dura cada ``tic'', y por tanto siempre evoluciona igual en tiempo real independientemente de la frecuencia del bucle. Es decir, un barco moviéndose por la pantalla a una velocidad fija siempre recorrerá la misma distancia en el mismo tiempo desde el punto de vista del jugador. Modificar el valor de refresco en la clase \textit{Reloj} sólo alterará la fluidez y la precisión de la simulación.
+			
+		\paragraph{El escenario}
+			La simulación gira en torno a la clase \textit{Escenario}. Ésta contiene el submarino del jugador, una lista de barcos y una lista de proyectiles. Sus funciones consisten en repercutir la orden de avanzar un ``tic'' en todos los objetos del mapa, y eliminarlos si han sido marcados como \textit{destruido}'.
+		
+		\paragraph{La clase Navío}
+			La clase abstracta \textit{Navío} es la base de todos los objetos del juego. Contiene las propiedades de posición, dirección y velocidad actual y deseada de un navío, y sus capacidades de aceleración, velocidad máxima y relación de giro.
+			
+			También contiene métodos que modifican los valores actuales en función de los valores deseados y en base a las capacidades, y métodos de cálculo de posición y dirección relativas a otros objetos.
+			
+			Cada barco y proyectil del juego heredan de esta clase y definen sus propios atributos, o modifican y añaden sus métodos para definir sus propias habilidades.
 	
 	\subsection{Motor gráfico}
 	\label{subsec:motor_grafico}
