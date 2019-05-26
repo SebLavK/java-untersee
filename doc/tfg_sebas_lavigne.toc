@@ -7,11 +7,14 @@
 \contentsline {paragraph}{\nonumberline El modelo}{15}{section*.1}% 
 \contentsline {paragraph}{\nonumberline La vista}{15}{section*.2}% 
 \contentsline {paragraph}{\nonumberline El controlador}{15}{section*.3}% 
+\contentsline {paragraph}{\nonumberline Clases híbridas}{16}{section*.4}% 
+\contentsline {paragraph}{\nonumberline Clases comunes}{16}{section*.5}% 
 \contentsline {subsection}{\numberline {4.2}Bucle de juego}{16}{subsection.4.2}% 
 \contentsline {subsection}{\numberline {4.3}Motor de juego}{16}{subsection.4.3}% 
 \contentsline {subsection}{\numberline {4.4}Motor gráfico}{16}{subsection.4.4}% 
 \contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{16}{subsection.4.5}% 
 \contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{16}{subsection.4.6}% 
+\contentsline {subsection}{\numberline {4.7}Rendimiento}{16}{subsection.4.7}% 
 \contentsline {section}{\numberline {5}Medios utilizados}{17}{section.5}% 
 \contentsline {section}{\numberline {6}Dificultades}{19}{section.6}% 
 \contentsline {section}{\numberline {7} ... otros ...}{21}{section.7}% 
