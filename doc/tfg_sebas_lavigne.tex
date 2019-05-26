@@ -259,17 +259,33 @@ afterskip=1sp
 			Por cada iteración del bucle de juego se ejecuta un paso en la simulación. El motor de juego tiene en cuenta el tiempo que dura cada ``tic'', y por tanto siempre evoluciona igual en tiempo real independientemente de la frecuencia del bucle. Es decir, un barco moviéndose por la pantalla a una velocidad fija siempre recorrerá la misma distancia en el mismo tiempo desde el punto de vista del jugador. Modificar el valor de refresco en la clase \textit{Reloj} sólo alterará la fluidez y la precisión de la simulación.
 			
 		\paragraph{El escenario}
-			La simulación gira en torno a la clase \textit{Escenario}. Ésta contiene el submarino del jugador, una lista de barcos y una lista de proyectiles. Sus funciones consisten en repercutir la orden de avanzar un ``tic'' en todos los objetos del mapa, y eliminarlos si han sido marcados como \textit{destruido}'.
+			La simulación gira en torno a la clase \textit{Escenario}. Ésta contiene el submarino del jugador, una lista de barcos y una lista de proyectiles. Sus funciones consisten en repercutir la orden de avanzar un ``tic'' en todos los objetos del mapa, y eliminarlos si han sido marcados como \textit{destruido}.
 		
 		\paragraph{La clase Navío}
-			La clase abstracta \textit{Navío} es la base de todos los objetos del juego. Contiene las propiedades de posición, dirección y velocidad actual y deseada de un navío, y sus capacidades de aceleración, velocidad máxima y relación de giro.
+			La clase abstracta \textit{Navío} es la base de todos los objetos del juego. Contiene las propiedades de posición, dirección y velocidad actual y deseada de un navío, y sus capacidades de aceleración, velocidad máxima y relación de viraje.
 			
-			También contiene métodos que modifican los valores actuales en función de los valores deseados y en base a las capacidades, y métodos de cálculo de posición y dirección relativas a otros objetos.
+			También contiene métodos que modifican los valores actuales por cada ``tic'' en función de los valores deseados y capacidades del barco, y métodos de cálculo de posición y dirección relativas a otros objetos.
 			
 			Cada barco y proyectil del juego heredan de esta clase y definen sus propios atributos, o modifican y añaden sus métodos para definir sus propias habilidades.
+			
+		\paragraph{Física de los navíos}
+			El movimiento de los objetos en el mapa procura ser fiel a la realidad, siguiendo patrones básicos de mecánica clásica y dinámica naval. Esto da al jugador la sensación de estar controlando un navío de gran tamaño, debiendo tener en cuenta el tiempo de respuesta para tomar decisiones por adelantado. Al mismo tiempo, el código procura hacer un balance entre la complejidad del movimiento y la jugabilidad.
+			
+			Todos los objetos del escenario están contenidos en un espacio bidimensional, con la propiedad adicional de \textit{profundidad}, que está fijada en cero para todos los barcos con la excepción del submarino del jugador. Esto significa que los cálculos de posición relativa siempre están contenidos en el plano, sin tener en cuenta la tercera dimensión que añade la profundidad.
+			
+			Los cálculos en el motor de juego se realizan con unidades marítimas.
 	
 	\subsection{Motor gráfico}
 	\label{subsec:motor_grafico}
+		El proyecto cuenta con un motor gráfico propio para representar la simulación. Usa la librería \textit{Swing} como base para soportar la ventana y los paneles en los que dibujar las imágenes. La vista cuenta con varias clases para representar información en los distintos paneles, siendo la \textit{Pantalla de Mapa} la principal.
+		
+		\paragraph{La cámara}
+			El objeto \textit{Cámara} es una de las piezas principales en el momento de visualizar el juego por pantalla. Su clase está incluida en el modelo y hereda de \textit{Navío}, por lo que respecto a la simulación es un objeto que se encuentra en el plano junto a los demás barcos. De esta manera puede acceder a los mismos métodos de posición relativa a otros navíos. Posee el atributo propio de zoom, que no es relativo a la simulación pero que es esencial para la vista.
+			
+			La cámara también admite las acciones del jugador que recibe del controlador. El jugador puede cambiar el nivel de zoom, enfocarse en el submarino o mover la cámara a otros puntos del mapa.
+			
+		\paragraph{La pantalla de mapa}
+			La pantalla de mapa contiene todos los métodos necesarios para 
 	
 	\subsection{Intérprete de comandos}
 	\label{subsec:interprete_comandos}

@@ -14,13 +14,16 @@
 \contentsline {paragraph}{\nonumberline El paso del tiempo}{17}{section*.6}% 
 \contentsline {paragraph}{\nonumberline El escenario}{17}{section*.7}% 
 \contentsline {paragraph}{\nonumberline La clase Navío}{17}{section*.8}% 
+\contentsline {paragraph}{\nonumberline Física de los navíos}{18}{section*.9}% 
 \contentsline {subsection}{\numberline {4.4}Motor gráfico}{18}{subsection.4.4}% 
-\contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{18}{subsection.4.5}% 
-\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{18}{subsection.4.6}% 
-\contentsline {subsection}{\numberline {4.7}Rendimiento}{18}{subsection.4.7}% 
-\contentsline {section}{\numberline {5}Medios utilizados}{19}{section.5}% 
-\contentsline {section}{\numberline {6}Dificultades}{21}{section.6}% 
-\contentsline {section}{\numberline {7} ... otros ...}{23}{section.7}% 
-\contentsline {section}{Referencias}{25}{section.7}% 
-\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{27}{section.7}% 
-\contentsline {section}{\numberline {A}Un apéndice}{27}{appendix.Alph1}% 
+\contentsline {paragraph}{\nonumberline La cámara}{19}{section*.10}% 
+\contentsline {paragraph}{\nonumberline La pantalla de mapa}{19}{section*.11}% 
+\contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{19}{subsection.4.5}% 
+\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{19}{subsection.4.6}% 
+\contentsline {subsection}{\numberline {4.7}Rendimiento}{19}{subsection.4.7}% 
+\contentsline {section}{\numberline {5}Medios utilizados}{21}{section.5}% 
+\contentsline {section}{\numberline {6}Dificultades}{23}{section.6}% 
+\contentsline {section}{\numberline {7} ... otros ...}{25}{section.7}% 
+\contentsline {section}{Referencias}{27}{section.7}% 
+\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{29}{section.7}% 
+\contentsline {section}{\numberline {A}Un apéndice}{29}{appendix.Alph1}% 
