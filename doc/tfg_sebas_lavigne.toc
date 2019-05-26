@@ -3,8 +3,18 @@
 \contentsline {section}{\numberline {2}Objetivos}{11}{section.2}% 
 \contentsline {section}{\numberline {3}Justificación}{13}{section.3}% 
 \contentsline {section}{\numberline {4}Descripción técnica}{15}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Estructura del proyecto}{15}{subsection.4.1}% 
+\contentsline {paragraph}{\nonumberline El modelo}{15}{section*.1}% 
+\contentsline {paragraph}{\nonumberline La vista}{15}{section*.2}% 
+\contentsline {paragraph}{\nonumberline El controlador}{15}{section*.3}% 
+\contentsline {subsection}{\numberline {4.2}Bucle de juego}{16}{subsection.4.2}% 
+\contentsline {subsection}{\numberline {4.3}Motor de juego}{16}{subsection.4.3}% 
+\contentsline {subsection}{\numberline {4.4}Motor gráfico}{16}{subsection.4.4}% 
+\contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{16}{subsection.4.5}% 
+\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{16}{subsection.4.6}% 
 \contentsline {section}{\numberline {5}Medios utilizados}{17}{section.5}% 
-\contentsline {section}{\numberline {6} ... otros ...}{19}{section.6}% 
-\contentsline {section}{Referencias}{21}{section.6}% 
-\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{23}{section.6}% 
-\contentsline {section}{\numberline {A}Un apéndice}{23}{appendix.Alph1}% 
+\contentsline {section}{\numberline {6}Dificultades}{19}{section.6}% 
+\contentsline {section}{\numberline {7} ... otros ...}{21}{section.7}% 
+\contentsline {section}{Referencias}{23}{section.7}% 
+\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{25}{section.7}% 
+\contentsline {section}{\numberline {A}Un apéndice}{25}{appendix.Alph1}% 
