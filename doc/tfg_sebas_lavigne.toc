@@ -7,4 +7,4 @@
 \contentsline {section}{\numberline {6} ... otros ...}{19}{section.6}% 
 \contentsline {section}{Referencias}{21}{section.6}% 
 \contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{23}{section.6}% 
-\contentsline {section}{\numberline {A}Logo de la empresa}{23}{appendix.Alph1}% 
+\contentsline {section}{\numberline {A}Un apéndice}{23}{appendix.Alph1}% 

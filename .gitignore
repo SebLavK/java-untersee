@@ -30,8 +30,11 @@ hs_err_pid*
 # assets
 assets/
 
-# pdf
+# Latex and TeXstudio
 *.pdf
+*.aux
+*.gz
+*.log
 
 # IntelliJ
 .idea/
