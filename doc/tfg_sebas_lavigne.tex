@@ -189,24 +189,41 @@ afterskip=1sp
 \cleardoubleoddpage
 \section{Descripción}
 \label{sec:descripcion}
-	\textit{Java Untersee} es una simulación de submarinos desarrollada en \textit{Java} con un motor gráfico propio basado en la librería \textit{Swing}.
+	\textit{Java Untersee} es una simulación de submarinos desarrollada en \textit{Java} con un motor de juego propio basado en la librería \textit{Swing}.
+	
+	Toma inspiración de varios juegos de simulación y estrategia, así como de varios conceptos vistos a lo largo del ciclo y en las prácticas de empresa.
+	
+	Está publicado en la plataforma \textit{GitHub}\footnote{Alojado en el repositorio \href{https://github.com/SebLavK/java-untersee}{https://github.com/SebLavK/java-untersee}} bajo la Licencia Pública General de GNU, \textit{GPLv3}.
 
 \section{Objetivos}
 \label{sec:objetivos}
+	El proyecto se puede definir como un conjunto de distintos desafíos de programación, siendo cada uno un objetivo surgido de forma orgánica durante su desarrollo. El objetivo principal consiste, entonces, en integrar los distintos componentes creados a partir de estos desafíos para presentar un juego con una experiencia única y original.
 	
+	Para materializar un programa sólido y expansible se tienen en cuenta las siguientes restricciones:
+	\begin{itemize}[noitemsep]
+		\item Crear componentes avanzados sin recurrir a librerías externas para explorar y comprender diversos conceptos de programación.
+		\item Ahondar en las posibles implementaciones de las librerías que sí están presentes para aprovechar su potencial.
+		\item Construir el software en siguiendo el patrón de arquitectura \textit{Modelo Vista Controlador}.
+		\item Perseguir las buenas costumbres en la estructura y calidad del código.
+		\item Mantener el proyecto alojado, licenciado y documentado en la nube de forma pública para servir de referencia e inspiración a otras personas.
+		\item Trabajar con la metodología \textit{Git Flow} para el control de versiones.
+	\end{itemize}
 	
+	\textit{Java Untersee}, como juego, no tiene una visión o un estado final definido sino que sirve como aliciente para mejorar y conocer nuevas vías en el mundo del desarrollo de software.
 
 \section{Justificación}
 \label{sec:justificacion}
-	Este proyecto parte de una tarea de la asignatura de Desarrollo de Interfaces cuyo objetivo original era presentar un programa que trabajase con gráficos en tiempo real. Durante su desarrollo comencé a implementar varias características que iban más allá del ámbito de la tarea.
+	Este proyecto parte de una tarea del módulo \textit{Desarrollo de Interfaces} cuyo objetivo original era presentar un programa que trabajase con gráficos en tiempo real. Durante su desarrollo comencé a implementar varias características que iban más allá del ámbito de la tarea.
 	
-	Continuar 
+	Como se ha visto en los \nameref{sec:objetivos}, estas características presentan desafíos que me impulsaron a descubrir el funcionamiento detrás de procesos informáticos involucrados en tareas como el análisis sintáctico, el renderizado de imágenes o la simulación.
+	
+	El programa es un cajón de arena en el que probar varias ideas y compartir soluciones con otros programadores. Su estado actual está definido tanto por las características ya implementadas como por conceptos que se han pensado para su futuro. Está destinado con carácter abierto a entusiastas de la programación y la simulación.
 
 \section{Descripción técnica}
 \label{sec:desc_tecnica}
 	\subsection{Estructura del proyecto}
 	\label{subsec:estructura}
-		El proyecto sigue, como base, la estructura \textit{Modelo Vista Controlador}.
+		El proyecto está construido bajo el patrón de arquitectura \textit{Modelo Vista Controlador}.
 		
 		\paragraph{El modelo}
 			Contiene una representación numérica del mundo simulado. Aquí existen los distintos barcos y el submarino del jugador contenidos dentro de un \textit{escenario} que está aislado del resto del programa. Es decir, el modelo no conoce sobre la existencia de la vista, del controlador, o incluso del jugador que influye en su evolución. Como se verá más adelante, existen dentro de él algunas clases que actúan de enlace entre el escenario y el resto del programa. La evolución del modelo a lo largo del tiempo se detalla en la \autoref{subsec:motor_juego} \nameref{subsec:motor_juego}, en la página \pageref{subsec:motor_juego}.
