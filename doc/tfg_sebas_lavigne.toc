@@ -27,7 +27,7 @@
 \contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{21}{subsection.4.6}% 
 \contentsline {section}{\numberline {5}Medios utilizados}{23}{section.5}% 
 \contentsline {subsection}{\numberline {5.1}Software}{23}{subsection.5.1}% 
-\contentsline {subsection}{\numberline {5.2}Recursos}{23}{subsection.5.2}% 
+\contentsline {subsection}{\numberline {5.2}Recursos}{24}{subsection.5.2}% 
 \contentsline {paragraph}{\nonumberline Sea Warfare set, ships and more}{24}{section*.17}% 
 \contentsline {paragraph}{\nonumberline The Battle for Wesnoth water animation}{24}{section*.18}% 
 \contentsline {paragraph}{\nonumberline Joystix Monospace}{24}{section*.19}% 
