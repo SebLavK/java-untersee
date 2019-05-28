@@ -37,24 +37,24 @@
 \contentsline {section}{\numberline {7} ... otros ...}{29}{section.7}% 
 \contentsline {section}{Referencias}{31}{section.7}% 
 \contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{33}{section.7}% 
-\contentsline {section}{\numberline {A}Un apéndice}{33}{appendix.Alph1}% 
+\contentsline {section}{\numberline {A}Lista de comandos}{33}{appendix.Alph1}% 
 \contentsline {section}{\numberline {B}Registro de versiones}{35}{appendix.Alph2}% 
-\contentsline {subparagraph}{\nonumberline v0.2}{35}{section*.21}% 
-\contentsline {subparagraph}{\nonumberline v0.1.5}{35}{section*.22}% 
-\contentsline {subparagraph}{\nonumberline v0.1.4}{35}{section*.23}% 
-\contentsline {subparagraph}{\nonumberline v0.1.3}{35}{section*.24}% 
-\contentsline {subparagraph}{\nonumberline v0.1.2}{35}{section*.25}% 
-\contentsline {subparagraph}{\nonumberline v0.1.1}{35}{section*.26}% 
-\contentsline {subparagraph}{\nonumberline v0.1}{35}{section*.27}% 
-\contentsline {subparagraph}{\nonumberline v0.0.12}{35}{section*.28}% 
-\contentsline {subparagraph}{\nonumberline v0.0.11}{36}{section*.29}% 
-\contentsline {subparagraph}{\nonumberline v0.0.10}{36}{section*.30}% 
-\contentsline {subparagraph}{\nonumberline v0.0.9}{36}{section*.31}% 
-\contentsline {subparagraph}{\nonumberline v0.0.8}{36}{section*.32}% 
-\contentsline {subparagraph}{\nonumberline v0.0.7}{36}{section*.33}% 
-\contentsline {subparagraph}{\nonumberline v0.0.6}{36}{section*.34}% 
-\contentsline {subparagraph}{\nonumberline v0.0.5}{37}{section*.35}% 
-\contentsline {subparagraph}{\nonumberline v0.0.4}{37}{section*.36}% 
-\contentsline {subparagraph}{\nonumberline v0.0.3}{37}{section*.37}% 
-\contentsline {subparagraph}{\nonumberline v0.0.2}{37}{section*.38}% 
-\contentsline {subparagraph}{\nonumberline v0.0.1}{37}{section*.39}% 
+\contentsline {subparagraph}{\nonumberline v0.2}{35}{section*.22}% 
+\contentsline {subparagraph}{\nonumberline v0.1.5}{35}{section*.23}% 
+\contentsline {subparagraph}{\nonumberline v0.1.4}{35}{section*.24}% 
+\contentsline {subparagraph}{\nonumberline v0.1.3}{35}{section*.25}% 
+\contentsline {subparagraph}{\nonumberline v0.1.2}{35}{section*.26}% 
+\contentsline {subparagraph}{\nonumberline v0.1.1}{35}{section*.27}% 
+\contentsline {subparagraph}{\nonumberline v0.1}{35}{section*.28}% 
+\contentsline {subparagraph}{\nonumberline v0.0.12}{35}{section*.29}% 
+\contentsline {subparagraph}{\nonumberline v0.0.11}{36}{section*.30}% 
+\contentsline {subparagraph}{\nonumberline v0.0.10}{36}{section*.31}% 
+\contentsline {subparagraph}{\nonumberline v0.0.9}{36}{section*.32}% 
+\contentsline {subparagraph}{\nonumberline v0.0.8}{36}{section*.33}% 
+\contentsline {subparagraph}{\nonumberline v0.0.7}{36}{section*.34}% 
+\contentsline {subparagraph}{\nonumberline v0.0.6}{36}{section*.35}% 
+\contentsline {subparagraph}{\nonumberline v0.0.5}{37}{section*.36}% 
+\contentsline {subparagraph}{\nonumberline v0.0.4}{37}{section*.37}% 
+\contentsline {subparagraph}{\nonumberline v0.0.3}{37}{section*.38}% 
+\contentsline {subparagraph}{\nonumberline v0.0.2}{37}{section*.39}% 
+\contentsline {subparagraph}{\nonumberline v0.0.1}{37}{section*.40}% 
