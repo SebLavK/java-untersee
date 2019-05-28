@@ -32,6 +32,33 @@ License: Public domain
 
 ## Changelog
 
+### v0.2
+* Reached v0.2!
+
+### v0.1.5
+* Created a torpedo sprite based on the submarine sprite
+* Tweaked gitignore
+
+### v0.1.4
+* More refactoring
+* Project now resembles MVC architecture a lot more
+* Implemented command history
+
+### v0.1.3
+* Replaced some loops with stream pipelines
+* Minor refactoring
+
+### v0.1.2
+* Ingame text now loads from a property file
+* Created Configuration class to load and read file
+* Created Verbose class and modified Order to use new property file
+* Migrated game console log to this system
+
+### v0.1.1
+* Major refactoring across whole projectile
+* Parser is now a static class
+* Added GNU GPLv3 License
+
 ### v0.1
 * Reached v0.1!
 
