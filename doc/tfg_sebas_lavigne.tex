@@ -121,6 +121,7 @@ afterskip=1sp
 
 %Mutlicols
 \usepackage{multicol}
+\setlength{\columnsep}{1cm}
 
 %Citas
 \usepackage[autostyle]{csquotes} 
@@ -459,7 +460,12 @@ afterskip=1sp
 \appendix
 \addcontentsline{toc}{section}{\Large\appendixname}
 
-\section{Un apéndice}
-	\FloatBarrier
+\section{Lista de comandos}
+
+\section{Registro de versiones}
+\label{app:changelog}
+	\begin{multicols}{2}
+		\input{changelog}
+	\end{multicols}
 
 \end{document}
