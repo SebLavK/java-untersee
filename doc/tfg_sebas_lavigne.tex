@@ -302,15 +302,81 @@ afterskip=1sp
 	
 	\subsection{Intérprete de comandos}
 	\label{subsec:interprete_comandos}
+		El intérprete es la pieza central de la interfaz con el jugador. Cuando se introduce un comando por teclado, un parseador lo traduce a una orden que el intérprete puede ejecutar.
+		
+		\paragraph{El Segundo al mando, parte I}
+			El \textit{Segundo al mando} es el intérprete en sí. Es una clase híbrida que forma parte del modelo y que recibe los comandos escritos por el jugador. Su ejecución se realiza fuera del bucle de juego en el hilo de despacho de eventos de \textit{Java AWT} cuando se captura la tecla intro en la consola.
+			
+			Esta clase contiene métodos de tipo \textit{Consumidor}, es decir, métodos que aceptan un parámetro y no devuelven nada. Este parámetro es una \textit{Orden} de un tipo genérico. El por qué del tipo genérico de hará evidente más adelante, al definir el objeto \textit{Orden} y ver qué hace el \textit{Segundo al mando} con él.
+			
+			Los métodos consumidores tienen una referencia al submarino del jugador y cada uno contiene instrucciones para alterar sus atributos como, por ejemplo, su velocidad o rumbo deseados.
+			
+			Al recibir un comando, se pasa al \textit{Parseador} y se pide que genere una \textit{Orden}.
+			
+		\paragraph{La clase Orden}
+			A partir de esta clase se instancian objetos que contienen los datos necesarios para la realización de un cambio por parte del \textit{Segundo al mando}. Es una clase paramétrica, de forma que al crear un nuevo objeto debe establecerse un tipo genérico. Como atributos contiene:
+			\begin{labeling}{\textbf{verbose}}
+				\item[\textbf{verbo}] Una referencia a un método consumidor de \textit{órdenes del mismo tipo genérico que la clase}.
+				\item[\textbf{objeto}] Un objeto \textit{dato} del tipo genérico de la clase.
+				\item[\textbf{verbose}] Un objeto \textit{Verbose} con el mensaje que se mostrará al jugador en pantalla. Su funcionamiento se detalla en la \autoref{subsec:propiedades_internacionalizacion} \nameref{subsec:propiedades_internacionalizacion}, en la página \pageref{subsec:propiedades_internacionalizacion}.
+			\end{labeling}
+		
+			
+		\paragraph{El Segundo al mando, parte II}
+			Cuando el \textit{Segundo al mando} recibe la \textit{Orden}, obtiene de ella la referencia al método consumidor que debe ejecutarse. El consumidor \textit{acepta} la orden como argumento y recorre su código. El objeto \textit{dato} contenido en la orden es la variable que define el comportamiento a seguir por el submarino. Por ejemplo, un doble que establece el nuevo rumbo a tomar.
+			
+			Al usar tipos genéricos, en el momento de crear una \textit{Orden} se hace obligatorio pasar una referencia a un método que consuma el mismo tipo que la orden. De esta manera, \textit{Java} da un error de compilación si los tipos difieren y se evitan excepciones en tiempo de ejecución. Por ejemplo:
+			\begin{quote}
+				Al constructor de la \textit{Orden} se pasa una referencia a un consumidor de órdenes tipo entero y un objeto \textit{dato} tipo cadena. Si la clase \textit{Orden} no estuviese parametrizada, el programa compilaría sin errores y el programador no tendría oportunidad de visualizar el fallo hasta que el proceso terminase con una excepción.
+			\end{quote}
+			
+			El hecho de que un método consumidor reciba la misma \textit{Orden} que lo referencia en vez de simplemente recibir el objeto \textit{dato} da más flexibilidad en las acciones que se pueden realizar. Por ejemplo, el método podría modificar el texto a mostrar en pantalla en función del estado del submarino.
+			
+		\paragraph{El Parseador}
+		
+		\clearpage
+		\paragraph{Secuencia del intérprete}
+		\begin{enumerate}[noitemsep]
+			\item El jugador escribe un comando en la consola del \textit{Panel Lateral} y pulsa intro.
+			\item El controlador captura el evento y manda el texto introducido al \textit{Segundo al mando}.
+			\item El \textit{Segundo al mando} pide al \textit{Parseador} traducir el comando.
+			\item El \textit{Parseador}:
+			\begin{enumerate}[noitemsep]
+				\item Divide el texto y genera un array de palabras.
+				\item Obtiene un método que ejecutar llamando al mapa principal con la primera palabra del array como clave.
+				\item Recorre el árbol sintáctico siguiendo las sucesivas instrucciones de los métodos pasados por referencia.
+				\item Llega a un método final, que genera una \textit{Orden} que contiene la referencia a un \textit{Consumidor} del \textit{Segundo al mando} (el \textit{verbo}), el dato relevante al método consumidor y un \textit{Verbose} con la respuesta que se mostrará por pantalla.
+				\item Retorna la \textit{Orden} generada al \textit{Segundo al mando}.
+			\end{enumerate}
+			\item El \textit{Segundo al mando} obtiene la referencia a uno de sus métodos consumidores mediante el \textit{verbo} y manda \textit{aceptar} la orden.
+			\item El consumidor recibe la \textit{Orden} como argumento y ejecuta sus instrucciones usando, en la mayoría de las ocasiones, el dato contenido en la orden.
+			\item Finalmente, el \textit{Segundo al mando} manda el \textit{Verbose} al \textit{Panel Lateral} para mostrar la respuesta en la consola.
+		\end{enumerate}
 	
+	\clearpage
 	\subsection{Propiedades e internacionalización}
 	\label{subsec:propiedades_internacionalizacion}
-		Los textos que aparecen en la consola como respuesta a los comandos del jugador o eventos del juego llegan a la clase \textit{Panel Lateral} en forma de un objeto tipo \textit{Verbose}, que contiene las claves de los textos a mostrar. El panel lateral obtiene los textos literales pidiéndolos a un archivo de propiedades usando dichas claves. Así, se puede configurar la internacionalización de los textos en varios idiomas apuntando a distintos archivos de propiedades, donde las claves se mantienen y los literales están traducidos.
+		Los textos que aparecen en la consola como respuesta a los comandos del jugador o eventos del juego llegan a la clase \textit{Panel Lateral} en forma de un objeto tipo \textit{Verbose}, que contiene las claves de los textos a mostrar. El \textit{Panel Lateral} obtiene los textos literales pidiéndolos a un archivo de propiedades usando dichas claves. Así, se puede configurar la internacionalización de los textos en varios idiomas apuntando a distintos archivos de propiedades, donde las claves se mantienen y los literales están traducidos.
 		
 		Usando esta misma aproximación, se pueden configurar los parámetros que definen el funcionamiento de la simulación, en vez de usar codificación fija.
 	
 \section{Medios utilizados}
 \label{sec:medios}
+	\subsection{Software}
+	\begin{labeling}{\textbf{IntelliJ IDEA}}
+		\item[\textbf{Eclipse}] Entorno de desarrollo de \textit{Java}, utilizado en los principios del proyecto.
+		\item[\textbf{IntelliJ IDEA}] Otro entorno de desarrollo. El proyecto se migró a este IDE a partir de la versión v0.1.
+		\item[\textbf{Sonarlint}] Extensión para IDEs con funciones de análisis de calidad del código.
+		\item[\textbf{GIMP}] Manipulador de imágenes, para crear y retocar algunos de los recursos gráficos.
+		\item[\textbf{TeXstudio}] Editor de \LaTeX, utilizado para crear estas mismas memorias y otra documentación.
+		\item[\textbf{Atom}] Editor de código fuente, usado en la generación de documentos \textit{Markdown} para la documentación en \textit{GitHub}.
+		\item[\textbf{Git}] Software de control de versiones distribuidas.
+		\item[\textbf{gitflow-avh}] Extensión de \textit{Git} para el modelo de ramas de Vincent Driessen con funciones añadidas.
+		\item[\textbf{GitHub}] Servicio de almacenamiento de repositorios en la nube.
+	\end{labeling}
+	
+	\subsection{Recursos}
+	\label{subsec:recursos}
 	El proyecto cuenta con recursos gráficos usados bajo licencias libres o con permiso de los autores.
 	
 	\paragraph{Sea Warfare set, ships and more}

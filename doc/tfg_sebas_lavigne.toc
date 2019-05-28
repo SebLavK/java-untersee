@@ -19,15 +19,22 @@
 \contentsline {paragraph}{\nonumberline La cámara}{15}{section*.10}% 
 \contentsline {paragraph}{\nonumberline La pantalla de mapa}{15}{section*.11}% 
 \contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{16}{subsection.4.5}% 
-\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{16}{subsection.4.6}% 
-\contentsline {section}{\numberline {5}Medios utilizados}{17}{section.5}% 
-\contentsline {paragraph}{\nonumberline Sea Warfare set, ships and more}{17}{section*.12}% 
-\contentsline {paragraph}{\nonumberline The Battle for Wesnoth water animation}{17}{section*.13}% 
-\contentsline {paragraph}{\nonumberline Joystix Monospace}{17}{section*.14}% 
-\contentsline {paragraph}{\nonumberline USS Columbus (SSN 762) performing an emergency ballast blow}{18}{section*.15}% 
-\contentsline {section}{\numberline {6}Dificultades}{19}{section.6}% 
-\contentsline {subsection}{\numberline {6.1}Rendimiento}{19}{subsection.6.1}% 
-\contentsline {section}{\numberline {7} ... otros ...}{21}{section.7}% 
-\contentsline {section}{Referencias}{23}{section.7}% 
-\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{25}{section.7}% 
-\contentsline {section}{\numberline {A}Un apéndice}{25}{appendix.Alph1}% 
+\contentsline {paragraph}{\nonumberline El Segundo al mando, parte I}{16}{section*.12}% 
+\contentsline {paragraph}{\nonumberline La clase Orden}{17}{section*.13}% 
+\contentsline {paragraph}{\nonumberline El Segundo al mando, parte II}{17}{section*.14}% 
+\contentsline {paragraph}{\nonumberline El Parseador}{18}{section*.15}% 
+\contentsline {paragraph}{\nonumberline Secuencia del intérprete}{19}{section*.16}% 
+\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{20}{subsection.4.6}% 
+\contentsline {section}{\numberline {5}Medios utilizados}{21}{section.5}% 
+\contentsline {subsection}{\numberline {5.1}Software}{21}{subsection.5.1}% 
+\contentsline {subsection}{\numberline {5.2}Recursos}{21}{subsection.5.2}% 
+\contentsline {paragraph}{\nonumberline Sea Warfare set, ships and more}{22}{section*.17}% 
+\contentsline {paragraph}{\nonumberline The Battle for Wesnoth water animation}{22}{section*.18}% 
+\contentsline {paragraph}{\nonumberline Joystix Monospace}{22}{section*.19}% 
+\contentsline {paragraph}{\nonumberline USS Columbus (SSN 762) performing an emergency ballast blow}{23}{section*.20}% 
+\contentsline {section}{\numberline {6}Dificultades}{25}{section.6}% 
+\contentsline {subsection}{\numberline {6.1}Rendimiento}{25}{subsection.6.1}% 
+\contentsline {section}{\numberline {7} ... otros ...}{27}{section.7}% 
+\contentsline {section}{Referencias}{29}{section.7}% 
+\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{31}{section.7}% 
+\contentsline {section}{\numberline {A}Un apéndice}{31}{appendix.Alph1}% 
