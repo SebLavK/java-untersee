@@ -55,7 +55,7 @@ License: Public domain
 * Migrated game console log to this system
 
 ### v0.1.1
-* Major refactoring across whole projectile
+* Major refactoring across whole project
 * Parser is now a static class
 * Added GNU GPLv3 License
 
