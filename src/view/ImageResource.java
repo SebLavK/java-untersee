@@ -2,7 +2,7 @@ package view;
 
 import controller.main.Main;
 import model.ships.*;
-import model.weapons.Projectile;
+import model.weapons.Torpedo;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,6 +29,7 @@ public class ImageResource {
 	private static BufferedImage destroyer;
 	private static BufferedImage patrolShip;
 	private static BufferedImage rescueShip;
+	private static BufferedImage torpedo;
 	private static BufferedImage[] background;
 	private static BufferedImage crtShadow;
 	private static BufferedImage sunglare;
@@ -83,6 +84,8 @@ public class ImageResource {
 		destroyer = ImageIO.read(Main.class.getResource("/resources/sprites/vessels/ShipDestroyerHull.png"));
 		patrolShip = ImageIO.read(Main.class.getResource("/resources/sprites/vessels/ShipPatrolHull.png"));
 		rescueShip = ImageIO.read(Main.class.getResource("/resources/sprites/vessels/ShipRescue.png"));
+
+		torpedo = ImageIO.read(Main.class.getResource("/resources/sprites/vessels/torpedo.png"));
 	}
 	
 	public static void loadSubmarine() throws IOException {
@@ -104,8 +107,8 @@ public class ImageResource {
 			return patrolShip;
 		} else if (vessel instanceof RescueShip) {
 			return rescueShip;
-		} else if (vessel instanceof Projectile) {
-			return rescueShip;
+		} else if (vessel instanceof Torpedo) {
+			return torpedo;
 		} else {
 			return null;
 		}

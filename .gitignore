@@ -36,3 +36,4 @@ assets/
 # IntelliJ
 .idea/
 *.iml
+.out/
