@@ -83,6 +83,10 @@ colorlinks=true
 afterskip=1sp
 ]{paragraph,subparagraph}
 
+%Footnotes reset counters per page
+\usepackage{perpage} %the perpage package
+\MakePerPage{footnote} %the perpage package command
+
 %Lists customization
 \usepackage{enumitem}
 
@@ -235,7 +239,7 @@ afterskip=1sp
 			Es el núcleo del programa. Arranca el juego, cargando los datos necesarios e inicializando la vista y el modelo. Su pieza más importante es el \textit{bucle de juego} (definido en la \autoref{subsec:bucle_juego}, página \pageref{subsec:bucle_juego}), que ordena al modelo a avanzar en el tiempo y a la vista a actualizar la información representada. Actúa como puente para la totalidad del programa a través de clases \textit{híbridas}, o intermedias.
 			
 		\paragraph{Clases híbridas}
-			Para facilitar la interacción entre las distintas secciones del programa, existen clases que cumplen funciones que se extienden más allá del ámbito propio de la vista o el modelo. Por ejemplo, la \textit{Cámara} y el \textit{Segundo al mando} están contenidos en el modelo, pero ``son conscientes'' del usuario y contienen información que sólo es relevante a la vista y no a la simulación.  Su uso se explica respectivamente en las subsecciones \ref{subsec:motor_grafico} \nameref{subsec:motor_grafico} (pág. \pageref{subsec:motor_grafico}) y \ref{subsec:interprete_comandos} \nameref{subsec:interprete_comandos} (pág. \pageref{subsec:interprete_comandos}).
+			Para facilitar la interacción entre las distintas secciones del programa, existen clases que cumplen funciones que se extienden más allá del ámbito propio de la vista o el modelo. Por ejemplo, la \textit{Cámara} y el \textit{Segundo al mando} están contenidos en el modelo, pero ``son conscientes'' del usuario y contienen información que sólo es relevante a la vista y no a la simulación.  Su uso se explica respectivamente en las subsecciones \ref{subsec:motor_grafico} \nameref{subsec:motor_grafico} (pág. \pageref{subsec:motor_grafico}) y \ref{subsec:interprete_comandos} \nameref{subsec:interprete_comandos} (pág. \pageref{subsec:interprete_comandos}) respectivamente.
 			
 		\paragraph{Clases comunes}
 			En el programa se encuentran algunas clases que son de uso común para todos los componentes. Son la clase utilidad \textit{Magnitudes}, para la conversión de las distintas unidades usadas en la simulación y la representación gráfica; la clase \textit{Reloj}, para cálculos temporales relacionados con el tiempo de ejecución del programa; y la clases \textit{Orden} y \textit{Verbose}, que definen una acción a realizar por el submarino, comandada por el jugador, y su reconocimiento verbal por parte de la tripulación.
@@ -344,9 +348,9 @@ afterskip=1sp
 			
 			Como primer paso, se manda al al mapa principal la primera palabra en el array como clave y se obtiene y ejecuta la referencia un método. Los subsecuentes métodos contienen instrucciones propias para procesar el resto de la sentencia. Por ejemplo:
 			\begin{quote}
-				Dado el comando ``velocidad 5'', primero se pide al mapa principal una referencia con la clave ``velocidad''. El método que devuelve lee la segunda palabra, en este caso ``5'', y crea una nueva \textit{Orden} de tipo \textit{doble} con una referencia al método \textit{cambiar velocidad}, con el dato 5 y con una respuesta para mostrar por pantalla.
+				Dado el comando ``velocidad 5'', primero se pide al mapa principal una referencia con la clave ``velocidad''. El método que devuelve lee la segunda palabra, en este caso ``5'', y crea una nueva \textit{Orden} de tipo doble con una referencia al método \textit{cambiar velocidad}, con el dato 5 y con una respuesta para mostrar por pantalla.
 				
-				Dado el comando ``motores a un tercio'', se pide al mapa principal una referencia con la clave ``motores''. El método que devuelve esta vez se encarga de obtener una referencia a otro método, ya que para ``motores'' existen varias ramificaciones. Pide al mapa de \textit{parseo de motores} una nueva referencia usando el resto de la cadena como clave. El método final genera una \textit{Orden} igual a la anterior, pero con el dato definido para la opción ``a un tercio''. Otras opciones incluyen, por ejemplo, ``estándar'', ``total'' o ``en flanco''.
+				Dado el comando ``motores a un tercio'', se pide al mapa principal una referencia con la clave ``motores''. El método que devuelve esta vez se encarga de obtener una referencia a otro método, ya que para ``motores'' existen varias ramificaciones. Pide al mapa de \textit{parseo de ``motores''} una nueva referencia usando el resto de la cadena como clave. El método final genera una \textit{Orden} igual a la anterior, pero con el dato definido para la opción ``a un tercio''. Otras opciones incluyen, por ejemplo, ``estándar'', ``total'' o ``en flanco''.
 			\end{quote}
 			
 		\clearpage
@@ -373,7 +377,7 @@ afterskip=1sp
 	\label{subsec:propiedades_internacionalizacion}
 		Los textos que aparecen en la consola como respuesta a los comandos del jugador o eventos del juego llegan a la clase \textit{Panel Lateral} en forma de un objeto tipo \textit{Verbose}, que contiene las claves de los textos a mostrar. El \textit{Panel Lateral} obtiene los textos literales pidiéndolos a un archivo de propiedades usando dichas claves. Así, se puede configurar la internacionalización de los textos en varios idiomas apuntando a distintos archivos de propiedades, donde las claves se mantienen y los literales están traducidos.
 		
-		Usando esta misma aproximación, se pueden configurar los parámetros que definen el funcionamiento de la simulación, en vez de usar codificación fija.
+		Usando esta misma aproximación, en el futuro se podrán configurar los parámetros que definen el funcionamiento de la simulación mediante ficheros de propiedades, en vez de usar codificación fija.
 	
 \section{Medios utilizados}
 \label{sec:medios}
