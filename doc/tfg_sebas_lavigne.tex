@@ -351,10 +351,17 @@ afterskip=1sp
 			\begin{quote}
 				Dado el comando ``velocidad 5'', primero se pide al mapa principal una referencia con la clave ``velocidad''. El método que devuelve lee la segunda palabra, en este caso ``5'', y crea una nueva \textit{Orden} de tipo doble con una referencia al método \textit{cambiar velocidad}, con el dato 5 y con una respuesta para mostrar por pantalla.
 				
-				Dado el comando ``motores a un tercio'', se pide al mapa principal una referencia con la clave ``motores''. El método que devuelve esta vez se encarga de obtener una referencia a otro método, ya que para ``motores'' existen varias ramificaciones. Pide al mapa de \textit{parseo de ``motores''} una nueva referencia usando el resto de la cadena como clave. El método final genera una \textit{Orden} igual a la anterior, pero con el dato definido para la opción ``a un tercio''. Otras opciones incluyen, por ejemplo, ``estándar'', ``total'' o ``en flanco''.
+				Dado el comando ``adelante a un tercio'', se pide al mapa principal una referencia con la clave ``adelante''. El método que devuelve esta vez se encarga de obtener una referencia a otro método, ya que para ``adelante'' existen varias ramificaciones. Pide al mapa de \textit{parseo de ``adelante''} una nueva referencia usando el resto de la cadena como clave. El método final genera una \textit{Orden} igual a la anterior, pero con el dato definido para la opción ``a un tercio''. Otras opciones incluyen, por ejemplo, ``estándar'', ``total'' o ``en flanco''.
 			\end{quote}
+		
+			Se puede observar el camino de estos ejemplos en la \nameref{fig:parseador}, en la página \pageref{fig:parseador}.
 			
-
+		\begin{figure}[p]
+			\centering
+			\includegraphics[width=\textwidth]{img/parseador.pdf}
+			\caption{Sección del árbol sintáctico del \textit{Parseador}.}
+			\label{fig:parseador}
+		\end{figure}
 	
 	\subsection{Propiedades e internacionalización}
 	\label{subsec:propiedades_internacionalizacion}
@@ -444,16 +451,28 @@ afterskip=1sp
 	\label{subsec:rendimiento}
 		La mayor carga en el rendimiento del programa es la representación gráfica. La librería \textit{Swing} no está optimizada para el tipo de actualización de gráficos en tiempo real que requiere el proyecto. Como se explicó en la \autoref{subsec:bucle_juego} \nameref{subsec:bucle_juego}, en la página \pageref{subsec:bucle_juego}, el tiempo de repintado varía considerablemente en función de los elementos a pintar.
 		
+		Sobre todo, la fluidez del programa sufre mucho en el periodo de transición de la vista \textit{real} a la vista \textit{estratégica} en la pantalla del mapa, ya que se deben realizar los cálculos y los pintados de ambos modos de visualización.
+		
 		Además, el pintado de los elementos se hace secuencialmente en la misma pantalla. Es decir, los elementos se van añadiendo uno a uno en el lienzo que ve el jugador. Estas acciones no están sincronizadas con el refresco de la salida de vídeo y da lugar a animaciones menos fluidas.
 		
 		Una solución a este problema, no implementada aún en el proyecto, consiste en generar una imagen en el trasfondo con la que actualizar la pantalla en una única acción \cite{so_graphics_performance}.
-
-\section{ ... otros ...}
+		
+	\subsection{Código legado y refactorización}
+	\label{subsec:codigo_legado}
+		Pese a haber tenido un periodo de desarrollo relativamente corto, volver a un código escrito en el pasado y que había seguido otros objetivos supuso un pequeño obstáculo en la continuación del proyecto. 
+		
+		El estudio, comprendimiento y re estructuración del programa se convirtió en un ejercicio en buenas maneras y preparación del código para cualquier agregación futura, independientemente de quien haga la aportación. \cite{legacy_code}
+		
+	\subsection{Estructura del parseador}
+	\label{subsec:dif_parseador}
+		Una de las limitaciones de la clase \textit{Parseador} es la necesidad de comenzar el análisis de un comando por, y sólo por, la primera palabra. Con el conjunto de comandos que se pueden ejecutar ahora no supone una traba. Sin embargo, añadir frases más complejas incrementaría el tamaño del árbol de forma poco lógica y crearía ramificaciones con sin sentido si se sigue el funcionamiento del parseador actual.
+		
+		Quizá un primer paso más analítico, que use listados de palabras y expresiones regulares para recrear la estructura sintáctica de la frase permitiría que el jugador usase comandos más ``humanos'' para comunicarse con el juego.
 
 \cleardoubleoddpage
 %\addcontentsline{toc}{part}{Referencias}
 	\renewcommand{\sectionmark}[1]{}
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 	\raggedright
 	\input{bibliography}
 \end{thebibliography}
