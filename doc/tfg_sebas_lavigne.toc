@@ -13,48 +13,48 @@
 \contentsline {subsection}{\numberline {4.3}Motor de juego}{13}{subsection.4.3}% 
 \contentsline {paragraph}{\nonumberline El paso del tiempo}{13}{section*.6}% 
 \contentsline {paragraph}{\nonumberline El escenario}{13}{section*.7}% 
-\contentsline {paragraph}{\nonumberline La clase Navío}{13}{section*.8}% 
+\contentsline {paragraph}{\nonumberline La clase Navío}{14}{section*.8}% 
 \contentsline {paragraph}{\nonumberline Física de los navíos}{14}{section*.9}% 
-\contentsline {subsection}{\numberline {4.4}Motor gráfico}{14}{subsection.4.4}% 
+\contentsline {subsection}{\numberline {4.4}Motor gráfico}{15}{subsection.4.4}% 
 \contentsline {paragraph}{\nonumberline La cámara}{15}{section*.10}% 
 \contentsline {paragraph}{\nonumberline La pantalla de mapa}{15}{section*.11}% 
 \contentsline {subsection}{\numberline {4.5}Intérprete de comandos}{16}{subsection.4.5}% 
-\contentsline {paragraph}{\nonumberline El Segundo al mando, parte I}{16}{section*.12}% 
+\contentsline {paragraph}{\nonumberline El Segundo al mando, parte I}{17}{section*.12}% 
 \contentsline {paragraph}{\nonumberline La clase Orden}{17}{section*.13}% 
-\contentsline {paragraph}{\nonumberline El Segundo al mando, parte II}{17}{section*.14}% 
+\contentsline {paragraph}{\nonumberline El Segundo al mando, parte II}{18}{section*.14}% 
 \contentsline {paragraph}{\nonumberline El Parseador}{18}{section*.15}% 
-\contentsline {paragraph}{\nonumberline Secuencia del intérprete}{20}{section*.16}% 
-\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{21}{subsection.4.6}% 
-\contentsline {section}{\numberline {5}Medios utilizados}{23}{section.5}% 
-\contentsline {subsection}{\numberline {5.1}Software}{23}{subsection.5.1}% 
-\contentsline {subsection}{\numberline {5.2}Recursos}{24}{subsection.5.2}% 
-\contentsline {paragraph}{\nonumberline Sea Warfare set, ships and more}{24}{section*.17}% 
-\contentsline {paragraph}{\nonumberline The Battle for Wesnoth water animation}{24}{section*.18}% 
-\contentsline {paragraph}{\nonumberline Joystix Monospace}{24}{section*.19}% 
-\contentsline {paragraph}{\nonumberline USS Columbus (SSN 762) performing an emergency ballast blow}{25}{section*.20}% 
-\contentsline {section}{\numberline {6}Dificultades}{27}{section.6}% 
-\contentsline {subsection}{\numberline {6.1}Rendimiento}{27}{subsection.6.1}% 
-\contentsline {section}{\numberline {7} ... otros ...}{29}{section.7}% 
-\contentsline {section}{Referencias}{31}{section.7}% 
-\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{33}{section.7}% 
-\contentsline {section}{\numberline {A}Lista de comandos}{33}{appendix.Alph1}% 
-\contentsline {section}{\numberline {B}Registro de versiones}{35}{appendix.Alph2}% 
-\contentsline {subparagraph}{\nonumberline v0.2}{35}{section*.22}% 
-\contentsline {subparagraph}{\nonumberline v0.1.5}{35}{section*.23}% 
-\contentsline {subparagraph}{\nonumberline v0.1.4}{35}{section*.24}% 
-\contentsline {subparagraph}{\nonumberline v0.1.3}{35}{section*.25}% 
-\contentsline {subparagraph}{\nonumberline v0.1.2}{35}{section*.26}% 
-\contentsline {subparagraph}{\nonumberline v0.1.1}{35}{section*.27}% 
-\contentsline {subparagraph}{\nonumberline v0.1}{35}{section*.28}% 
-\contentsline {subparagraph}{\nonumberline v0.0.12}{35}{section*.29}% 
-\contentsline {subparagraph}{\nonumberline v0.0.11}{35}{section*.30}% 
-\contentsline {subparagraph}{\nonumberline v0.0.10}{35}{section*.31}% 
-\contentsline {subparagraph}{\nonumberline v0.0.9}{36}{section*.32}% 
-\contentsline {subparagraph}{\nonumberline v0.0.8}{36}{section*.33}% 
-\contentsline {subparagraph}{\nonumberline v0.0.7}{36}{section*.34}% 
-\contentsline {subparagraph}{\nonumberline v0.0.6}{36}{section*.35}% 
-\contentsline {subparagraph}{\nonumberline v0.0.5}{36}{section*.36}% 
-\contentsline {subparagraph}{\nonumberline v0.0.4}{36}{section*.37}% 
-\contentsline {subparagraph}{\nonumberline v0.0.3}{36}{section*.38}% 
-\contentsline {subparagraph}{\nonumberline v0.0.2}{36}{section*.39}% 
-\contentsline {subparagraph}{\nonumberline v0.0.1}{36}{section*.40}% 
+\contentsline {subsection}{\numberline {4.6}Propiedades e internacionalización}{20}{subsection.4.6}% 
+\contentsline {section}{\numberline {5}Medios utilizados}{21}{section.5}% 
+\contentsline {subsection}{\numberline {5.1}Software}{21}{subsection.5.1}% 
+\contentsline {subsection}{\numberline {5.2}Recursos}{22}{subsection.5.2}% 
+\contentsline {paragraph}{\nonumberline Sea Warfare set, ships and more}{22}{section*.16}% 
+\contentsline {paragraph}{\nonumberline The Battle for Wesnoth water animation}{22}{section*.17}% 
+\contentsline {paragraph}{\nonumberline Joystix Monospace}{22}{section*.18}% 
+\contentsline {paragraph}{\nonumberline USS Columbus (SSN 762) performing an emergency ballast blow}{23}{section*.19}% 
+\contentsline {section}{\numberline {6}Dificultades}{25}{section.6}% 
+\contentsline {subsection}{\numberline {6.1}Rendimiento}{25}{subsection.6.1}% 
+\contentsline {section}{\numberline {7} ... otros ...}{27}{section.7}% 
+\contentsline {section}{Referencias}{29}{section.7}% 
+\contentsline {section}{\relax \fontsize {14.4}{18}\selectfont Apéndice}{31}{section.7}% 
+\contentsline {section}{\numberline {A}Lista de comandos}{31}{appendix.Alph1}% 
+\contentsline {section}{\numberline {B}Secuencia del intérprete}{33}{appendix.Alph2}% 
+\contentsline {section}{\numberline {C}Registro de versiones}{35}{appendix.Alph3}% 
+\contentsline {subparagraph}{\nonumberline v0.2}{35}{section*.21}% 
+\contentsline {subparagraph}{\nonumberline v0.1.5}{35}{section*.22}% 
+\contentsline {subparagraph}{\nonumberline v0.1.4}{35}{section*.23}% 
+\contentsline {subparagraph}{\nonumberline v0.1.3}{35}{section*.24}% 
+\contentsline {subparagraph}{\nonumberline v0.1.2}{35}{section*.25}% 
+\contentsline {subparagraph}{\nonumberline v0.1.1}{35}{section*.26}% 
+\contentsline {subparagraph}{\nonumberline v0.1}{35}{section*.27}% 
+\contentsline {subparagraph}{\nonumberline v0.0.12}{35}{section*.28}% 
+\contentsline {subparagraph}{\nonumberline v0.0.11}{35}{section*.29}% 
+\contentsline {subparagraph}{\nonumberline v0.0.10}{35}{section*.30}% 
+\contentsline {subparagraph}{\nonumberline v0.0.9}{36}{section*.31}% 
+\contentsline {subparagraph}{\nonumberline v0.0.8}{36}{section*.32}% 
+\contentsline {subparagraph}{\nonumberline v0.0.7}{36}{section*.33}% 
+\contentsline {subparagraph}{\nonumberline v0.0.6}{36}{section*.34}% 
+\contentsline {subparagraph}{\nonumberline v0.0.5}{36}{section*.35}% 
+\contentsline {subparagraph}{\nonumberline v0.0.4}{36}{section*.36}% 
+\contentsline {subparagraph}{\nonumberline v0.0.3}{36}{section*.37}% 
+\contentsline {subparagraph}{\nonumberline v0.0.2}{36}{section*.38}% 
+\contentsline {subparagraph}{\nonumberline v0.0.1}{36}{section*.39}% 

@@ -228,7 +228,7 @@ afterskip=1sp
 \label{sec:desc_tecnica}
 	\subsection{Estructura del proyecto}
 	\label{subsec:estructura}
-		El proyecto está construido bajo el patrón de arquitectura \textit{Modelo Vista Controlador}.
+		El proyecto está construido siguiendo el patrón de arquitectura \textit{Modelo Vista Controlador} \cite{tutorialspoint_mvc}.
 		
 		\paragraph{El modelo}
 			Contiene una representación numérica del mundo simulado. Aquí existen los distintos barcos y el submarino del jugador contenidos dentro de un \textit{escenario} que está aislado del resto del programa. Es decir, el modelo no conoce sobre la existencia de la vista, del controlador, o incluso del jugador que influye en su evolución. Como se verá más adelante, existen dentro de él algunas clases que actúan de enlace entre el escenario y el resto del programa. La evolución del modelo a lo largo del tiempo se detalla en la \autoref{subsec:motor_juego} \nameref{subsec:motor_juego}, en la página \pageref{subsec:motor_juego}.
@@ -247,7 +247,7 @@ afterskip=1sp
 			
 	\subsection{Bucle de juego}
 	\label{subsec:bucle_juego}
-		El bucle de juego está contenido en la clase \textit{Máster}, que toma el control del programa una vez se haya arrancado y se hayan cargado sus componentes. Es la fuerza motriz detrás de la simulación y la visualización.
+		El bucle de juego está contenido en la clase \textit{Máster}, que toma el control del programa una vez se haya arrancado y se hayan cargado sus componentes. Es la fuerza motriz detrás de la simulación y la visualización. \cite{dewitters_game_loop, so_game_loop}
 		
 		Consiste en un bucle infinito que manda a la vista repintar la pantalla, avanzar temporalmente la simulación y esperar un tiempo determinado antes de la siguiente iteración. Este tiempo de espera varía entre cada iteración dependiendo del tiempo transcurrido en la ejecución de la simulación, que tiende a ser constante, y la representación gráfica, que es mayor o menor en función de los objetos que haya en pantalla.
 		
@@ -269,7 +269,7 @@ afterskip=1sp
 			Cada barco y proyectil del juego heredan de esta clase y definen sus propios atributos, o modifican y añaden sus métodos para definir sus propias habilidades.
 			
 		\paragraph{Física de los navíos}
-			El movimiento de los objetos en el mapa procura ser fiel a la realidad, siguiendo patrones básicos de mecánica clásica y dinámica naval. Esto da al jugador la sensación de estar controlando un navío de gran tamaño, debiendo tener en cuenta el tiempo de respuesta para tomar decisiones por adelantado. Al mismo tiempo, el código procura hacer un balance entre la complejidad del movimiento y la jugabilidad.
+			El movimiento de los objetos en el mapa procura ser fiel a la realidad, siguiendo patrones básicos de mecánica clásica y dinámica naval \cite{marine_insight, discover_boating, ships_business}. Esto da al jugador la sensación de estar controlando un navío de gran tamaño, debiendo tener en cuenta el tiempo de respuesta para tomar decisiones por adelantado. Al mismo tiempo, el código procura hacer un balance entre la complejidad del movimiento y la jugabilidad.
 			
 			Todos los objetos del escenario están contenidos en un espacio bidimensional, con la propiedad adicional de \textit{profundidad}, que está fijada en cero para todos los barcos con la excepción del submarino del jugador. Esto significa que los cálculos de posición relativa siempre están contenidos en el plano, sin tener en cuenta la tercera dimensión que añade la profundidad.
 			
@@ -277,7 +277,7 @@ afterskip=1sp
 	
 	\subsection{Motor gráfico}
 	\label{subsec:motor_grafico}
-		El proyecto cuenta con un motor gráfico propio para representar la simulación. Usa la librería \textit{Swing} como base para soportar la ventana y los paneles en los que dibujar las imágenes. La vista cuenta con varias clases para representar información en los distintos paneles, siendo la \textit{Pantalla de Mapa} la principal.
+		El proyecto cuenta con un motor gráfico propio para representar la simulación. Usa la librería \textit{Swing} como base para soportar la ventana y los paneles en los que dibujar las imágenes. La vista cuenta con varias clases para representar información en los distintos paneles, siendo la \textit{Pantalla de Mapa} la principal. \cite{techrepublic_java2d, so_resource_stream, so_rendering}
 		
 		\paragraph{La cámara}
 			El objeto \textit{Cámara} es una de las piezas principales en el momento de visualizar el juego por pantalla. Su clase está incluida en el modelo y hereda de \textit{Navío}, por lo que respecto a la simulación es un objeto que se encuentra en el plano junto a los demás barcos. De esta manera puede acceder a los mismos métodos de posición relativa a otros navíos. Posee el atributo propio de zoom, que no es relativo a la simulación pero que es esencial para la vista.
@@ -307,10 +307,10 @@ afterskip=1sp
 	
 	\subsection{Intérprete de comandos}
 	\label{subsec:interprete_comandos}
-		El intérprete es la pieza central de la interfaz con el jugador. Cuando se introduce un comando por teclado, un parseador lo traduce a una orden que el intérprete puede ejecutar.
+		El intérprete es la pieza central de la interfaz con el jugador. Cuando se introduce un comando por teclado, un parseador lo traduce a una orden que el intérprete puede ejecutar. \cite{codementor_method_reference, freecode_lambda, baeldung_lambda, so_runnable}
 		
 		\paragraph{El Segundo al mando, parte I}
-			El \textit{Segundo al mando} es el intérprete en sí. Es una clase híbrida que forma parte del modelo y que recibe los comandos escritos por el jugador. Su ejecución se realiza fuera del bucle de juego en el hilo de despacho de eventos de \textit{Java AWT} cuando se captura la tecla intro en la consola.
+			El \textit{Segundo al mando} es el intérprete en sí. Es una clase híbrida que forma parte del modelo y que recibe los comandos escritos por el jugador. Su ejecución se realiza fuera del bucle de juego en el hilo de despacho de eventos de \textit{Java AWT} \cite{java_dispatch, baeldung_concurrent} cuando se captura la tecla intro en la consola.
 			
 			Esta clase contiene métodos de tipo \textit{Consumidor}, es decir, métodos que aceptan un parámetro y no devuelven nada. Este parámetro es una \textit{Orden} de un tipo genérico. El por qué del tipo genérico de hará evidente más adelante, al definir el objeto \textit{Orden} y ver qué hace el \textit{Segundo al mando} con él.
 			
@@ -338,10 +338,10 @@ afterskip=1sp
 			El hecho de que un método consumidor reciba la misma \textit{Orden} que lo referencia en vez de simplemente recibir el objeto \textit{dato} da más flexibilidad en las acciones que se pueden realizar. Por ejemplo, el método podría modificar el texto a mostrar en pantalla en función del estado del submarino.
 			
 		\paragraph{El Parseador}
-			El \textit{Parseador} es una clase utilidad que recibe una cadena con el comando del jugador, la convierte en una \textit{Orden} y la devuelve al \textit{Segundo al mando} para que la interprete.
+			Es una clase utilidad que recibe una cadena con el comando del jugador, la convierte en una \textit{Orden} y la devuelve al \textit{Segundo al mando} para que la interprete. La \nameref{app:interpreter} se puede consultar en el \autoref{app:interpreter}, en la página \pageref{app:interpreter}.
 			
-			Contiene un árbol sintáctico, definido usando \textit{mapas de hashes} y referencias a métodos \textit{Runnable}\footnotemark. Estos mapas son constantes y se cargan con el arranque del programa, guardando cadenas como claves y referencias a métodos \textit{Runnables} como sus valores.
-			\footnotetext{Es importante destacar que el uso de \textit{Runnable} no implica que se abran nuevos hilos para ejecutar estos métodos. \textit{Runnable} es una interfaz funcional con un método que no recibe parámetros y no retorna nada, por tanto se puede referenciar cualquier otro método que tenga esta misma firma mediante una expresión \textit{lambda} simplificada.}
+			El \textit{Parseador} contiene un árbol sintáctico, definido usando \textit{mapas de hashes} y referencias a métodos \textit{Runnable}\footnotemark. Estos mapas son constantes y se cargan con el arranque del programa, guardando cadenas como claves y referencias a métodos \textit{Runnables} como sus valores.
+			\footnotetext{Es importante destacar que el uso de \textit{Runnable} no implica que se abran nuevos hilos para ejecutar estos métodos. \textit{Runnable} es una interfaz funcional con un método que no recibe parámetros y no retorna nada, por tanto se puede referenciar cualquier otro método que tenga esta misma firma mediante una expresión \textit{lambda} simplificada. \cite{so_runnable}}
 			
 			Cada nodo del árbol está representado por un método. Los mapas de la clase y los controles de flujo dentro de estos métodos definen las ramificaciones del árbol. Los nodos finales generan una \textit{Orden}, en la mayoría de los casos obteniendo un valor del array para pasarlo en la orden como objeto \textit{dato}.
 			
@@ -354,29 +354,11 @@ afterskip=1sp
 				Dado el comando ``motores a un tercio'', se pide al mapa principal una referencia con la clave ``motores''. El método que devuelve esta vez se encarga de obtener una referencia a otro método, ya que para ``motores'' existen varias ramificaciones. Pide al mapa de \textit{parseo de ``motores''} una nueva referencia usando el resto de la cadena como clave. El método final genera una \textit{Orden} igual a la anterior, pero con el dato definido para la opción ``a un tercio''. Otras opciones incluyen, por ejemplo, ``estándar'', ``total'' o ``en flanco''.
 			\end{quote}
 			
-		\clearpage
-		\paragraph{Secuencia del intérprete}
-		\begin{enumerate}[noitemsep]
-			\item El jugador escribe un comando en la consola del \textit{Panel Lateral} y pulsa intro.
-			\item El controlador captura el evento y manda el texto introducido al \textit{Segundo al mando}.
-			\item El \textit{Segundo al mando} pide al \textit{Parseador} traducir el comando.
-			\item El \textit{Parseador}:
-			\begin{enumerate}[noitemsep]
-				\item Divide el texto y genera un array de palabras.
-				\item Obtiene un método que ejecutar llamando al mapa principal con la primera palabra del array como clave.
-				\item Recorre el árbol sintáctico siguiendo las sucesivas instrucciones de los métodos pasados por referencia.
-				\item Llega a un método final, que genera una \textit{Orden} que contiene la referencia a un \textit{Consumidor} del \textit{Segundo al mando} (el \textit{verbo}), el dato relevante al método consumidor y un \textit{Verbose} con la respuesta que se mostrará por pantalla.
-				\item Retorna la \textit{Orden} generada al \textit{Segundo al mando}.
-			\end{enumerate}
-			\item El \textit{Segundo al mando} obtiene la referencia a uno de sus métodos consumidores mediante el \textit{verbo} y manda \textit{aceptar} la orden.
-			\item El consumidor recibe la \textit{Orden} como argumento y ejecuta sus instrucciones usando, en la mayoría de las ocasiones, el dato contenido en la orden.
-			\item Finalmente, el \textit{Segundo al mando} manda el \textit{Verbose} al \textit{Panel Lateral} para mostrar la respuesta en la consola.
-		\end{enumerate}
+
 	
-	\clearpage
 	\subsection{Propiedades e internacionalización}
 	\label{subsec:propiedades_internacionalizacion}
-		Los textos que aparecen en la consola como respuesta a los comandos del jugador o eventos del juego llegan a la clase \textit{Panel Lateral} en forma de un objeto tipo \textit{Verbose}, que contiene las claves de los textos a mostrar. El \textit{Panel Lateral} obtiene los textos literales pidiéndolos a un archivo de propiedades usando dichas claves. Así, se puede configurar la internacionalización de los textos en varios idiomas apuntando a distintos archivos de propiedades, donde las claves se mantienen y los literales están traducidos.
+		Los textos que aparecen en la consola \cite{so_custom_font} como respuesta a los comandos del jugador o eventos del juego llegan a la clase \textit{Panel Lateral} en forma de un objeto tipo \textit{Verbose}, que contiene las claves de los textos a mostrar. El \textit{Panel Lateral} obtiene los textos literales pidiéndolos a un archivo de propiedades usando dichas claves. Así, se puede configurar la internacionalización de los textos en varios idiomas apuntando a distintos archivos de propiedades, donde las claves se mantienen y los literales están traducidos.
 		
 		Usando esta misma aproximación, en el futuro se podrán configurar los parámetros que definen el funcionamiento de la simulación mediante ficheros de propiedades, en vez de usar codificación fija.
 	
@@ -444,7 +426,7 @@ afterskip=1sp
 		
 		Además, el pintado de los elementos se hace secuencialmente en la misma pantalla. Es decir, los elementos se van añadiendo uno a uno en el lienzo que ve el jugador. Estas acciones no están sincronizadas con el refresco de la salida de vídeo y da lugar a animaciones menos fluidas.
 		
-		Una solución a este problema, no implementada aún en el proyecto, consiste en generar una imagen en el trasfondo con la que actualizar la pantalla en una única acción.
+		Una solución a este problema, no implementada aún en el proyecto, consiste en generar una imagen en el trasfondo con la que actualizar la pantalla en una única acción \cite{so_graphics_performance}.
 
 \section{ ... otros ...}
 
@@ -464,6 +446,25 @@ afterskip=1sp
 \section{Lista de comandos}
 \label{app:command_list}
 	\input{command_list}
+	
+\section{Secuencia del intérprete}
+\label{app:interpreter}
+	\begin{enumerate}[noitemsep]
+		\item El jugador escribe un comando en la consola del \textit{Panel Lateral} y pulsa intro.
+		\item El controlador captura el evento y manda el texto introducido al \textit{Segundo al mando}.
+		\item El \textit{Segundo al mando} pide al \textit{Parseador} traducir el comando.
+		\item El \textit{Parseador}:
+		\begin{enumerate}[noitemsep]
+			\item Divide el texto y genera un array de palabras.
+			\item Obtiene un método que ejecutar llamando al mapa principal con la primera palabra del array como clave.
+			\item Recorre el árbol sintáctico siguiendo las sucesivas instrucciones de los métodos pasados por referencia.
+			\item Llega a un método final, que genera una \textit{Orden} que contiene la referencia a un \textit{Consumidor} del \textit{Segundo al mando} (el \textit{verbo}), el dato relevante al método consumidor y un \textit{Verbose} con la respuesta que se mostrará por pantalla.
+			\item Retorna la \textit{Orden} generada al \textit{Segundo al mando}.
+		\end{enumerate}
+		\item El \textit{Segundo al mando} obtiene la referencia a uno de sus métodos consumidores mediante el \textit{verbo} y manda \textit{aceptar} la orden.
+		\item El consumidor recibe la \textit{Orden} como argumento y ejecuta sus instrucciones usando, en la mayoría de las ocasiones, el dato contenido en la orden.
+		\item Finalmente, el \textit{Segundo al mando} manda el \textit{Verbose} al \textit{Panel Lateral} para mostrar la respuesta en la consola.
+	\end{enumerate}
 
 \section{Registro de versiones}
 \label{app:changelog}
