@@ -355,12 +355,7 @@ afterskip=1sp
 		\paragraph{El Parseador}
 			Es una clase utilidad que recibe una cadena con el comando del jugador, la convierte en una \textit{Orden} y la devuelve al \textit{Segundo al mando} para que la interprete. La \nameref{app:interpreter} se puede consultar en el \autoref{app:interpreter}, en la página \pageref{app:interpreter}.
 			
-			El \textit{Parseador} contiene un árbol sintáctico, definido usando \textit{mapas de hashes} y referencias a métodos \textit{Runnable}\footnotemark. \begin{figure}[p]
-				\centering
-				\includegraphics[width=\textwidth]{img/parseador.pdf}
-				\caption{Sección del árbol sintáctico del \textit{Parseador}.}
-				\label{fig:parseador}
-			\end{figure}Estos mapas son constantes y se cargan con el arranque del programa, guardando cadenas como claves y referencias a métodos \textit{Runnables} como sus valores.
+			El \textit{Parseador} contiene un árbol sintáctico, definido usando \textit{mapas de hashes} y referencias a métodos \textit{Runnable}\footnotemark. Estos mapas son constantes y se cargan con el arranque del programa, guardando cadenas como claves y referencias a métodos \textit{Runnables} como sus valores.
 			\footnotetext{Es importante destacar que el uso de \textit{Runnable} no implica que se abran nuevos hilos para ejecutar estos métodos. \textit{Runnable} es una interfaz funcional con un método que no recibe parámetros y no retorna nada, por tanto se puede referenciar cualquier otro método que tenga esta misma firma mediante una expresión \textit{lambda} simplificada. \cite{so_runnable}}
 			
 			Cada nodo del árbol está representado por un método. Los mapas de la clase y los controles de flujo dentro de estos métodos definen las ramificaciones del árbol. Los nodos finales generan una \textit{Orden}, en la mayoría de los casos obteniendo un valor del array para pasarlo en la orden como objeto \textit{dato}.
@@ -494,6 +489,7 @@ afterskip=1sp
 	\renewcommand{\sectionmark}[1]{}
 \begin{thebibliography}{99}
 	\raggedright
+	\onehalfspacing
 	\input{bibliography}
 \end{thebibliography}
 \markright{\appendixname}
@@ -508,7 +504,8 @@ afterskip=1sp
 	
 \section{Secuencia del intérprete}
 \label{app:interpreter}
-	\begin{enumerate}[noitemsep]
+\doublespacing
+	\begin{enumerate}
 		\item El jugador escribe un comando en la consola del \textit{Panel Lateral} y pulsa intro.
 		\item El controlador captura el evento y manda el texto introducido al \textit{Segundo al mando}.
 		\item El \textit{Segundo al mando} pide al \textit{Parseador} traducir el comando.
