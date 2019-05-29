@@ -39,3 +39,6 @@ assets/
 # IntelliJ
 .idea/
 *.iml
+
+# poster
+doc/poster/*
