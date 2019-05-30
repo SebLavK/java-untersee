@@ -189,16 +189,16 @@ afterskip=1sp
 %\addtocontents{toc}{\protect\thispagestyle{fancy}}
 %\addtocontents{toc}{~\hfill\textbf{Página}\par}
 
-\doublespacing
 
-\cleardoubleoddpage
+%\cleardoubleoddpage
+\doublespacing
 \section{Descripción}
 \label{sec:descripcion}
 	\textit{Java Untersee} es una simulación de submarinos desarrollada en \textit{Java} con un motor de juego propio basado en la librería \textit{Swing}.
 	
 	Toma inspiración de varios juegos de simulación y estrategia, así como de varios conceptos vistos a lo largo del ciclo y en las prácticas de empresa.
 	
-	Está publicado en la plataforma \textit{GitHub}\footnote{Alojado en el repositorio \href{https://github.com/SebLavK/java-untersee}{https://github.com/SebLavK/java-untersee}} bajo la Licencia Pública General de GNU, \textit{GPLv3}.
+	Está publicado en la plataforma \textit{GitHub}\footnote{Alojado en el repositorio \href{https://github.com/SebLavK/java-untersee}{https://github.com/SebLavK/java-untersee}} bajo la Licencia Pública General de GNU, \textit{GPLv3}\footnote{Más información sobre la licencia en \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{https://www.gnu.org/licenses/gpl-3.0.en.html}}.
 	
 	\vspace{5cm}
 	\begin{figure}[h]
@@ -294,6 +294,13 @@ afterskip=1sp
 	\label{subsec:motor_grafico}
 		El proyecto cuenta con un motor gráfico propio para representar la simulación. Usa la librería \textit{Swing} como base para soportar la ventana y los paneles en los que dibujar las imágenes. La vista cuenta con varias clases para representar información en los distintos paneles, siendo la \textit{Pantalla de Mapa} la principal. \cite{techrepublic_java2d, so_resource_stream, so_rendering}
 		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=\textwidth]{img/untersee_screenshot.png}
+			\caption{La ventana del juego.1. Pantalla de mapa. 2. Pantalla de información. 3. Consola del jugador.}
+			\label{fig:ventana}
+		\end{figure}
+		
 		\paragraph{La cámara}
 			El objeto \textit{Cámara} es una de las piezas principales en el momento de visualizar el juego por pantalla. Su clase está incluida en el modelo y hereda de \textit{Navío}, por lo que respecto a la simulación es un objeto que se encuentra en el plano junto a los demás barcos. De esta manera puede acceder a los mismos métodos de posición relativa a otros navíos. Posee el atributo propio de zoom, que no es relativo a la simulación pero que es esencial para la vista.
 			
@@ -319,7 +326,23 @@ afterskip=1sp
 			\end{itemize}
 		
 			La cámara tiene definidos los niveles de zoom en los que se pinta el juego de una manera u otra, así como el rango de transición de un modo a otro, en el que se mezclan las dos vistas usando transparencias.
+			
+			\vfill
+			\begin{figure}[h]
+				\centering
+				\begin{minipage}{.5\textwidth}
+					\centering
+					\includegraphics[width=.9\linewidth]{img/untersee_real.png}
+				\end{minipage}%
+				\begin{minipage}{.5\textwidth}
+					\centering
+					\includegraphics[width=.9\linewidth]{img/untersee_strategy.png}
+				\end{minipage}
+				\caption{Comparación de la vista \textit{real} (izquierda) y la vista \textit{estratégica} (derecha).}
+			\end{figure}
+			\vfill
 	
+	\clearpage
 	\subsection{Intérprete de comandos}
 	\label{subsec:interprete_comandos}
 		El intérprete es la pieza central de la interfaz con el jugador. Cuando se introduce un comando por teclado, un parseador lo traduce a una orden que el intérprete puede ejecutar. \cite{codementor_method_reference, freecode_lambda, baeldung_lambda, so_runnable}
@@ -399,8 +422,10 @@ afterskip=1sp
 		\item[\textbf{gitflow-avh}] Extensión de \textit{Git} para el modelo de ramas de Vincent Driessen con funciones añadidas.
 		\item[\textbf{GitHub}] Servicio de almacenamiento de repositorios en la nube.
 		\item[\textbf{exe4j}] Generador de lanzadores para \textit{Windows}.
+		\item[\textbf{draw.io}]Editor web de diagramas y gráficos.
 	\end{labeling}
 	
+	\clearpage
 	\subsection{Recursos}
 	\label{subsec:recursos}
 	El proyecto cuenta con recursos gráficos usados bajo licencias libres o con permiso de los autores.
